@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Force Arial font across the entire website */
+*, *::before, *::after {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important; /* 4% letter spacing */
+}
+
+
+
+h1 {
+  font-size: 47px !important;
+  line-height: 100% !important;
+}
