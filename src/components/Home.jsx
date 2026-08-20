@@ -61,12 +61,12 @@ export default function Home() {
                   <img src={logoImg} alt="RS Logo" className="h-20 w-20 object-contain transform group-hover:scale-105 transition duration-300" />
                 </Link>
 
-                <div className="hidden md:flex space-x-8 font-medium text-white absolute left-1/2 transform -translate-x-1/2">
-                  <Link to="/" className="text-red-400 font-semibold transition hover:text-red-500">Home</Link>
-                  <Link to="/about" className="hover:text-red-400 transition duration-200">About</Link>
-                  <Link to="/products" className="hover:text-red-400 transition duration-200">Products</Link>
-                  <Link to="/gallery" className="hover:text-red-400 transition duration-200">Gallery</Link>
-                  <Link to="/contact" className="hover:text-red-400 transition duration-200">Contact Us</Link>
+                <div className="hidden md:flex space-x-8 font-medium text-black absolute left-1/2 transform -translate-x-1/2">
+                  <Link to="/" className="text-white font-semibold transition hover:text-black">Home</Link>
+                  <Link to="/about" className="hover:text-white transition duration-200">About</Link>
+                  <Link to="/products" className="hover:text-white transition duration-200">Products</Link>
+                  <Link to="/gallery" className="hover:text-white transition duration-200">Gallery</Link>
+                  <Link to="/contact" className="hover:text-white transition duration-200">Contact Us</Link>
                 </div>
 
                 <div className="hidden md:flex items-center space-x-4 pr-0 sm:pr-2">
@@ -500,120 +500,152 @@ export default function Home() {
         </div>
       </section>
 
+
+
+
+
+
+
+
+
+
+
+
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-[#E4C495] border border-black/10 rounded-3xl p-8 sm:p-12 text-center shadow-sm relative overflow-hidden">
-          <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
-            LET'S WORK TOGETHER
-          </p>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-black mb-3">
-            Ready to Grow Your Beverage Business?
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-700 max-w-xl mx-auto">
-            Whether you’re a beverage brand looking to expand or a business looking for reliable product supply, let’s start a conversation.
-          </p>
-        </div>
-      </section>
+  <div className="bg-[#E4C495] border border-black/10 rounded-3xl p-8 sm:p-12 text-center shadow-sm relative overflow-hidden">
+    <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">
+      LET'S WORK TOGETHER
+    </p>
+    <h2 className="text-2xl sm:text-4xl font-extrabold text-black mb-3">
+      Ready to Grow Your Beverage Business?
+    </h2>
+    <p className="text-xs sm:text-sm text-gray-700 max-w-xl mx-auto">
+      Whether you’re a beverage brand looking to expand or a business looking for reliable product supply, let’s start a conversation.
+    </p>
+  </div>
+</section>
 
-      <div className="w-full bg-[#E62429] py-8 px-4 sm:px-8 shadow-xl mt-12">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left items-center text-white">
-          <div className="flex items-center justify-center md:justify-start space-x-4">
-            <div className="bg-white/10 p-3 rounded-full">
-              <Headphones className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <p className="text-xs text-white/80 font-medium">Have Any Questions?</p>
-              <h4 className="text-base sm:text-lg font-bold">We’er Here to Help!</h4>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center space-x-4">
-            <div className="bg-white/10 p-3 rounded-full">
-              <Phone className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <p className="text-xs text-white/80 font-medium">Call Us Now</p>
-              <a href="tel:+919999900000" className="text-base sm:text-lg font-bold hover:underline">
-                +91 99999 00000
-              </a>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center md:justify-end space-x-4">
-            <div className="bg-white/10 p-3 rounded-full">
-              <Mail className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <p className="text-xs text-white/80 font-medium">Email Us</p>
-              <a href="mailto:ravisales@gmail.com" className="text-base sm:text-lg font-bold hover:underline">
-                ravisales@gmail.com
-              </a>
-            </div>
-          </div>
-        </div>
+<div className="w-full bg-[#E62429] py-8 px-4 sm:px-8 shadow-xl mt-12">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left items-center text-white">
+    <div className="flex items-center justify-center md:justify-start space-x-4">
+      <div className="bg-white/10 p-3 rounded-full">
+        <Headphones className="h-6 w-6 text-white" />
       </div>
-
-      <footer className="bg-[#1A1A1A] text-white pt-10 pb-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 pb-6 md:pb-12 border-b border-white/10">
-          <div className="md:col-span-5 space-y-2 md:space-y-4">
-            <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2 inline-block">
-              <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
-            </Link>
-            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm">
-              Beverage sales and distribution, connecting trusted brands with growing markets.
-            </p>
-
-            <div className="flex space-x-4 pt-1">
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              </a>
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </a>
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <div className="hidden md:block md:col-span-2 space-y-2 md:space-y-3">
-            <h4 className="text-sm font-bold tracking-wider uppercase text-white">Quick Links</h4>
-            <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
-              <li><button onClick={() => navigate('/')} className="hover:text-white transition">Home</button></li>
-              <li><button onClick={() => navigate('/about')} className="hover:text-white transition">About Us</button></li>
-              <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Products</button></li>
-              <li><button onClick={() => navigate('/contact')} className="hover:text-white transition">Contact Us</button></li>
-            </ul>
-          </div>
-
-          <div className="hidden md:block md:col-span-2 space-y-2 md:space-y-3">
-            <h4 className="text-sm font-bold tracking-wider uppercase text-white">Products</h4>
-            <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
-              <li><button onClick={() => navigate('/products')} className="hover:text-white transition">All Products</button></li>
-              <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Beverage Brands</button></li>
-              <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Product Categories</button></li>
-              <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Pack Sizes</button></li>
-            </ul>
-          </div>
-
-          <div className="hidden md:block md:col-span-3 space-y-2 md:space-y-3">
-            <h4 className="text-sm font-bold tracking-wider uppercase text-white">Get in Touch</h4>
-            <div className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
-              <p><strong className="text-white">Phone:</strong><br />+91 99999 00000</p>
-              <p><strong className="text-white">Email Id:</strong><br />ravisales@gmail.com</p>
-              <p><strong className="text-white">Address:</strong><br />Ahmedabad, Gujarat, India</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between text-xs text-white">
-          <p className="hover:text-red-400">© 2026 Ravi Sales. All Rights Reserved.</p>
-          <div className="flex space-x-6 mt-3 sm:mt-0">
-            <a href="#" className="text-white hover:text-red-400 transition">Privacy Policy</a>
-            <span className="text-white">|</span>
-            <a href="#" className="text-white hover:text-red-400 transition">Terms & Conditions</a>
-          </div>
-        </div>
-      </footer>
+      <div>
+        <p className="text-xs text-white/80 font-medium">Have Any Questions?</p>
+        <h4 className="text-base sm:text-lg font-bold">We’er Here to Help!</h4>
+      </div>
     </div>
+
+    <div className="flex items-center justify-center space-x-4">
+      <div className="bg-white/10 p-3 rounded-full">
+        <Phone className="h-6 w-6 text-white" />
+      </div>
+      <div>
+        <p className="text-xs text-white/80 font-medium">Call Us Now</p>
+        <a href="tel:+919999900000" className="text-base sm:text-lg font-bold hover:underline">
+          +91 99999 00000
+        </a>
+      </div>
+    </div>
+
+    <div className="flex items-center justify-center md:justify-end space-x-4">
+      <div className="bg-white/10 p-3 rounded-full">
+        <Mail className="h-6 w-6 text-white" />
+      </div>
+      <div>
+        <p className="text-xs text-white/80 font-medium">Email Us</p>
+        <a href="mailto:ravisales@gmail.com" className="text-base sm:text-lg font-bold hover:underline">
+          ravisales@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<footer className="bg-[#1A1A1A] text-white pt-10 pb-2">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-12 gap-8 pb-6 md:pb-12 border-b border-white/10">
+    
+    {/* Logo & Info */}
+    <div className="col-span-2 md:col-span-5 space-y-2 md:space-y-4">
+      <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2 inline-block">
+        <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
+      </Link>
+      <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm">
+        Beverage sales and distribution, connecting trusted brands with growing markets.
+      </p>
+
+      <div className="flex space-x-4 pt-1">
+        <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
+          <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+        <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
+          <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
+          <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+
+    {/* Quick Links (Flex wrapper ઉમેર્યું જેથી મોબાઇલ પર વ્યવસ્થિત સેન્ટરમાં/અલાઈન રહે) */}
+    <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+      <div className="w-full">
+        <h4 className="text-sm font-bold tracking-wider uppercase text-white mb-2">Quick Links</h4>
+        <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
+          <li><button onClick={() => navigate('/')} className="hover:text-white transition">Home</button></li>
+          <li><button onClick={() => navigate('/about')} className="hover:text-white transition">About Us</button></li>
+          <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Products</button></li>
+          <li><button onClick={() => navigate('/contact')} className="hover:text-white transition">Contact Us</button></li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Products (Flex wrapper ઉમેર્યું જેથી મોબાઇલ પર વ્યવસ્થિત સેન્ટરમાં/અલાઈન રહે) */}
+    <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+      <div className="w-full">
+        <h4 className="text-sm font-bold tracking-wider uppercase text-white mb-2">Products</h4>
+        <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
+          <li><button onClick={() => navigate('/products')} className="hover:text-white transition">All Products</button></li>
+          <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Beverage Brands</button></li>
+          <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Product Categories</button></li>
+          <li><button onClick={() => navigate('/products')} className="hover:text-white transition">Pack Sizes</button></li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Get in Touch */}
+    <div className="col-span-2 md:col-span-3 space-y-2 md:space-y-3 text-center md:text-left">
+      <h4 className="text-sm font-bold tracking-wider uppercase text-white">Get in Touch</h4>
+      <div className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
+        <p><strong className="text-white">Phone:</strong><br />+91 99999 00000</p>
+        <p><strong className="text-white">Email Id:</strong><br />ravisales@gmail.com</p>
+        <p><strong className="text-white">Address:</strong><br />Ahmedabad, Gujarat, India</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between text-xs text-white">
+    <p className="hover:text-red-400">© 2026 Ravi Sales. All Rights Reserved.</p>
+    <div className="flex space-x-6 mt-3 sm:mt-0">
+      <a href="#" className="text-white hover:text-red-400 transition">Privacy Policy</a>
+      <span className="text-white">|</span>
+      <a href="#" className="text-white hover:text-red-400 transition">Terms & Conditions</a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+  </div>
   );
 }
