@@ -7,6 +7,7 @@ import Products from "./components/Products";
 import About from "./components/About";
 import ScrollToTop from './components/ScrollToTop';
 import Contact from "./components/Contact";
+import Gallery from "./components/Gallery";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
     </Router>
   );

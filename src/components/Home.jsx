@@ -136,6 +136,9 @@ export default function Home() {
             </div>
           </nav>
 
+
+
+
           <div className="max-w-7xl w-full mx-auto px-6 sm:px-12 lg:px-12 py-12 flex items-center flex-grow">
             <div className="max-w-xl space-y-6 text-center sm:text-left">
               <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
@@ -525,6 +528,10 @@ export default function Home() {
   </div>
 </section>
 
+
+{/*  */}
+{/*  */}
+{/*  */}
 <div className="w-full bg-[#E62429] py-8 px-4 sm:px-8 shadow-xl mt-12">
   <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left items-center text-white">
     <div className="flex items-center justify-center md:justify-start space-x-4">
@@ -572,7 +579,7 @@ export default function Home() {
     {/* Logo & Info */}
     <div className="col-span-2 md:col-span-5 space-y-2 md:space-y-4">
       <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2 inline-block">
-        <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
+        <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-25 sm:w-25 object-contain transform group-hover:scale-105 transition duration-300" />
       </Link>
       <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm">
         Beverage sales and distribution, connecting trusted brands with growing markets.

@@ -10,7 +10,7 @@ import abbanner from '../assets/about banner.png';
 import mid from '../assets/about mid.png';
 import last from '../assets/about last.png';
 
-export default function Home() {
+export default function About() {
   const [isOpen, setIsOpen] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate();
@@ -588,7 +588,7 @@ export default function Home() {
     {/* Logo & Info */}
     <div className="col-span-2 md:col-span-5 space-y-2 md:space-y-4">
       <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2 inline-block">
-        <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
+        <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-25 sm:w-25 object-contain transform group-hover:scale-105 transition duration-300" />
       </Link>
       <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm">
         Beverage sales and distribution, connecting trusted brands with growing markets.
