@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import logoImg from '../assets/rs-logo.png';
 import product from '../assets/product.png';
+import login from '../assets/login.svg';
+import cart from '../assets/cart.svg';
 import coco from '../assets/2.png';
 import pepsi from '../assets/3.png';
 import sprite from '../assets/4.png';
@@ -120,7 +122,7 @@ export default function products() {
             aspectRatio: '1922 / 1049'
           }}
         >
-          <nav className="w-full bg-black/20 backdrop-blur-sm z-50 transition-all duration-300">
+          <nav className="w-full bg-[#161616] backdrop-blur-sm z-50 transition-all duration-300">
             <div className="w-full px-3 sm:px-6 lg:px-8">
               <div className="flex justify-between h-19 items-center relative">
                 <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2">
@@ -128,11 +130,11 @@ export default function products() {
                 </Link>
 
                 <div className="hidden md:flex space-x-8 font-medium text-black absolute left-1/2 transform -translate-x-1/2">
-                  <Link to="/" className="hover:text-white transition duration-200">Home</Link>
-                  <Link to="/about" className="hover:text-white transition duration-200">About</Link>
-                  <Link to="/products" className="text-white font-semibold transition hover:text-black">Products</Link>
-                  <Link to="/gallery" className="hover:text-white transition duration-200">Gallery</Link>
-                  <Link to="/contact" className="hover:text-white transition duration-200">Contact Us</Link>
+                  <Link to="/" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Home</Link>
+                  <Link to="/about" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">About</Link>
+                  <Link to="/products" className="text-[#FEC26C] font-semibold transition hover:text-[#B2B2B2]">Products</Link>
+                  <Link to="/gallery" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Gallery</Link>
+                  <Link to="/contact" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Contact Us</Link>
                 </div>
 
                 <div className="hidden md:flex items-center space-x-4 pr-0 sm:pr-2">
@@ -157,16 +159,23 @@ export default function products() {
                       </button>
                     </div>
                   ) : (
-                    <Link to="/login" className="relative p-3 bg-white/20 rounded-full text-white hover:text-red-400 hover:bg-black/40 hover:scale-105 transition duration-300 shadow-sm" title="Login">
-                      <User className="h-5 w-5" />
-                    </Link>
+<Link
+  to="/login"
+  className="relative p-3 rounded-full hover:scale-105 transition duration-300 shadow-sm"
+  title="Login"
+>
+  <img src={login} className="w-[35px] h-[35px]" />
+</Link>
                   )}
 
-                  <Link to="/cart" className="relative p-3 bg-white/20 rounded-full text-white hover:text-red-400 hover:bg-black/40 hover:scale-105 transition duration-300 shadow-sm" title="Cart">
-                    <ShoppingCart className="h-5 w-5" />
-                  </Link>
-                </div>
-
+<Link
+  to="/cart"
+  className="relative p-3 hover:scale-105 transition duration-300 shadow-sm"
+  title="Cart"
+>
+  <img src={cart} className="w-[40px] h-[30px]" />
+</Link>
+</div>
                 <div className="flex md:hidden items-center space-x-3 pr-2">
                   <Link to="/cart" className="p-2 bg-white/20 rounded-full text-white hover:text-red-400">
                     <ShoppingCart className="h-5 w-5" />

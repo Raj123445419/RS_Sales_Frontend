@@ -5,6 +5,8 @@ import {
   Store, CalendarCheck, Truck, Globe, Utensils, Coffee, Building2, Headphones
 } from 'lucide-react';
 import logoImg from '../assets/rs-logo.png';
+import login from '../assets/login.svg';
+import cart from '../assets/cart.svg';
 import heroBg from '../assets/hero-bg.png';
 import coco from '../assets/coco-cola.png';
 import sprite from '../assets/sprite.png';
@@ -12,6 +14,14 @@ import pepsi from '../assets/pepsi.png';
 import body from '../assets/delivery-truck.png';
 import fanta from '../assets/fanta.png';
 import last from '../assets/delivery-man.png';
+import handshake from '../assets/handshake.svg';
+import home from '../assets/home.svg';
+import cal from '../assets/cal.svg';
+import customer from '../assets/customer1.svg';
+import Phonecall from '../assets/Phonecall.svg';
+import Arrowrightcircle from '../assets/Arrowrightcircle.svg';
+import Arrowrightcirclered from '../assets/Arrowrightcirclered.svg';
+
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +64,7 @@ export default function Home() {
             aspectRatio: '1922 / 1049'
           }}
         >
-          <nav className="w-full bg-black/20 backdrop-blur-sm z-50 transition-all duration-300">
+          <nav className="w-full bg-[#161616] backdrop-blur-sm z-50 transition-all duration-300">
             <div className="w-full px-3 sm:px-6 lg:px-8">
               <div className="flex justify-between h-19 items-center relative">
                 <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2">
@@ -62,11 +72,11 @@ export default function Home() {
                 </Link>
 
                 <div className="hidden md:flex space-x-8 font-medium text-black absolute left-1/2 transform -translate-x-1/2">
-                  <Link to="/" className="text-white font-semibold transition hover:text-black">Home</Link>
-                  <Link to="/about" className="hover:text-white transition duration-200">About</Link>
-                  <Link to="/products" className="hover:text-white transition duration-200">Products</Link>
-                  <Link to="/gallery" className="hover:text-white transition duration-200">Gallery</Link>
-                  <Link to="/contact" className="hover:text-white transition duration-200">Contact Us</Link>
+                  <Link to="/" className="text-[#FEC26C] font-semibold transition hover:text-[#B2B2B2]">Home</Link>
+                  <Link to="/about" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">About</Link>
+                  <Link to="/products" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Products</Link>
+                  <Link to="/gallery" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Gallery</Link>
+                  <Link to="/contact" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Contact Us</Link>
                 </div>
 
                 <div className="hidden md:flex items-center space-x-4 pr-0 sm:pr-2">
@@ -91,15 +101,23 @@ export default function Home() {
                       </button>
                     </div>
                   ) : (
-                    <Link to="/login" className="relative p-3 bg-white/20 rounded-full text-white hover:text-red-400 hover:bg-black/40 hover:scale-105 transition duration-300 shadow-sm" title="Login">
-                      <User className="h-5 w-5" />
-                    </Link>
+<Link
+  to="/login"
+  className="relative p-3 rounded-full hover:scale-105 transition duration-300 shadow-sm"
+  title="Login"
+>
+  <img src={login} className="w-[35px] h-[35px]" />
+</Link>
                   )}
 
-                  <Link to="/cart" className="relative p-3 bg-white/20 rounded-full text-white hover:text-red-400 hover:bg-black/40 hover:scale-105 transition duration-300 shadow-sm" title="Cart">
-                    <ShoppingCart className="h-5 w-5" />
-                  </Link>
-                </div>
+<Link
+  to="/cart"
+  className="relative p-3 hover:scale-105 transition duration-300 shadow-sm"
+  title="Cart"
+>
+  <img src={cart} className="w-[40px] h-[30px]" />
+</Link>
+</div>
 
                 <div className="flex md:hidden items-center space-x-3 pr-2">
                   <Link to="/cart" className="p-2 bg-white/20 rounded-full text-white hover:text-red-400">
@@ -153,12 +171,12 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row justify-center sm:justify-start gap-4 pt-2">
                 <Link to="/contact" className="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition duration-300 flex items-center justify-center space-x-3">
                   <span>Get a Quote</span>
-                  <span className="border border-white/40 p-1.5 rounded-full flex items-center justify-center">
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
+                  
+                    <img src={Arrowrightcircle} className="h-[35px] w-[35px]" />
+                  
                 </Link>
-                <a href="tel:+919999900000" className="bg-amber-200 hover:bg-amber-300 text-amber-900 font-bold p-3.5 rounded-full shadow-md transition duration-300 flex items-center justify-center w-14 h-14 mx-auto sm:mx-0">
-                  <Phone className="h-5 w-5 text-red-600" />
+                <a href="tel:+919999900000" className="bg-[#FEC26C] hover:bg-amber-300 rounded-full shadow-md transition duration-300 flex items-center justify-center w-14 h-14 mx-auto sm:mx-0">
+                  <img src={Phonecall} className="h-5 w-5" />
                 </a>
               </div>
             </div>
@@ -169,7 +187,7 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:-mt-7 relative z-20 pb-12" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
         <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           <div className="flex items-center space-x-3 p-2 sm:p-4 border-r border-b md:border-b-0 md:border-r border-gray-100">
-            <Handshake className="h-7 w-7 sm:h-9 sm:w-9 text-black shrink-0" />
+            <img src={handshake} className="h-7 w-7 sm:h-[50px] sm:w-[50px] text-black shrink-0" />
             <div className="text-left">
               <h3 className="text-xl sm:text-3xl font-bold text-black">10+</h3>
               <p className="text-xs sm:text-sm text-black font-medium mt-0.5 sm:mt-1">Years of Trust</p>
@@ -177,7 +195,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-3 p-2 sm:p-4 border-b md:border-b-0 md:border-r border-gray-100">
-            <Store className="h-7 w-7 sm:h-9 sm:w-9 text-black shrink-0" />
+            <img src={home} className="h-7 w-7 sm:h-[50px] sm:w-[50px] text-black shrink-0" />
             <div className="text-left">
               <h3 className="text-xl sm:text-3xl font-bold text-red-600">500+</h3>
               <p className="text-xs sm:text-sm text-black font-medium mt-0.5 sm:mt-1">Retailers Served</p>
@@ -185,7 +203,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-3 p-2 sm:p-4 border-r md:border-r border-gray-100">
-            <CalendarCheck className="h-7 w-7 sm:h-9 sm:w-9 text-black shrink-0" />
+            <img src={cal} className="h-7 w-7 sm:h-[50px] sm:w-[50px] shrink-0" />
             <div className="text-left">
               <h3 className="text-xl sm:text-3xl font-bold text-black">25+</h3>
               <p className="text-xs sm:text-sm text-black font-medium mt-0.5 sm:mt-1">Brands Available</p>
@@ -193,7 +211,7 @@ export default function Home() {
           </div>
 
           <div className="flex items-center space-x-3 p-2 sm:p-4">
-            <User className="h-7 w-7 sm:h-9 sm:w-9 text-black shrink-0" />
+            <img src={customer} className="h-7 w-7 sm:h-[50px] sm:w-[50px] shrink-0" />
             <div className="text-left">
               <h3 className="text-xl sm:text-3xl font-bold text-red-600">100%</h3>
               <p className="text-xs sm:text-sm text-black font-medium mt-0.5 sm:mt-1">Customer Satisfaction</p>
@@ -215,20 +233,20 @@ export default function Home() {
           </div>
 
           <button
-            className="self-start md:self-auto flex items-center text-red-600 space-x-5 border-2 border-black px-7 py-1.5 rounded-full text-sm font-bold hover:bg-red-600 hover:text-white transition-all duration-300"
+            className="self-start md:self-auto flex items-center text-[#D71920] space-x-5 border-3 border-black px-7 py-1.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all duration-300"
             onClick={() => navigate('/products')}
           >
             <span>View All Products</span>
-            <span className="border border-red/40 p-1.5 rounded-full flex items-center justify-center">
-              <ArrowRight className="h-4 w-4" />
-            </span>
+
+              <img src={Arrowrightcirclered} className="h-[32px] w-[32px]" />
+
           </button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          <div className="bg-[#E8B4AC] rounded-3xl p-4 sm:p-6 flex flex-col items-center justify-between border border-black/10 shadow-sm">
+          <div className="rounded-3xl p-4 sm:p-6 flex flex-col bg-[#FFFFFF] items-center justify-between border border-black/10 shadow-sm">
             <div className="relative w-full h-60 sm:h-52 flex items-center justify-center my-2">
-              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#E62429] rounded-full"></div>
+              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#E62429] blur-2xl rounded-full"></div>
               <img
                 src={coco}
                 alt="Coco Cola"
@@ -244,9 +262,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-[#C5D8B6] rounded-3xl p-4 sm:p-6 flex flex-col items-center justify-between border border-black/10 shadow-sm">
+          <div className="rounded-3xl p-4 sm:p-6 flex bg-[#FFFFFF] flex-col items-center justify-between border border-black/10 shadow-sm">
             <div className="relative w-full h-60 sm:h-52 flex items-center justify-center my-2">
-              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#2B8A3E] rounded-full"></div>
+              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#2B8A3E] blur-2xl rounded-full"></div>
               <img
                 src={sprite}
                 alt="Sprite"
@@ -262,9 +280,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-[#CBC3E3] rounded-3xl p-4 sm:p-6 flex flex-col items-center justify-between border border-black/10 shadow-sm">
+          <div className=" rounded-3xl p-4 sm:p-6 bg-[#FFFFFF] flex flex-col items-center justify-between border border-black/10 shadow-sm">
             <div className="relative w-full h-60 sm:h-52 flex items-center justify-center my-2">
-              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#3B30B5] rounded-full"></div>
+              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#3B30B5] blur-2xl rounded-full"></div>
               <img
                 src={pepsi}
                 alt="Pepsi"
@@ -280,9 +298,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-[#F3D2B3] rounded-3xl p-4 sm:p-6 flex flex-col items-center justify-between border border-black/10 shadow-sm">
+          <div className=" rounded-3xl p-4 sm:p-6 bg-[#FFFFFF] flex flex-col items-center justify-between border border-black/10 shadow-sm">
             <div className="relative w-full h-60 sm:h-52 flex items-center justify-center my-2">
-              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#EC6608] rounded-full"></div>
+              <div className="absolute w-32 h-32 sm:w-36 sm:h-36 bg-[#EC6608] blur-2xl rounded-full"></div>
               <img
                 src={fanta}
                 alt="Fanta"

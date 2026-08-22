@@ -4,11 +4,21 @@ import {
   ShoppingCart, LogOut, Menu, X, User, ChevronDown, Headphones, Phone, Mail, ZoomIn
 } from 'lucide-react';
 import logoImg from '../assets/rs-logo.png';
+import login from '../assets/login.svg';
+import cart from '../assets/cart.svg';
 import Galler1 from '../assets/Gallery1.png';
 import Truck from '../assets/Truck.png';
 import Gall3 from '../assets/Gall3.png';
 import bulkpepsi from '../assets/bulkpepsi.png';
 import bulk from '../assets/bulk.png';
+
+
+
+
+
+
+
+
 
 // Gallery Grid Assets
 import imgPepsiTruckWorker from '../assets/901af9373f4a9b83e7923b4aff3951659f397119.png';
@@ -129,7 +139,7 @@ export default function Gallery() {
 
       {/* Top Header & Navbar */}
       <div className="w-full relative">
-        <nav className="w-full bg-black/20 backdrop-blur-sm z-50 transition-all duration-300">
+        <nav className="w-full bg-[#161616] backdrop-blur-sm z-50 transition-all duration-300">
           <div className="w-full px-3 sm:px-6 lg:px-8">
             <div className="flex justify-between h-19 items-center relative">
               <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2">
@@ -137,11 +147,11 @@ export default function Gallery() {
               </Link>
 
               <div className="hidden md:flex space-x-8 font-medium text-black absolute left-1/2 transform -translate-x-1/2">
-                <Link to="/" className="hover:text-white transition duration-200">Home</Link>
-                <Link to="/about" className="hover:text-white transition duration-200">About</Link>
-                <Link to="/products" className="hover:text-white transition duration-200">Products</Link>
-                <Link to="/gallery" className="text-white font-semibold transition hover:text-black">Gallery</Link>
-                <Link to="/contact" className="hover:text-white transition duration-200">Contact Us</Link>
+                <Link to="/" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Home</Link>
+                <Link to="/about" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">About</Link>
+                <Link to="/products" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Products</Link>
+                <Link to="/gallery" className="text-[#FEC26C] font-semibold transition hover:text-[#B2B2B2]">Gallery</Link>
+                <Link to="/contact" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Contact Us</Link>
               </div>
 
               <div className="hidden md:flex items-center space-x-4 pr-0 sm:pr-2">
@@ -166,13 +176,21 @@ export default function Gallery() {
                     </button>
                   </div>
                 ) : (
-                  <Link to="/login" className="relative p-3 bg-white/20 rounded-full text-white hover:text-red-400 hover:bg-black/40 hover:scale-105 transition duration-300 shadow-sm" title="Login">
-                    <User className="h-5 w-5" />
+                  <Link
+                    to="/login"
+                    className="relative p-3 rounded-full hover:scale-105 transition duration-300 shadow-sm"
+                    title="Login"
+                  >
+                    <img src={login} className="w-[35px] h-[35px]" />
                   </Link>
                 )}
 
-                <Link to="/cart" className="relative p-3 bg-white/20 rounded-full text-white hover:text-red-400 hover:bg-black/40 hover:scale-105 transition duration-300 shadow-sm" title="Cart">
-                  <ShoppingCart className="h-5 w-5" />
+                <Link
+                  to="/cart"
+                  className="relative p-3 hover:scale-105 transition duration-300 shadow-sm"
+                  title="Cart"
+                >
+                  <img src={cart} className="w-[40px] h-[30px]" />
                 </Link>
               </div>
 
@@ -216,21 +234,21 @@ export default function Gallery() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {/* Main Hero Grid: 4-Image Collage on Left, Title & Description on Right */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-8 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-6 items-center">
 
               {/* Left Side: 4-Image Collage with Ribbon */}
               <div className="lg:col-span-6 w-full flex justify-center items-center">
-                <div className="relative w-full max-w-[420px] sm:max-w-[480px] md:max-w-[540px] aspect-[1.25/1] select-none">
+                <div className="relative w-full max-w-[380px] sm:max-w-[440px] md:max-w-[500px] aspect-[1.25/1] select-none overflow-hidden">
 
                   {/* Background Curved Red Ribbon */}
                   <img
                     src={Galler1}
                     alt="Ribbon Background"
-                    className="absolute inset-0 w-full h-full object-contain pointer-events-none -z-0 scale-105 opacity-90 sm:opacity-100"
+                    className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0 scale-105"
                   />
 
                   {/* Card 1: Coca-Cola Truck (Top-Left) */}
-                  <div className="absolute top-[22%] left-[8%] w-[42%] aspect-[16/10] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
+                  <div className="absolute top-[26%] left-[2%] w-[48%] aspect-[16/10] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
                     <img
                       src={Truck}
                       alt="Coca-Cola Truck"
@@ -239,7 +257,7 @@ export default function Gallery() {
                   </div>
 
                   {/* Card 2: Person holding beverage can (Top-Right) */}
-                  <div className="absolute top-[4%] right-[22%] w-[26%] aspect-[3/4.2] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
+                  <div className="absolute top-0 right-[13%] w-[30%] aspect-[3/4.2] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
                     <img
                       src={Gall3}
                       alt="Person with beverage"
@@ -248,7 +266,7 @@ export default function Gallery() {
                   </div>
 
                   {/* Card 3: Pepsi Cans (Bottom-Left) */}
-                  <div className="absolute bottom-[6%] left-[23%] w-[25%] aspect-[1/1] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
+                  <div className="absolute bottom-0 left-[16%] w-[35%] aspect-[6/5] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
                     <img
                       src={bulkpepsi}
                       alt="Pepsi Cans"
@@ -257,7 +275,7 @@ export default function Gallery() {
                   </div>
 
                   {/* Card 4: Store Shelf / Supermarket (Bottom-Right) */}
-                  <div className="absolute bottom-[8%] right-[10%] w-[38%] aspect-[16/11] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
+                  <div className="absolute bottom-0 right-0 w-[48%] aspect-[5/4] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
                     <img
                       src={bulk}
                       alt="Store Beverage Shelf"
@@ -403,7 +421,7 @@ export default function Gallery() {
                       />
                     </div>
 
-                    
+
                   </div>
 
                   {/* Column 3 (Right Column) */}
@@ -534,43 +552,42 @@ export default function Gallery() {
           </div>
 
           {/* 5 Brand Cards Grid */}
-         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-4 md:gap-5 lg:gap-6">
-  {brandShowcase.map((brand, index) => (
-    <div
-      key={brand.id}
-      className={`bg-white rounded-2xl sm:rounded-3xl p-2.5 sm:p-3 md:p-3.5 hover:shadow-[0_15px_35px_0px_rgba(255,255,255,1)] transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col items-center justify-between group ${
-        index === 4 ? 'col-span-2 sm:col-span-1 max-w-[220px] sm:max-w-none mx-auto w-full' : ''
-      }`}
-    >
-      {/* Inner Colored Rounded Box with Product Image */}
-      <div
-        className="w-full aspect-[307/369] rounded-xl sm:rounded-2xl flex items-center justify-center p-1.5 sm:p-2 relative overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
-        style={brand.bgStyle}
-      >
-        {/* Soft White Glow Behind Product */}
-        <div
-          className="absolute w-[62%] aspect-square rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.65) 45%, rgba(255,255,255,0) 75%)'
-          }}
-        ></div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-4 md:gap-5 lg:gap-6">
+            {brandShowcase.map((brand, index) => (
+              <div
+                key={brand.id}
+                className={`bg-white rounded-2xl sm:rounded-3xl p-2.5 sm:p-3 md:p-3.5 hover:shadow-[0_15px_35px_0px_rgba(255,255,255,1)] transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col items-center justify-between group ${index === 4 ? 'col-span-2 sm:col-span-1 max-w-[220px] sm:max-w-none mx-auto w-full' : ''
+                  }`}
+              >
+                {/* Inner Colored Rounded Box with Product Image */}
+                <div
+                  className="w-full aspect-[307/369] rounded-xl sm:rounded-2xl flex items-center justify-center p-1.5 sm:p-2 relative overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
+                  style={brand.bgStyle}
+                >
+                  {/* Soft White Glow Behind Product */}
+                  <div
+                    className="absolute w-[62%] aspect-square rounded-full"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.65) 45%, rgba(255,255,255,0) 75%)'
+                    }}
+                  ></div>
 
-        <img
-          src={brand.image}
-          alt={brand.name}
-          className="relative z-10 max-h-[97%] max-w-[97%] object-contain transition-transform duration-300 group-hover:scale-105"
-        />
-      </div>
+                  <img
+                    src={brand.image}
+                    alt={brand.name}
+                    className="relative z-10 max-h-[97%] max-w-[97%] object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
 
-      {/* Brand Title */}
-      <div className="pt-2.5 sm:pt-3 pb-0.5 sm:pb-1 text-center w-full">
-        <span className="text-sm sm:text-base md:text-lg font-bold text-gray-900 tracking-tight">
-          {brand.name}
-        </span>
-      </div>
-    </div>
-  ))}
-</div>
+                {/* Brand Title */}
+                <div className="pt-2.5 sm:pt-3 pb-0.5 sm:pb-1 text-center w-full">
+                  <span className="text-sm sm:text-base md:text-lg font-bold text-gray-900 tracking-tight">
+                    {brand.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
 
           {/* Looking for a Reliable Distribution Partner? Sub-Section */}
           <div className="mt-12 sm:mt-16 md:mt-20 text-center max-w-3xl mx-auto px-4">
