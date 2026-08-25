@@ -18,65 +18,40 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // Fetch users from backend Django API
-      const response = await fetch('http://127.0.0.1:8000/api/v1/users/', {
-        method: 'GET',
+      // POST request મોકલીને બેકએન્ડ પાસે પાસવર્ડ વેરીફાય કરાવો
+      const response = await fetch('http://127.0.0.1:8000/api/v1/login/', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ identifier, password }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to connect to backend server');
-      }
+      const data = await response.json();
 
-      const usersList = await response.json();
-
-      // 1. Find user matching email or username
-      const cleanIdentifier = identifier.trim().toLowerCase();
-      const matchedUser = usersList.find((u) => {
-        const uEmail = (u.email || '').toLowerCase().trim();
-        const uName = (u.username || '').toLowerCase().trim();
-        return uEmail === cleanIdentifier || uName === cleanIdentifier;
-      });
-
-      if (!matchedUser) {
-        setErrorMessage('User not found. Please check your email or username.');
+      if (!response.ok || !data.success) {
+        setErrorMessage(data.error || 'Failed to login. Please try again.');
         setIsLoading(false);
         return;
       }
 
-      // 2. Strict Password Validation
-      if (matchedUser.password !== undefined && matchedUser.password !== null) {
-        if (matchedUser.password !== password) {
-          setErrorMessage('Invalid password. Please check your password and try again.');
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      // 3. Auto-Detect Role from Backend Data (Admin / Salesman / Shopkeeper)
-      const detectedRole = (
-        matchedUser.role || 
-        (matchedUser.is_superuser ? 'admin' : (matchedUser.is_staff ? 'salesman' : 'shopkeeper'))
-      ).toLowerCase();
-
-      // 4. Save User Session
+      // 4. Save User Session (રોલ બેકએન્ડથી ઓટો-ડિટેક્ટ થઈને આવશે)
       const userDataToStore = {
-        id: matchedUser.id,
-        username: matchedUser.username || identifier,
-        email: matchedUser.email || identifier,
-        role: detectedRole
+        id: data.user.id,
+        username: data.user.username,
+        email: data.user.email,
+        role: data.user.role
       };
 
       localStorage.setItem('shopzee_user', JSON.stringify(userDataToStore));
       
-      alert(`Successfully logged in as ${detectedRole.charAt(0).toUpperCase() + detectedRole.slice(1)}!`);
+      // Success alert displaying who logged in
+      alert(data.message); 
       navigate('/');
 
     } catch (error) {
       console.error(error);
-      setErrorMessage('Backend server error. Please ensure Django is running on port 8000.');
+      setErrorMessage('Backend server error. Please ensure Django is running.');
     } finally {
       setIsLoading(false);
     }
@@ -88,7 +63,6 @@ export default function Login() {
       {/* ================= LEFT SIDE: TAGLINE & IMAGE 74 ================= */}
       <div className="w-full lg:w-[50%] flex flex-col justify-between p-6 sm:p-10 md:p-14 lg:p-16 xl:p-20">
         
-        {/* Top Tagline */}
         <div className="pt-2 sm:pt-4">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
             Powering Beverage Sales.
@@ -98,7 +72,6 @@ export default function Login() {
           </h2>
         </div>
 
-        {/* Bottom Illustration (image 74.png) */}
         <div className="mt-20 mb-auto flex items-center justify-start">
           <img
             src={image74}
@@ -106,21 +79,17 @@ export default function Login() {
             className="w-full max-w-[460px] sm:max-w-[500px] md:max-w-[540px] lg:max-w-[560px] object-contain drop-shadow-sm select-none"
           />
         </div>
-
-        {/* Blank spacer for bottom balance */}
       </div>
 
       {/* ================= RIGHT SIDE: CURVED TAUPE CONTAINER & LOGIN CARD ================= */}
       <div className="w-full lg:w-[50%] h-70 bg-[#BFAFA0] lg:rounded-tl-[100px] xl:rounded-l-[80px] flex flex-col justify-center items-center p-6 sm:p-10 lg:p-14 xl:p-16 shadow-2xl relative min-h-[600px] lg:min-h-screen">
         
-        {/* RS Logo */}
         <div className="mb-6 sm:mb-8">
           <Link to="/" className="inline-block transform hover:scale-105 transition duration-300">
             <img src={logoImg} alt="RS Logo" className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-md mx-auto" />
           </Link>
         </div>
 
-        {/* Welcome Back & Subtitle */}
         <div className="w-full max-w-[420px] text-left mb-5 sm:mb-6">
           <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
             Welcome Back
@@ -130,33 +99,29 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Form Container Card with Rounded Border */}
-        <div className=" w-130 bg-amber-50 border border-[#7C7162]/60 rounded-3xl p-6 sm:p-8 shadow-sm bg-transparent">
+        <div className="w-full max-w-[420px] bg-amber-50 border border-[#7C7162]/60 rounded-3xl p-6 sm:p-8 shadow-sm">
           
-          {/* Error Message */}
           {errorMessage && (
-            <div className="mb-4 bg-red-500/15 border border-red-500 text-red-800 text-xs p-3 rounded-xl font-medium leading-relaxed">
+            <div className="mb-4 bg-red-500/15 border border-red-500 text-red-800 text-xs p-3 rounded-xl font-medium leading-relaxed text-left">
               {errorMessage}
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
-            {/* Email */}
             <div>
               <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 text-left">
-                Email
+                Email or Username
               </label>
               <input
                 type="text"
                 required
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="abc@gmail.com"
+                placeholder="abc@gmail.com or username"
                 className="w-full bg-[#F5F2EB] border border-gray-300/80 rounded-xl px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black shadow-inner transition"
               />
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 text-left">
                 Password
@@ -181,7 +146,6 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Forgot Password */}
             <div className="flex justify-start">
               <button
                 type="button"
@@ -192,7 +156,6 @@ export default function Login() {
               </button>
             </div>
 
-            {/* Sign In Button */}
             <div className="pt-2 flex justify-center">
               <button
                 type="submit"
@@ -202,22 +165,10 @@ export default function Login() {
                 {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
             </div>
-
-            {/* Need help accessing your account */}
-            <div className="pt-3 text-center">
-              <p className="text-[11px] sm:text-xs text-gray-800 font-medium">
-                Need help accessing your account?{' '}
-                <Link to="/contact" className="text-gray-900 font-bold hover:underline">
-                  Contact Ravi Sales Support
-                </Link>
-              </p>
-            </div>
           </form>
 
         </div>
-
       </div>
-
     </div>
   );
 }

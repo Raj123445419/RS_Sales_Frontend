@@ -95,35 +95,39 @@ export default function Products() {
   };
 
   const products = [
-    {
-      id: 1,
-      category: 'Carbonated',
-      name: 'Coco Cola',
-      sizes: '250ml - 500ml - 1L',
-      image: co, 
-    },
-    {
-      id: 2,
-      category: 'Coffee',
-      name: 'Nescafe',
-      sizes: '250ml - 500ml - 1L',
-      image: coffee,
-    },
-    {
-      id: 3,
-      category: 'Carbonated',
-      name: 'Pepsi',
-      sizes: '250ml - 500ml - 1L',
-      image: pep,
-    },
-    {
-      id: 4,
-      category: 'Water',
-      name: 'Bisleri',
-      sizes: '250ml - 500ml - 1L',
-      image: bis,
-    },
-  ];
+  {
+    id: 1,
+    name: 'Coco Cola',
+    category: 'Carbonated',
+    sizes: '250ml - 500ml - 1L',
+    image: co,
+    to: '/cocacola' 
+  },
+  {
+    id: 2,
+    name: 'Nescafe',
+    category: 'Coffee',
+    sizes: '250ml - 500ml - 1L',
+    image: nescafe,
+    to: '/nescafe' 
+  },
+  {
+    id: 3,
+    name: 'Pepsi',
+    category: 'Carbonated',
+    sizes: '250ml - 500ml - 1L',
+    image: pep,
+    to: '/pepsi' 
+  },
+  {
+    id: 4,
+    name: 'Bisleri',
+    category: 'Water',
+    sizes: '250ml - 500ml - 1L',
+    image: bis,
+    to: '/bisleri' 
+  }
+];
 
   // Filters
   const filteredProducts = activeTab === 'All' 
@@ -438,14 +442,13 @@ export default function Products() {
                     {productItem.sizes}
                   </p>
 
+                  {/* અહીં productItem.to નો ઉપયોગ કર્યો છે જેથી દરેક પ્રોડક્ટ તેના પોતાના પેજ પર જશે */}
                   <Link 
-                    to="/products" 
+                    to={productItem.to || "/gallery"} 
                     className="flex items-center justify-between text-xs sm:text-sm font-semibold text-gray-900 group-hover:text-[#E5383B] transition-colors duration-300 pt-2 sm:pt-3 border-t border-gray-300/60"
                   >
                     <span>View Product</span>
-                   
-                      <img src={Arrowleft}className="h-3 w-3 sm:h-5 sm:w-5" />
-
+                    <img src={Arrowleft} className="h-3 w-3 sm:h-5 sm:w-5" alt="Arrow" />
                   </Link>
                 </div>
               </div>
@@ -454,7 +457,6 @@ export default function Products() {
 
         </div>
       </section>
-
 {/*  */}
 {/*  */}
 {/*  */}
