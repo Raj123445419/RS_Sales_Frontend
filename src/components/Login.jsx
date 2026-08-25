@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Lock, Mail, ArrowRight, AlertTriangle } from 'lucide-react';
+import logoImg from '../assets/rs-logo.png';
+import image74 from '../assets/image 74.png';
+import EyeOffIcon from '../assets/Eye off.svg';
 
 export default function Login() {
-  const [identifier, setIdentifier] = useState(''); // Email અથવા Username
+  const [identifier, setIdentifier] = useState(''); // Email or Username
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('shopkeeper'); // shopkeeper / salesman / admin
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -16,7 +18,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // Django ના users API પરથી ડેટા ફેચ કરવો
+      // Fetch users from backend Django API
       const response = await fetch('http://127.0.0.1:8000/api/v1/users/', {
         method: 'GET',
         headers: {
@@ -30,153 +32,191 @@ export default function Login() {
 
       const usersList = await response.json();
 
-      // યુઝરનેમ અથવા ઈમેલ અને સિલેક્ટ કરેલો રોલ ડેટાબેઝમાં મેચ કરવો
-      const matchedUser = usersList.find(
-        (u) => 
-          (u.email === identifier || u.username === identifier) && 
-          u.role === role
-      );
+      // 1. Find user matching email or username
+      const cleanIdentifier = identifier.trim().toLowerCase();
+      const matchedUser = usersList.find((u) => {
+        const uEmail = (u.email || '').toLowerCase().trim();
+        const uName = (u.username || '').toLowerCase().trim();
+        return uEmail === cleanIdentifier || uName === cleanIdentifier;
+      });
 
       if (!matchedUser) {
-        if (role === 'admin') {
-          setErrorMessage('You are not in admin list or data');
-        } else {
-          setErrorMessage(`Invalid credentials or you are not registered as a ${role}.`);
-        }
+        setErrorMessage('User not found. Please check your email or username.');
         setIsLoading(false);
         return;
       }
 
-      // Successful Login: Save user details in localStorage
+      // 2. Strict Password Validation
+      if (matchedUser.password !== undefined && matchedUser.password !== null) {
+        if (matchedUser.password !== password) {
+          setErrorMessage('Invalid password. Please check your password and try again.');
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      // 3. Auto-Detect Role from Backend Data (Admin / Salesman / Shopkeeper)
+      const detectedRole = (
+        matchedUser.role || 
+        (matchedUser.is_superuser ? 'admin' : (matchedUser.is_staff ? 'salesman' : 'shopkeeper'))
+      ).toLowerCase();
+
+      // 4. Save User Session
       const userDataToStore = {
         id: matchedUser.id,
         username: matchedUser.username || identifier,
         email: matchedUser.email || identifier,
-        role: matchedUser.role || role
+        role: detectedRole
       };
 
       localStorage.setItem('shopzee_user', JSON.stringify(userDataToStore));
       
-      alert(`Successfully logged in as ${role.charAt(0).toUpperCase() + role.slice(1)}!`);
+      alert(`Successfully logged in as ${detectedRole.charAt(0).toUpperCase() + detectedRole.slice(1)}!`);
       navigate('/');
 
     } catch (error) {
       console.error(error);
-      setErrorMessage('Backend server error. Please ensure Django is running.');
+      setErrorMessage('Backend server error. Please ensure Django is running on port 8000.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-indigo-900 to-gray-900 flex flex-col justify-between">
+    <div className="min-h-screen bg-[#EDE7DD] text-gray-900 flex flex-col lg:flex-row items-stretch justify-between overflow-x-hidden select-none font-sans">
       
-      {/* Top Logo Header - Responsive */}
-      <div className="p-6">
-        <Link to="/" className="inline-flex items-center space-x-2">
-          <ShoppingBag className="h-8 w-8 text-indigo-400" />
-          <span className="text-2xl font-bold text-white tracking-wider">
-            Shop<span className="text-indigo-400 hidden sm:inline">Zee</span>
-          </span>
-        </Link>
+      {/* ================= LEFT SIDE: TAGLINE & IMAGE 74 ================= */}
+      <div className="w-full lg:w-[50%] flex flex-col justify-between p-6 sm:p-10 md:p-14 lg:p-16 xl:p-20">
+        
+        {/* Top Tagline */}
+        <div className="pt-2 sm:pt-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
+            Powering Beverage Sales.
+          </h1>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#E50914] tracking-tight leading-tight mt-0.5">
+            Connecting Every Market.
+          </h2>
+        </div>
+
+        {/* Bottom Illustration (image 74.png) */}
+        <div className="mt-20 mb-auto flex items-center justify-start">
+          <img
+            src={image74}
+            alt="Business Partnership"
+            className="w-full max-w-[460px] sm:max-w-[500px] md:max-w-[540px] lg:max-w-[560px] object-contain drop-shadow-sm select-none"
+          />
+        </div>
+
+        {/* Blank spacer for bottom balance */}
       </div>
 
-      {/* Login Card Section */}
-      <div className="flex items-center justify-center px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 border border-gray-100 transform transition-all">
-          
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-extrabold text-gray-900">Welcome Back</h2>
-            <p className="text-gray-500 text-sm mt-2">Login to manage your orders, ledger & deliveries</p>
-          </div>
+      {/* ================= RIGHT SIDE: CURVED TAUPE CONTAINER & LOGIN CARD ================= */}
+      <div className="w-full lg:w-[50%] h-70 bg-[#BFAFA0] lg:rounded-tl-[100px] xl:rounded-l-[80px] flex flex-col justify-center items-center p-6 sm:p-10 lg:p-14 xl:p-16 shadow-2xl relative min-h-[600px] lg:min-h-screen">
+        
+        {/* RS Logo */}
+        <div className="mb-6 sm:mb-8">
+          <Link to="/" className="inline-block transform hover:scale-105 transition duration-300">
+            <img src={logoImg} alt="RS Logo" className="h-16 w-16 sm:h-20 sm:w-20 object-contain drop-shadow-md mx-auto" />
+          </Link>
+        </div>
 
-          {/* Danger Error Message Box */}
+        {/* Welcome Back & Subtitle */}
+        <div className="w-full max-w-[420px] text-left mb-5 sm:mb-6">
+          <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+            Welcome Back
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-800 font-normal mt-1">
+            Sign in to continue to your Ravi Sales account.
+          </p>
+        </div>
+
+        {/* Form Container Card with Rounded Border */}
+        <div className=" w-130 bg-amber-50 border border-[#7C7162]/60 rounded-3xl p-6 sm:p-8 shadow-sm bg-transparent">
+          
+          {/* Error Message */}
           {errorMessage && (
-            <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl flex items-start space-x-3 transition-all">
-              <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
-              <div className="text-sm font-medium text-red-800">
-                {errorMessage}
-              </div>
+            <div className="mb-4 bg-red-500/15 border border-red-500 text-red-800 text-xs p-3 rounded-xl font-medium leading-relaxed">
+              {errorMessage}
             </div>
           )}
 
-          {/* Role Selector Tabs */}
-          <div className="grid grid-cols-3 gap-2 bg-gray-100 p-1.5 rounded-xl mb-6 text-sm font-medium">
-            <button
-              type="button"
-              onClick={() => { setRole('shopkeeper'); setErrorMessage(''); }}
-              className={`py-2 rounded-lg transition-all ${role === 'shopkeeper' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-600 hover:text-gray-900'}`}
-            >
-              Shopkeeper
-            </button>
-            <button
-              type="button"
-              onClick={() => { setRole('salesman'); setErrorMessage(''); }}
-              className={`py-2 rounded-lg transition-all ${role === 'salesman' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-600 hover:text-gray-900'}`}
-            >
-              Salesman
-            </button>
-            <button
-              type="button"
-              onClick={() => { setRole('admin'); setErrorMessage(''); }}
-              className={`py-2 rounded-lg transition-all ${role === 'admin' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-600 hover:text-gray-900'}`}
-            >
-              Admin
-            </button>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-4">
+            {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email / Username</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                  <Mail className="h-5 w-5" />
-                </span>
-                <input
-                  type="text"
-                  required
-                  value={identifier}
-                  onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="Enter your email or username"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent text-sm transition"
-                />
-              </div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 text-left">
+                Email
+              </label>
+              <input
+                type="text"
+                required
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                placeholder="abc@gmail.com"
+                className="w-full bg-[#F5F2EB] border border-gray-300/80 rounded-xl px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black shadow-inner transition"
+              />
             </div>
 
+            {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 text-left">
+                Password
+              </label>
               <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                  <Lock className="h-5 w-5" />
-                </span>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent text-sm transition"
+                  placeholder="Enter Password"
+                  className="w-full bg-[#F5F2EB] border border-gray-300/80 rounded-xl px-4 py-2.5 sm:py-3 pr-11 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black shadow-inner transition"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  <img src={EyeOffIcon} alt="Toggle Password" className={`w-5 h-5 transition opacity-70 hover:opacity-100 ${showPassword ? 'brightness-75' : ''}`} />
+                </button>
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-indigo-500/30 transition duration-200 flex items-center justify-center space-x-2 disabled:opacity-50"
-            >
-              <span>{isLoading ? 'Verifying...' : `Sign In as ${role.charAt(0).toUpperCase() + role.slice(1)}`}</span>
-              <ArrowRight className="h-5 w-5" />
-            </button>
+            {/* Forgot Password */}
+            <div className="flex justify-start">
+              <button
+                type="button"
+                onClick={() => alert('Please contact Ravi Sales support to reset your password.')}
+                className="text-[11px] sm:text-xs text-gray-800 hover:text-[#E50914] font-medium transition cursor-pointer"
+              >
+                Forgot Password?
+              </button>
+            </div>
+
+            {/* Sign In Button */}
+            <div className="pt-2 flex justify-center">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="bg-[#D71920] hover:bg-[#B9151B] text-white font-bold text-xs sm:text-sm px-9 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-50"
+              >
+                {isLoading ? 'Signing In...' : 'Sign In'}
+              </button>
+            </div>
+
+            {/* Need help accessing your account */}
+            <div className="pt-3 text-center">
+              <p className="text-[11px] sm:text-xs text-gray-800 font-medium">
+                Need help accessing your account?{' '}
+                <Link to="/contact" className="text-gray-900 font-bold hover:underline">
+                  Contact Ravi Sales Support
+                </Link>
+              </p>
+            </div>
           </form>
 
         </div>
-      </div>
 
-      {/* Footer */}
-      <footer className="text-center py-4 text-xs text-gray-500">
-        <p>&copy; 2026 ShopZee. All rights reserved.</p>
-      </footer>
+      </div>
 
     </div>
   );

@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  ShoppingCart, LogOut, Menu, X, User, ChevronDown, Headphones, Phone, Mail, ZoomIn
-} from 'lucide-react';
+import { LogOut, Menu, X, User, ZoomIn, ChevronDown } from 'lucide-react';
 import logoImg from '../assets/rs-logo.png';
 import login from '../assets/login.svg';
 import cart from '../assets/cart.svg';
+import HeadPhon from '../assets/HeadPhon.svg';
+import Phonecallwhite from '../assets/Phonecallwhite.svg';
+import mailoutline from '../assets/mailoutline.svg';
+import instagram from '../assets/instagram.svg';
+import facebook from '../assets/facebook.svg';
+import Vector from '../assets/Vector.svg';
 import Galler1 from '../assets/Gallery1.png';
 import Truck from '../assets/Truck.png';
 import Gall3 from '../assets/Gall3.png';
 import bulkpepsi from '../assets/bulkpepsi.png';
 import bulk from '../assets/bulk.png';
-
-
-
-
-
-
-
-
 
 // Gallery Grid Assets
 import imgPepsiTruckWorker from '../assets/901af9373f4a9b83e7923b4aff3951659f397119.png';
@@ -140,7 +136,7 @@ export default function Gallery() {
       {/* Top Header & Navbar */}
       <div className="w-full relative">
         <nav className="w-full bg-[#161616] backdrop-blur-sm z-50 transition-all duration-300">
-          <div className="w-full px-3 sm:px-6 lg:px-8">
+          <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-19 items-center relative">
               <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2">
                 <img src={logoImg} alt="RS Logo" className="h-16 w-16 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
@@ -178,10 +174,10 @@ export default function Gallery() {
                 ) : (
                   <Link
                     to="/login"
-                    className="relative p-3 rounded-full hover:scale-105 transition duration-300 shadow-sm"
+                    className="relative rounded-full hover:scale-105 transition duration-300 shadow-sm"
                     title="Login"
                   >
-                    <img src={login} className="w-[35px] h-[35px]" />
+                    <img src={login} alt="Login" className="w-[35px] h-[35px]" />
                   </Link>
                 )}
 
@@ -190,15 +186,15 @@ export default function Gallery() {
                   className="relative p-3 hover:scale-105 transition duration-300 shadow-sm"
                   title="Cart"
                 >
-                  <img src={cart} className="w-[40px] h-[30px]" />
+                  <img src={cart} alt="Cart" className="w-[40px] h-[30px]" />
                 </Link>
               </div>
 
               <div className="flex md:hidden items-center space-x-3 pr-2">
-                <Link to="/cart" className="p-2 bg-white/20 rounded-full text-white hover:text-red-400">
-                  <ShoppingCart className="h-5 w-5" />
+                <Link to="/cart" className="p-2">
+                  <img src={cart} alt="Cart" className="h-7 w-7" />
                 </Link>
-                <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-red-400 focus:outline-none p-2 rounded-lg bg-white/20">
+                <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-red-400 focus:outline-none p-2 rounded-lg bg-white/20 cursor-pointer">
                   {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>
               </div>
@@ -210,7 +206,7 @@ export default function Gallery() {
               <Link to="/" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg">Home</Link>
               <Link to="/about" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg">About</Link>
               <Link to="/products" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg">Products</Link>
-              <Link to="/gallery" onClick={() => setIsOpen(false)} className="block text-red-400 font-semibold py-2.5 px-3 rounded-lg bg-white/10">Gallery</Link>
+              <Link to="/gallery" onClick={() => setIsOpen(false)} className="block text-[#FEC26C] font-semibold py-2.5 px-3 rounded-lg bg-white/10">Gallery</Link>
               <Link to="/contact" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg">Contact Us</Link>
 
               <div className="pt-2 flex items-center space-x-3">
@@ -230,95 +226,92 @@ export default function Gallery() {
         </nav>
 
         {/* HERO SECTION */}
-        <section className="w-full pt-8 sm:pt-12 md:pt-16 pb-8 sm:pb-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="w-full relative pt-4 sm:pt-8 md:pt-10 pb-6 sm:pb-10 overflow-hidden select-none">
+          
+          <div className="w-full flex flex-col lg:flex-row items-center justify-between">
+            
+            {/* Left Column: Full-bleed from left screen edge with Ribbon and 4 Cards locked together */}
+            <div className="w-full lg:w-[54%] xl:w-[50%] flex justify-start items-center">
+              <div className="relative w-full max-w-[580px] sm:max-w-[660px] md:max-w-[720px] lg:max-w-[760px] aspect-[1.42/1] select-none">
 
-            {/* Main Hero Grid: 4-Image Collage on Left, Title & Description on Right */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-6 items-center">
+                {/* Ribbon Image anchored at absolute left (shifted slightly upwards) */}
+                <img
+                  src={Galler1}
+                  alt="Ribbon Background"
+                  className="absolute -top-[5%] sm:-top-[15%] left-0 w-full h-[105%] object-contain object-left pointer-events-none z-0"
+                />
 
-              {/* Left Side: 4-Image Collage with Ribbon */}
-              <div className="lg:col-span-6 w-full flex justify-center items-center">
-                <div className="relative w-full max-w-[380px] sm:max-w-[440px] md:max-w-[500px] aspect-[1.25/1] select-none overflow-hidden">
-
-                  {/* Background Curved Red Ribbon */}
+                {/* Card 1: Coca-Cola Truck (Positioned right next to the loop) */}
+                <div className="absolute top-[25%] left-[19%] w-[28%] aspect-[16/10.2] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl z-10 transform hover:scale-[1.03] transition-all duration-300 bg-white/20 border border-black/5">
                   <img
-                    src={Galler1}
-                    alt="Ribbon Background"
-                    className="absolute inset-0 w-full h-full object-contain pointer-events-none z-0 scale-105"
+                    src={Truck}
+                    alt="Coca-Cola Truck"
+                    className="w-full h-full object-cover"
                   />
-
-                  {/* Card 1: Coca-Cola Truck (Top-Left) */}
-                  <div className="absolute top-[26%] left-[2%] w-[48%] aspect-[16/10] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
-                    <img
-                      src={Truck}
-                      alt="Coca-Cola Truck"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Card 2: Person holding beverage can (Top-Right) */}
-                  <div className="absolute top-0 right-[13%] w-[30%] aspect-[3/4.2] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
-                    <img
-                      src={Gall3}
-                      alt="Person with beverage"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Card 3: Pepsi Cans (Bottom-Left) */}
-                  <div className="absolute bottom-0 left-[16%] w-[35%] aspect-[6/5] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
-                    <img
-                      src={bulkpepsi}
-                      alt="Pepsi Cans"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Card 4: Store Shelf / Supermarket (Bottom-Right) */}
-                  <div className="absolute bottom-0 right-0 w-[48%] aspect-[5/4] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-md sm:shadow-xl z-10 transform hover:scale-105 transition-all duration-300 bg-white/10">
-                    <img
-                      src={bulk}
-                      alt="Store Beverage Shelf"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
                 </div>
+
+                {/* Card 2: Person holding beverage can (Top-Right, higher up) */}
+                <div className="absolute top-[3%] left-[49%] w-[21%] aspect-[1/1.38] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl z-10 transform hover:scale-[1.03] transition-all duration-300 bg-white/20 border border-black/5">
+                  <img
+                    src={Gall3}
+                    alt="Person with beverage"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Card 3: Pepsi Cans (Bottom-Left, under truck) */}
+                <div className="absolute top-[53%] left-[30%] w-[17%] aspect-[1/1.12] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl z-10 transform hover:scale-[1.03] transition-all duration-300 bg-white/20 border border-black/5">
+                  <img
+                    src={bulkpepsi}
+                    alt="Pepsi Cans"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Card 4: Store Shelf / Supermarket (Bottom-Right, under Nescafe girl) */}
+                <div className="absolute top-[48%] left-[49%] w-[28%] aspect-[16/10.5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl z-10 transform hover:scale-[1.03] transition-all duration-300 bg-white/20 border border-black/5">
+                  <img
+                    src={bulk}
+                    alt="Store Beverage Shelf"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
               </div>
-
-              {/* Right Side: Title & Description */}
-              <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left z-10 px-2 sm:px-6">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-bold text-gray-900 tracking-tight leading-[1.15] mb-2 sm:mb-3">
-                  Moments Behind
-                  <span className="block text-[#E50914] mt-1 sm:mt-2">Ravi Sales</span>
-                </h1>
-
-                <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed max-w-lg mt-3 sm:mt-4">
-                  Explore our products, beverage range, and the work behind keeping businesses connected with the right products.
-                </p>
-              </div>
-
             </div>
 
-            {/* Filter Pills */}
-            <div className="w-full flex justify-center items-center mt-10 sm:mt-14 md:mt-16 px-2">
-              <div className="inline-flex items-center gap-1 sm:gap-2 bg-[#BDB0A0]/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm max-w-full overflow-x-auto">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`px-5 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-medium transition-all duration-300 whitespace-nowrap cursor-pointer ${activeCategory === category
-                      ? 'bg-[#E50914] text-white shadow-md'
-                      : 'text-gray-900 hover:text-black hover:bg-black/5'
-                      }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
+            {/* Right Side: Title & Description */}
+            <div className="w-full lg:w-[46%] xl:w-[50%] flex flex-col items-center lg:items-start text-center lg:text-left px-6 sm:px-10 lg:px-8 xl:px-16 mt-6 lg:mt-0 z-10">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[54px] font-bold text-gray-900 tracking-tight leading-[1.15] mb-2 sm:mb-3">
+                Moments Behind
+                <span className="block text-[#E50914] mt-1 sm:mt-2">Ravi Sales</span>
+              </h1>
+
+              <p className="text-sm sm:text-base md:text-lg text-gray-700 font-normal leading-relaxed max-w-lg mt-3 sm:mt-4">
+                Explore our products, beverage range, and the work behind keeping businesses connected with the right products.
+              </p>
             </div>
 
           </div>
+
+          {/* Filter Pills */}
+          <div className="w-full flex justify-center items-center mt-8 sm:mt-12 md:mt-14 px-4">
+            <div className="inline-flex items-center gap-1 sm:gap-2 bg-[#BDB0A0]/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm max-w-full overflow-x-auto">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-5 sm:px-7 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm md:text-base font-semibold transition-all duration-300 whitespace-nowrap cursor-pointer ${activeCategory === category
+                    ? 'bg-[#E50914] text-white shadow-md'
+                    : 'text-gray-900 hover:text-black hover:bg-black/5'
+                    }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
         </section>
 
         {/* GALLERY IMAGE GRID SECTION */}
@@ -565,12 +558,6 @@ export default function Gallery() {
                   style={brand.bgStyle}
                 >
                   {/* Soft White Glow Behind Product */}
-                  <div
-                    className="absolute w-[62%] aspect-square rounded-full"
-                    style={{
-                      background: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.65) 45%, rgba(255,255,255,0) 75%)'
-                    }}
-                  ></div>
 
                   <img
                     src={brand.image}
@@ -602,36 +589,36 @@ export default function Gallery() {
         </div>
       </section>
 
-      {/* Help Section Bar */}
-      <div className="w-full bg-[#E62429] py-8 px-4 sm:px-8 shadow-xl">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left items-center text-white">
-          <div className="flex items-center justify-center md:justify-start space-x-4">
-            <div className="bg-white/10 p-3 rounded-full">
-              <Headphones className="h-6 w-6 text-white" />
+      {/* ================= HELP BAR ================= */}
+      <div className="w-full bg-[#E62429] py-6 sm:py-8 px-4 sm:px-8 shadow-xl mt-4 sm:mt-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-center text-white">
+          <div className="flex items-center justify-start sm:justify-center md:justify-start space-x-4 max-w-[280px] sm:max-w-none mx-auto w-full md:mx-0">
+            <div className="bg-white/10 p-3 rounded-full shrink-0 flex items-center justify-center">
+              <img src={HeadPhon} className="h-7 w-7 sm:h-8 sm:w-8 text-white" alt="headphones" />
             </div>
-            <div>
+            <div className="text-left">
               <p className="text-xs text-white/80 font-medium">Have Any Questions?</p>
-              <h4 className="text-base sm:text-lg font-bold">We’er Here to Help!</h4>
+              <h4 className="text-base sm:text-lg font-bold whitespace-nowrap">We're Here to Help!</h4>
             </div>
           </div>
 
-          <div className="flex items-center justify-center space-x-4">
-            <div className="bg-white/10 p-3 rounded-full">
-              <Phone className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-start sm:justify-center md:justify-center space-x-4 max-w-[280px] sm:max-w-none mx-auto w-full">
+            <div className="bg-white/10 p-3 rounded-full shrink-0 flex items-center justify-center">
+              <img src={Phonecallwhite} className="h-7 w-7 sm:h-8 sm:w-8 text-white" alt="call" />
             </div>
-            <div>
+            <div className="text-left">
               <p className="text-xs text-white/80 font-medium">Call Us Now</p>
-              <a href="tel:+919999900000" className="text-base sm:text-lg font-bold hover:underline">
+              <a href="tel:+919999900000" className="text-base sm:text-lg font-bold hover:underline whitespace-nowrap">
                 +91 99999 00000
               </a>
             </div>
           </div>
 
-          <div className="flex items-center justify-center md:justify-end space-x-4">
-            <div className="bg-white/10 p-3 rounded-full">
-              <Mail className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-start sm:justify-center md:justify-end space-x-4 max-w-[280px] sm:max-w-none mx-auto w-full md:mx-0">
+            <div className="bg-white/10 p-3 rounded-full shrink-0 flex items-center justify-center">
+              <img src={mailoutline} className="h-7 w-7 sm:h-8 sm:w-8 text-white" alt="email" />
             </div>
-            <div>
+            <div className="text-left">
               <p className="text-xs text-white/80 font-medium">Email Us</p>
               <a href="mailto:ravisales@gmail.com" className="text-base sm:text-lg font-bold hover:underline">
                 ravisales@gmail.com
@@ -641,47 +628,47 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-[#1A1A1A] text-white pt-10 pb-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-12 gap-8 pb-6 md:pb-12 border-b border-white/10">
-
+      {/* ================= FOOTER ================= */}
+      <footer className="bg-[#1A1A1A] text-white pt-8 sm:pt-12 pb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-12 gap-8 pb-8 md:pb-12 border-b border-white/10">
           {/* Logo & Info */}
-          <div className="col-span-2 md:col-span-5 space-y-2 md:space-y-4">
+          <div className="col-span-2 md:col-span-5 space-y-3 md:space-y-4">
             <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2 inline-block">
-              <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-25 sm:w-25 object-contain transform group-hover:scale-105 transition duration-300" />
+              <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
             </Link>
             <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm">
               Beverage sales and distribution, connecting trusted brands with growing markets.
             </p>
 
             <div className="flex space-x-4 pt-1">
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
+              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition hover:opacity-80">
+                <img src={instagram} alt="Instagram" className="h-6 w-6 sm:h-7 sm:w-7" />
               </a>
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
+              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition hover:opacity-80">
+                <img src={facebook} alt="Facebook" className="h-6 w-6 sm:h-7 sm:w-7" />
               </a>
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition border border-white/10">
-                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
+              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition hover:opacity-80">
+                <img src={Vector} alt="Vector" className="h-5 w-5 sm:h-6 sm:w-6" />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-start text-left">
             <div className="w-full">
               <h4 className="text-sm font-bold tracking-wider uppercase text-white mb-2">Quick Links</h4>
               <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
                 <li><button onClick={() => navigate('/')} className="hover:text-white transition cursor-pointer">Home</button></li>
                 <li><button onClick={() => navigate('/about')} className="hover:text-white transition cursor-pointer">About Us</button></li>
                 <li><button onClick={() => navigate('/products')} className="hover:text-white transition cursor-pointer">Products</button></li>
+                <li><button onClick={() => navigate('/gallery')} className="hover:text-white transition cursor-pointer">Gallery</button></li>
                 <li><button onClick={() => navigate('/contact')} className="hover:text-white transition cursor-pointer">Contact Us</button></li>
               </ul>
             </div>
           </div>
 
           {/* Products */}
-          <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-start text-left">
             <div className="w-full">
               <h4 className="text-sm font-bold tracking-wider uppercase text-white mb-2">Products</h4>
               <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
@@ -694,7 +681,7 @@ export default function Gallery() {
           </div>
 
           {/* Get in Touch */}
-          <div className="col-span-2 md:col-span-3 space-y-2 md:space-y-3 text-center md:text-left">
+          <div className="col-span-2 md:col-span-3 space-y-2 md:space-y-3 text-left">
             <h4 className="text-sm font-bold tracking-wider uppercase text-white">Get in Touch</h4>
             <div className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
               <p><strong className="text-white">Phone:</strong><br />+91 99999 00000</p>
@@ -702,7 +689,6 @@ export default function Gallery() {
               <p><strong className="text-white">Address:</strong><br />Ahmedabad, Gujarat, India</p>
             </div>
           </div>
-
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between text-xs text-white">
@@ -714,7 +700,6 @@ export default function Gallery() {
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
