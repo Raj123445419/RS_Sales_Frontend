@@ -47,7 +47,7 @@ export default function Login() {
       
       // Success alert displaying who logged in
       alert(data.message); 
-      navigate('/');
+      navigate('/AdminDashboard');
 
     } catch (error) {
       console.error(error);
@@ -110,7 +110,7 @@ export default function Login() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 text-left">
-                Email or Username
+               Enter Your Email
               </label>
               <input
                 type="text"

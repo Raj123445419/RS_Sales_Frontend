@@ -53,12 +53,15 @@ export default function Home() {
     return name.substring(0, 2).toUpperCase();
   };
 
-  const getUserRoleBadge = () => {
-    if (!loggedInUser) return { bg: "bg-gray-600", label: "User" };
-    return loggedInUser.role === 'admin'
-      ? { bg: "bg-green-600", label: "Admin" }
-      : { bg: "bg-blue-600", label: "Member" };
-  };
+const getUserRoleBadge = () => {
+  if (!loggedInUser) return { bg: "bg-gray-600", label: "User" };
+
+  return loggedInUser.role === "admin"
+    ? { bg: "bg-green-600", label: "Admin" }
+    : loggedInUser.role === "salesman"
+      ? { bg: "bg-blue-600", label: "Salesman" }
+      : { bg: "bg-purple-600", label: "Shopkeeper" };
+};
 
   const handleLogout = () => {
     localStorage.removeItem('shopzee_user');
