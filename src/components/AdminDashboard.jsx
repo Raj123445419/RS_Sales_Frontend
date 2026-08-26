@@ -339,7 +339,7 @@ export default function AdminDashboard() {
                       <th className="py-3.5 px-4 sm:px-6">Order Id</th>
                       <th className="py-3.5 px-4 sm:px-6">Customer</th>
                       <th className="py-3.5 px-4 sm:px-6">Product</th>
-                      <th className="py-3.5 px-4 sm:px-6">Qty. / Size</th>
+                      <th className="py-3.5 px-4 sm:px-6">Qty./Size</th>
                       <th className="py-3.5 px-4 sm:px-6">Amount</th>
                       <th className="py-3.5 px-4 sm:px-6">Status</th>
                     </tr>
