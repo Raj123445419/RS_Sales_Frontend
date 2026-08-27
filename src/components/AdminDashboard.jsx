@@ -268,7 +268,7 @@ export default function AdminDashboard() {
                           <path d={pathStr} fill="none" stroke="#D71920" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0px 4px 6px rgba(215, 25, 32, 0.25))' }} />
                           {pts.map((pt, i) => (
                             <g key={i}>
-                              <circle cx={pt.x} cy={pt.y} r="4.5" fill="#D71920" stroke="#FFFFFF" strokeWidth="2" className="cursor-pointer transition-transform hover:scale-125" onMouseEnter={() => setHoveredPoint({ day: pt.label, value: `₹${pt.value.toLocaleString()}`, x: pt.x, y: pt.y })} onMouseLeave={() => setHoveredPoint(null)} />
+                              <circle cx={pt.x} cy={pt.y} r="4.5" fill="#D71920" stroke="#FFFFFF" strokeWidth="2" onMouseEnter={() => setHoveredPoint({ day: pt.label, value: `₹${pt.value.toLocaleString()}`, x: pt.x, y: pt.y })} onMouseLeave={() => setHoveredPoint(null)} />
                               <text x={pt.x} y="225" textAnchor="middle" className="text-xs fill-gray-800 font-semibold">{pt.label}</text>
                             </g>
                           ))}
