@@ -21,7 +21,7 @@ import calendarIcon from '../assets/material-symbols-light_event-note-outline.sv
 
 // Stat Cards Assets
 import rupeeIcon from '../assets/mdi_rupee.svg';
-import ordersBagIcon from '../assets/Icon (1).svg';
+import ordersBagIcon from '../assets/icon (1).svg';
 import customersGreenIcon from '../assets/icon (5).svg';
 import walletIcon from '../assets/solar_wallet-outline.svg';
 
