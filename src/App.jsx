@@ -12,6 +12,8 @@ import Cocacola from './components/Cocacola';
 import AdminDashboard from './components/AdminDashboard';
 import Orders from './components/Orders';
 import RoutePage from './components/Route';
+import Salesmen from './components/Salesmen';
+import Salesmen1 from './components/Salesmen1';
 
 
 function App() {
@@ -34,6 +36,12 @@ function App() {
         <Route path="/Routes" element={<RoutePage />} />
         <Route path="/route" element={<RoutePage />} />
         <Route path="/Route" element={<RoutePage />} />
+        <Route path="/salesmen" element={<Salesmen />} />
+        <Route path="/Salesmen" element={<Salesmen />} />
+        <Route path="/salesmen1" element={<Salesmen1 />} />
+        <Route path="/Salesmen1" element={<Salesmen1 />} />
+        <Route path="/salesman1" element={<Salesmen1 />} />
+        <Route path="/Salesman1" element={<Salesmen1 />} />
       </Routes>
     </Router>
   );
