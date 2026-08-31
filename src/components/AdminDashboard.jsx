@@ -8,7 +8,7 @@ import goldBellIcon from '../assets/Bell (2).svg';
 import adminAvatar from '../assets/Group 2.svg';
 import goldUserIcon from '../assets/Frame.svg';
 import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Icon (4).svg';
+import dashboardIcon from '../assets/Home (2).svg';
 import boxIcon from '../assets/Box.svg';
 import routesIcon from '../assets/Vector (2).svg';
 import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
@@ -18,6 +18,7 @@ import shopkeepersIcon from '../assets/carbon_customer.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 import calendarIcon from '../assets/material-symbols-light_event-note-outline.svg';
+import dropDownArrowIcon from '../assets/icon (7).svg';
 
 // Stat Cards Assets
 import rupeeIcon from '../assets/mdi_rupee.svg';
@@ -203,7 +204,7 @@ export default function AdminDashboard() {
             {/* Metric Summary Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
               {statCards.map((card) => (
-                <div key={card.id} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition duration-200">
+                <div key={card.id} className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition duration-200">
                   <div className="flex items-start space-x-3.5 mb-3 text-left">
                     <div className={`w-11 h-11 rounded-full ${card.iconBg} flex items-center justify-center shrink-0`}>
                       <img src={card.icon} alt={card.title} className="w-5 h-5 object-contain" />
@@ -237,11 +238,18 @@ export default function AdminDashboard() {
                     <h3 className="text-lg font-bold text-gray-900">Sales Overview</h3>
                     <p className="text-xs text-gray-500 font-medium">Track your sales performance overtime</p>
                   </div>
-                  <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)} className="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-semibold text-gray-700 cursor-pointer focus:outline-none">
-                    <option value="This Week">This Week</option>
-                    <option value="This Month">This Month</option>
-                    <option value="This Year">This Year</option>
-                  </select>
+                  <div className="relative inline-block">
+                    <select
+                      value={timeFilter}
+                      onChange={(e) => setTimeFilter(e.target.value)}
+                      className="appearance-none bg-white border border-gray-300 rounded px-3.5 py-1.5 pr-7 text-xs font-semibold text-gray-700 cursor-pointer focus:outline-none"
+                    >
+                      <option value="This Week">This Week</option>
+                      <option value="This Month">This Month</option>
+                      <option value="This Year">This Year</option>
+                    </select>
+                    <img src={dropDownArrowIcon} alt="arrow" className="w-2.5 h-2 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                  </div>
                 </div>
 
                 <div className="w-full relative mt-2">
@@ -314,8 +322,8 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <div className="space-y-4 sm:space-y-5 text-left">
-                    {topProducts.length > 0 ? topProducts.map((prod) => (
+<div className="space-y-4 sm:space-y-5 text-left">
+                    {topProducts.length > 0 ? [...topProducts].sort((a, b) => b.pct - a.pct).map((prod) => (
                       <div key={prod.name} className="flex items-center space-x-4 text-sm sm:text-base font-semibold text-gray-900">
                         <span className="w-4 h-4 rounded-[3px] shrink-0" style={{ backgroundColor: prod.color }} />
                         <span className="min-w-[90px] text-gray-900 font-medium">{prod.name}</span>
@@ -393,7 +401,10 @@ export default function AdminDashboard() {
                           <div className="flex items-center space-x-3">
                             <span className="min-w-[36px] font-semibold text-gray-900">{item.achiev}</span>
                             <div className="w-24 sm:w-32 bg-gray-100 h-2 rounded-full overflow-hidden">
-                              <div className={`h-full rounded-full ${item.barColor}`} style={{ width: `${item.pct}%` }} />
+                              <div 
+  className="h-full rounded-full transition-all duration-500 ease-out" 
+  style={{ width: `${item.pct}%`, backgroundColor: item.barColor || '#10B981' }} 
+/>
                             </div>
                           </div>
                         </td>

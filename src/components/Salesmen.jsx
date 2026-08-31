@@ -8,7 +8,7 @@ import goldBellIcon from '../assets/Bell (2).svg';
 import adminAvatar from '../assets/Group 2.svg';
 import goldUserIcon from '../assets/Frame.svg';
 import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Icon (4).svg';
+import dashboardIcon from '../assets/Home (2).svg';
 import boxIcon from '../assets/Box.svg';
 import routesIcon from '../assets/Vector (2).svg';
 import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
@@ -250,7 +250,7 @@ export default function Salesmen() {
                   {displayPerformance.length > 0 ? (
                     displayPerformance.map((item, idx) => (
                       <div key={idx} className="border border-gray-200 rounded-xl p-4 sm:p-5 bg-white space-y-2.5 transition hover:border-gray-300">
-                        <div className="text-sm sm:text-base font-bold text-gray-900">{item.name}</div>
+                        <div className="text-sm sm:text-base font-bold text-gray-900 ">{item.name}</div>
                         <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-gray-800">
                           <span>{item.sales}</span>
                           <span>{item.target}</span>

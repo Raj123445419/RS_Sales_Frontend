@@ -8,7 +8,7 @@ import goldBellIcon from '../assets/Bell (2).svg';
 import adminAvatar from '../assets/Group 2.svg';
 import goldUserIcon from '../assets/Frame.svg';
 import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Icon (4).svg';
+import dashboardIcon from '../assets/Home (2).svg';
 import boxIcon from '../assets/Box.svg';
 import routesIcon from '../assets/Vector (2).svg';
 import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
@@ -21,8 +21,11 @@ import boxOrdersIcon from '../assets/bx_box.svg';
 import pendingClockIcon from '../assets/Vector (3).svg';
 import cartOutlineIcon from '../assets/tabler_truck-loading (2).svg';
 import taskCompleteIcon from '../assets/carbon_task-complete.svg';
-import dropdownIcon from '../assets/icon (7).svg';
-import arrowRightWhiteIcon from '../assets/Arrow up.svg';
+import sIcon from '../assets/sIcon.svg';
+import Down from '../assets/icon (7).svg';
+import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
+import editIcon from '../assets/akar-icons_edit.svg';
+import plusIcon from '../assets/icon (14).svg';
 
 export default function Orders() {
   const [activeNav, setActiveNav] = useState('Orders');
@@ -34,8 +37,18 @@ export default function Orders() {
   const [shopkeeperFilter, setShopkeeperFilter] = useState('All');
   const [paymentFilter, setPaymentFilter] = useState('All');
   const [dateFilter, setDateFilter] = useState('All');
+  const [showAll, setShowAll] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [hoveredBar, setHoveredBar] = useState(null);
+  
+  // New Order Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newOrderShop, setNewOrderShop] = useState('');
+  const [newOrderSalesman, setNewOrderSalesman] = useState('');
+  const [newOrderQty, setNewOrderQty] = useState(1);
+  const [newOrderStatus, setNewOrderStatus] = useState('Placed');
+  const [newOrderPayment, setNewOrderPayment] = useState('Pending');
+
   const navigate = useNavigate();
 
   // Backend States
@@ -43,10 +56,10 @@ export default function Orders() {
   const [ordersList, setOrdersList] = useState([]);
   const [salesmenOptions, setSalesmenOptions] = useState([]);
   const [shopkeeperOptions, setShopkeeperOptions] = useState([]);
-  const [orderValueData, setOrderValueData] = useState([]); // લાઈવ ચાર્ટ ડેટા સ્ટેટ
+  const [orderValueData, setOrderValueData] = useState([]);
 
   // Fetch Orders & Chart Data from Backend API
-  useEffect(() => {
+  const fetchOrdersData = () => {
     fetch(`http://127.0.0.1:8000/api/v1/orders-page/?search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(statusFilter)}&salesman=${encodeURIComponent(salesmanFilter)}&shopkeeper=${encodeURIComponent(shopkeeperFilter)}&payment=${encodeURIComponent(paymentFilter)}&date=${encodeURIComponent(dateFilter)}&timeFilter=${encodeURIComponent(timeFilter)}`)
       .then((res) => res.json())
       .then((data) => {
@@ -55,11 +68,41 @@ export default function Orders() {
           setOrdersList(data.orders || []);
           setSalesmenOptions(data.dropdowns.salesmen || []);
           setShopkeeperOptions(data.dropdowns.shopkeepers || []);
-          setOrderValueData(data.orderValueChart || []); // બેકએન્ડમાંથી ચાર્ટ ડેટા સેટ કર્યો
+          setOrderValueData(data.orderValueChart || []);
         }
       })
       .catch((err) => console.error("Failed to fetch orders data:", err));
+  };
+
+  useEffect(() => {
+    fetchOrdersData();
   }, [searchQuery, statusFilter, salesmanFilter, shopkeeperFilter, paymentFilter, dateFilter, timeFilter]);
+
+  // Handle Create New Order Submit
+  const handleCreateOrder = (e) => {
+    e.preventDefault();
+    fetch('http://127.0.0.1:8000/api/v1/orders/create/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shopkeeper: newOrderShop || shopkeeperOptions[0],
+        salesman: newOrderSalesman || salesmenOptions[0],
+        quantity: newOrderQty,
+        status: newOrderStatus,
+        payment_status: newOrderPayment
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        setIsModalOpen(false);
+        fetchOrdersData(); // લિસ્ટ રિફ્રેશ કરો
+      } else {
+        alert('Error: ' + data.error);
+      }
+    })
+    .catch(err => console.error(err));
+  };
 
   const navItems = [
     { name: 'Dashboard', icon: dashboardIcon, path: '/AdminDashboard' },
@@ -71,7 +114,7 @@ export default function Orders() {
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
 
-  const overviewCards = [
+ const overviewCards = [
     { id: 'total', title: 'Total Orders', value: metrics.total, icon: boxOrdersIcon, bg: 'bg-[#DCD6FB]', barColor: 'bg-[#9D8AF5]', bars: [40, 65, 85, 100] },
     { id: 'pending', title: 'Pending', value: metrics.pending, icon: pendingClockIcon, bg: 'bg-[#F8CECE]', barColor: 'bg-[#EF7C7C]', bars: [50, 75, 45, 100] },
     { id: 'processing', title: 'Processing', value: metrics.processing, icon: cartOutlineIcon, bg: 'bg-[#F8DCB4]', barColor: 'bg-[#E8AF67]', bars: [40, 65, 85, 100] },
@@ -83,46 +126,32 @@ export default function Orders() {
     navigate('/login');
   };
 
-
-
-const getStatusStyle = (status) => {
-    const s = status.toLowerCase();
-if (s === 'delivered') {
-      return { text: '#2DA12F' }; // Green
-    } else if (s === 'completed') {
-      return { text: '#2DA12F' }; // Sky Blue
-    } else if (s === 'placed') {
-      return { text: '#5E35B1' }; // Purple
-    } else if (s === 'confirmed') {
-      return { text: '#00838F' }; // Cyan
-    } else if (s === 'processing') {
-      return { text: '#EB9F30' }; // Orange
-    } else if (s === 'ready for delivery') {
-      return { text: '#C2185B' }; // Pink
-    } else if (s === 'out for delivery') {
-      return {text: '#FBC02D' }; // Yellow / Gold
-    } else if (s === 'cancelled') {
-      return { text: '#D71920' }; // Red
-    } else if (s === 'returned') {
-      return { text: '#616161' }; // Gray
-    }
-    return 'text-gray-700 '; // Default
+  const handleClearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('All');
+    setSalesmanFilter('All');
+    setShopkeeperFilter('All');
+    setPaymentFilter('All');
+    setDateFilter('All');
+    setShowAll(false);
   };
 
+  const getStatusColor = (status) => {
+    const s = String(status || '').toLowerCase();
+    if (s === 'delivered' || s === 'completed') return 'text-[#2DA12F] font-semibold';
+    if (s === 'processing' || s === 'scheduled') return 'text-[#EB9F30] font-semibold';
+    if (s === 'pending') return 'text-[#D71920] font-semibold';
+    if (s === 'placed') return 'text-[#5E35B1] font-semibold';
+    if (s === 'confirmed') return 'text-[#00838F] font-semibold';
+    if (s === 'ready for delivery') return 'text-[#C2185B] font-semibold';
+    if (s === 'out for delivery') return 'text-[#FBC02D] font-semibold';
+    if (s === 'cancelled') return 'text-[#D71920] font-semibold';
+    if (s === 'returned') return 'text-[#616161] font-semibold';
+    return 'text-gray-700 font-semibold';
+  };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const isFiltered = searchQuery !== '' || statusFilter !== 'All' || salesmanFilter !== 'All' || shopkeeperFilter !== 'All' || paymentFilter !== 'All' || dateFilter !== 'All';
+  const displayOrders = (showAll || isFiltered) ? ordersList : ordersList.slice(0, 5);
 
   return (
     <div className="min-h-screen bg-[#F5F6F8] flex flex-col font-sans">
@@ -155,7 +184,7 @@ if (s === 'delivered') {
 
       {/* CONTAINER */}
       <div className="flex-1 flex w-full relative">
-        
+
         {/* SIDEBAR */}
         <aside className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
           <nav className="space-y-1.5 text-left">
@@ -200,7 +229,7 @@ if (s === 'delivered') {
 
             {/* OVERVIEW CARDS & CHART */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-              
+
               <div className="lg:col-span-5 flex flex-col justify-between text-left">
                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Overview</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
@@ -225,21 +254,27 @@ if (s === 'delivered') {
                 </div>
               </div>
 
-              {/* Order Value Chart (Live Backend Data with Same Design & Colors) */}
-              <div className="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between text-left">
+              {/* Order Value Chart */}
+              <div className="lg:col-span-7 bg-white p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between text-left">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Order Value</h3>
                     <p className="text-xs text-gray-500 font-medium">Track order revenue over time</p>
                   </div>
-                  <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-8 text-xs font-semibold text-gray-700 cursor-pointer focus:outline-none shadow-sm">
-                    <option value="This Week">This Week</option>
-                    <option value="This Month">This Month</option>
-                    <option value="This Year">This Year</option>
-                  </select>
+                  <div className="relative inline-block">
+                    <select
+                      value={timeFilter}
+                      onChange={(e) => setTimeFilter(e.target.value)}
+                      className="appearance-none bg-white border border-gray-300 hover:border-gray-400 rounded-lg px-3.5 py-1.5 pr-8 text-xs font-semibold text-gray-700 cursor-pointer focus:outline-none shadow-sm"
+                    >
+                      <option value="This Week">This Week</option>
+                      <option value="This Month">This Month</option>
+                      <option value="This Year">This Year</option>
+                    </select>
+                    <img src={Down} alt="arrow" className="w-3 h-3 absolute right-2 top-4 -translate-y-1/2 pointer-events-none object-contain" />
+                  </div>
                 </div>
 
-               {/* SVG Vertical Bar Chart */}
                 <div className="w-full relative mt-2">
                   <svg viewBox="0 0 520 240" className="w-full h-auto overflow-visible select-none">
                     {[{ label: '50k', y: 30 }, { label: '40k', y: 70 }, { label: '30k', y: 110 }, { label: '20k', y: 150 }, { label: '10k', y: 190 }].map((grid) => (
@@ -272,114 +307,147 @@ if (s === 'delivered') {
                     </div>
                   )}
                 </div>
-
               </div>
 
             </div>
 
             {/* SEARCH & FILTERS + TABLE */}
             <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 space-y-6 text-left">
-              
+
               <div className="space-y-4">
-                {/* Search Bar */}
-                <div className="relative max-w-sm w-full border border-gray-300 rounded-full flex items-center px-4 py-2 bg-white shadow-xs">
-                  <svg className="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" /></svg>
-                  <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search Orders...." className="text-xs sm:text-sm text-gray-800 outline-none w-full ml-2.5 bg-transparent placeholder-gray-400 font-medium" />
+                <div className="relative w-full sm:max-w-xs md:max-w-sm border border-gray-300 rounded-full flex items-center px-4 py-2 bg-white shadow-2xs focus-within:border-gray-400 transition-colors">
+                  <img src={sIcon} alt="search" className="w-4 h-4 object-contain shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search Orders...."
+                    className="text-xs sm:text-sm text-gray-800 outline-none w-full ml-2.5 bg-transparent placeholder-gray-400 font-normal"
+                  />
+                  {searchQuery && (
+                    <button type="button" onClick={() => setSearchQuery('')} className="text-gray-400 hover:text-gray-600 text-xs font-bold px-1 cursor-pointer">×</button>
+                  )}
                 </div>
 
-                {/* Updated Dropdown Filters */}
-                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-                  
-                  {/* Status Dropdown */}
-                  <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-7 text-xs font-semibold text-gray-700 cursor-pointer shadow-xs focus:outline-none">
-                    <option value="All">Status</option>
-                    <option value="Placed">Placed</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Ready for Delivery">Ready for Delivery</option>
-                    <option value="Out for Delivery">Out for Delivery</option>
-                    <option value="Delivered">Delivered</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Cancelled">Pending</option>
-                    <option value="Returned">Returned</option>
-                  </select>
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+                    
+                    {/* Status Dropdown */}
+                    <div className="relative inline-block">
+                      <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 hover:border-gray-400 rounded-md px-3.5 py-1.5 pr-8 text-xs font-medium text-gray-700 cursor-pointer shadow-2xs focus:outline-none">
+                        <option value="All">Status</option>
+                        <option value="Placed">Placed</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Ready for Delivery">Ready for Delivery</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Returned">Returned</option>
+                      </select>
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    </div>
 
-                  {/* Salesman Dynamic Dropdown */}
-                  <select value={salesmanFilter} onChange={(e) => setSalesmanFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-7 text-xs font-semibold text-gray-700 cursor-pointer shadow-xs focus:outline-none">
-                    <option value="All">Salesman</option>
-                    {salesmenOptions.map((sm, i) => (
-                      <option key={i} value={sm}>{sm}</option>
-                    ))}
-                  </select>
+                    {/* Salesman Dropdown */}
+                    <div className="relative inline-block">
+                      <select value={salesmanFilter} onChange={(e) => setSalesmanFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 hover:border-gray-400 rounded-md px-3.5 py-1.5 pr-8 text-xs font-medium text-gray-700 cursor-pointer shadow-2xs focus:outline-none">
+                        <option value="All">Salesman</option>
+                        {salesmenOptions.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
+                      </select>
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    </div>
 
-                  {/* Shopkeeper Dynamic Dropdown */}
-                  <select value={shopkeeperFilter} onChange={(e) => setShopkeeperFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-7 text-xs font-semibold text-gray-700 cursor-pointer shadow-xs focus:outline-none">
-                    <option value="All">Shopkeeper</option>
-                    {shopkeeperOptions.map((shop, i) => (
-                      <option key={i} value={shop}>{shop}</option>
-                    ))}
-                  </select>
+                    {/* Shopkeeper Dropdown */}
+                    <div className="relative inline-block">
+                      <select value={shopkeeperFilter} onChange={(e) => setShopkeeperFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 hover:border-gray-400 rounded-md px-3.5 py-1.5 pr-8 text-xs font-medium text-gray-700 cursor-pointer shadow-2xs focus:outline-none">
+                        <option value="All">Shopkeeper</option>
+                        {shopkeeperOptions.map((shop, i) => <option key={i} value={shop}>{shop}</option>)}
+                      </select>
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    </div>
 
-                  {/* Payment Dropdown */}
-                  <select value={paymentFilter} onChange={(e) => setPaymentFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-7 text-xs font-semibold text-gray-700 cursor-pointer shadow-xs focus:outline-none">
-                    <option value="All">Payment</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Partial">Partial</option>
-                    <option value="Paid">Paid</option>
-                    <option value="Failed">Failed</option>
-                    <option value="Refunded">Refunded</option>
-                  </select>
+                    {/* Payment Dropdown */}
+                    <div className="relative inline-block">
+                      <select value={paymentFilter} onChange={(e) => setPaymentFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 hover:border-gray-400 rounded-md px-3.5 py-1.5 pr-8 text-xs font-medium text-gray-700 cursor-pointer shadow-2xs focus:outline-none">
+                        <option value="All">Payment</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Failed">Failed</option>
+                        <option value="Refunded">Refunded</option>
+                      </select>
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    </div>
 
+                    {/* Date Dropdown */}
+                    <div className="relative inline-block">
+                      <select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="appearance-none bg-white border border-gray-300 hover:border-gray-400 rounded-md px-3.5 py-1.5 pr-8 text-xs font-medium text-gray-700 cursor-pointer shadow-2xs focus:outline-none">
+                        <option value="All">Date</option>
+                        <option value="Today">Today</option>
+                        <option value="This Week">This Week</option>
+                        <option value="This Month">This Month</option>
+                        <option value="This Year">This Year</option>
+                      </select>
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    </div>
+
+                    <button type="button" onClick={handleClearFilters} className="bg-[#D9D9D9] hover:bg-gray-300 text-gray-800 text-xs font-medium px-3.5 py-1.5 rounded-md shadow-2xs transition-colors cursor-pointer">
+                      Clear
+                    </button>
+                  </div>
+
+                  {/* + New Order Button */}
+                  <button type="button" onClick={() => setIsModalOpen(true)} className="bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-1.5 px-4 rounded-lg flex items-center justify-center space-x-2 shadow-sm transition cursor-pointer self-start lg:self-auto shrink-0">
+                    <img src={plusIcon} alt="add" className="w-3 h-3 object-contain" />
+                    <span>New Order</span>
+                  </button>
                 </div>
               </div>
 
               {/* Orders Table */}
               <div className="w-full overflow-x-auto rounded-xl border border-gray-200">
-                <table className="w-full text-left border-collapse min-w-[750px]">
+                <table className="w-full text-center border-collapse min-w-[750px]">
                   <thead>
-                    <tr className="bg-[#D9D9D9] text-gray-800 text-xs sm:text-sm font-bold">
+                    <tr className="bg-[#D9D9D9] text-gray-900 text-xs sm:text-sm font-bold">
                       <th className="py-3.5 px-4 sm:px-6">Order Id</th>
+                      <th className="py-3.5 px-4 sm:px-6">Date</th>
                       <th className="py-3.5 px-4 sm:px-6">Customer</th>
                       <th className="py-3.5 px-4 sm:px-6">Salesman</th>
-                      <th className="py-3.5 px-4 sm:px-6">Products</th>
-                      <th className="py-3.5 px-4 sm:px-6">Qty. / Size</th>
                       <th className="py-3.5 px-4 sm:px-6">Amount</th>
                       <th className="py-3.5 px-4 sm:px-6">Status</th>
-                      <th className="py-3.5 px-4 sm:px-6">Date</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-white">
-                    {ordersList.length > 0 ? (
-                      ordersList.map((order, idx) => (
-                        <tr key={idx} className="hover:bg-gray-50/70 transition">
-                          <td className="py-3.5 px-4 sm:px-6 font-semibold text-gray-900">{order.id}</td>
-                          <td className="py-3.5 px-4 sm:px-6 font-medium text-gray-800">{order.customer}</td>
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-800 font-medium">{order.salesman}</td>
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-700">{order.products}</td>
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-700">{order.qty}</td>
-                          <td className="py-3.5 px-4 sm:px-6 font-semibold text-gray-900">{order.amount}</td>
-<td className="py-3.5 px-4 sm:px-6">
-                            {(() => {
-                              const style = getStatusStyle(order.status);
-                              return (
-                                <span 
-                                  className="px-3 py-1 font-bold inline-block"
-                                  style={{ color: style.text }}
-                                >
-                                  {order.status}
-                                </span>
-                              );
-                            })()}
+                    {displayOrders.length > 0 ? (
+                      displayOrders.map((order, idx) => (
+                        <tr key={idx} className="hover:bg-gray-50/70 transition-colors">
+                          <td className="py-3.5 px-4 sm:px-6 font-bold text-gray-900">{order.id}</td>
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{order.date}</td>
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{order.customer}</td>
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{order.salesman}</td>
+                          <td className="py-3.5 px-4 sm:px-6 font-bold text-gray-900">{order.amount}</td>
+                          <td className="py-3.5 px-4 sm:px-6 relative text-center">
+                            <span className={getStatusColor(order.status)}>{order.status}</span>
+                            <button type="button" className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 hover:opacity-75 transition cursor-pointer p-0.5" aria-label="Edit order">
+                              <img src={editIcon} alt="edit" className="w-4 h-4 object-contain" />
+                            </button>
                           </td>
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-700 font-medium">{order.date}</td>
                         </tr>
                       ))
                     ) : (
-                      <tr><td colSpan="8" className="text-center py-6 text-gray-500 font-medium">No orders found.</td></tr>
+                      <tr><td colSpan="6" className="text-center py-6 text-gray-500 font-medium">No orders found.</td></tr>
                     )}
                   </tbody>
                 </table>
+              </div>
+
+              <div className="pt-1">
+                <button type="button" onClick={() => setShowAll(!showAll)} className="bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-md inline-flex items-center space-x-2 shadow-sm transition-all duration-200 cursor-pointer">
+                  <span>{showAll ? 'Show Less' : 'View All'}</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
               </div>
 
             </div>
@@ -388,6 +456,56 @@ if (s === 'delivered') {
         </main>
 
       </div>
+
+      {/* NEW ORDER MODAL */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-xl">
+            <h3 className="text-xl font-bold text-gray-900">Create New Order</h3>
+            
+            <form onSubmit={handleCreateOrder} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">Shopkeeper</label>
+                <select value={newOrderShop} onChange={(e) => setNewOrderShop(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
+                  {shopkeeperOptions.map((shop, i) => <option key={i} value={shop}>{shop}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">Salesman</label>
+                <select value={newOrderSalesman} onChange={(e) => setNewOrderSalesman(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
+                  {salesmenOptions.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">Status</label>
+                  <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
+                    <option value="Placed">Placed</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">Payment</label>
+                  <select value={newOrderPayment} onChange={(e) => setNewOrderPayment(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded-lg border border-gray-300 text-xs font-semibold text-gray-700 hover:bg-gray-50">Cancel</button>
+                <button type="submit" className="px-5 py-2 rounded-lg bg-[#D71920] hover:bg-[#B9151B] text-white text-xs font-semibold">Save Order</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

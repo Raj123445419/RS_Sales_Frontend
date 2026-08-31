@@ -8,7 +8,7 @@ import goldBellIcon from '../assets/Bell (2).svg';
 import adminAvatar from '../assets/Group 2.svg';
 import goldUserIcon from '../assets/Frame.svg';
 import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Icon (4).svg';
+import dashboardIcon from '../assets/Home (2).svg';
 import boxIcon from '../assets/Box.svg';
 import routesIcon from '../assets/Vector (2).svg';
 import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
