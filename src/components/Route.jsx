@@ -3,16 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // Header & Navigation Assets
 import logoImg from '../assets/rs-logo.png';
-import bellIcon from '../assets/Bell.svg';
-import goldBellIcon from '../assets/Bell (2).svg';
-import adminAvatar from '../assets/Group 2.svg';
-import goldUserIcon from '../assets/Frame.svg';
-import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Home (2).svg';
-import boxIcon from '../assets/Box.svg';
-import routesIcon from '../assets/Vector (2).svg';
-import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
-import shopkeepersIcon from '../assets/carbon_customer.svg';
+import bellIcon from '../assets/BellBlack.svg';
+import goldBellIcon from '../assets/BellGold.svg';
+import adminAvatar from '../assets/AdminAvatarBlack.svg';
+import goldUserIcon from '../assets/UserGold.svg';
+import goldCircle from '../assets/CircleGold.svg';
+import dashboardIcon from '../assets/HomeBlack.svg';
+import boxIcon from '../assets/BoxBlack.svg';
+import routesIcon from '../assets/RouteBlack.svg';
+import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
+import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
@@ -22,7 +22,6 @@ export default function RoutePage() {
   const [timeFilter, setTimeFilter] = useState('This Week');
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [hoveredRoute, setHoveredRoute] = useState(null);
-  const [hoveredSegment, setHoveredSegment] = useState(null);
   const navigate = useNavigate();
 
   // Search & Filter States for Routes
@@ -37,7 +36,7 @@ export default function RoutePage() {
   const [routeStatusData, setRouteStatusData] = useState({ total: 0, categories: [] });
   const [routesList, setRoutesList] = useState([]);
   const [routesAndShopsList, setRoutesAndShopsList] = useState([]);
-  const [routePerformanceData, setRoutePerformanceData] = useState([]); // લાઈવ પર્ફોર્મન્સ સ્ટેટ
+  const [routePerformanceData, setRoutePerformanceData] = useState([]);
   
   // Dynamic Dropdown Options from Backend
   const [uniqueSalesmen, setUniqueSalesmen] = useState([]);
@@ -52,7 +51,7 @@ export default function RoutePage() {
   const [shopRouteFilter, setShopRouteFilter] = useState('All');
   const [showAllShops, setShowAllShops] = useState(false);
 
-  // Fetch Route Data from Backend API (with timeFilter included)
+  // Fetch Route Data from Backend API
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/v1/routes-page/?search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(statusFilter)}&salesman=${encodeURIComponent(salesmanFilter)}&area=${encodeURIComponent(areaFilter)}&route=${encodeURIComponent(routeFilter)}&timeFilter=${encodeURIComponent(timeFilter)}`)
       .then((res) => res.json())
@@ -61,7 +60,7 @@ export default function RoutePage() {
           setRouteStatusData(data.routeStatus);
           setRoutesList(data.routes || []);
           setRoutesAndShopsList(data.routesAndShops || []);
-          setRoutePerformanceData(data.routePerformance || []); // લાઈવ પર્ફોર્મન્સ ડેટા સેટ કર્યો
+          setRoutePerformanceData(data.routePerformance || []);
           setUniqueSalesmen(data.dropdowns.salesmen || []);
           setUniqueAreas(data.dropdowns.areas || []);
           setUniqueRoutes(data.dropdowns.routes || []);
@@ -82,7 +81,6 @@ export default function RoutePage() {
   ];
 
   const isFiltered = searchQuery !== '' || statusFilter !== 'All' || salesmanFilter !== 'All' || areaFilter !== 'All' || routeFilter !== 'All';
-
   const displayRoutes = (showAll || isFiltered) ? routesList : routesList.slice(0, 5);
 
   const handleClearFilters = () => {
@@ -105,6 +103,14 @@ export default function RoutePage() {
 
   const isShopsFiltered = shopFilter !== 'All' || shopSalesmanFilter !== 'All' || shopAreaFilter !== 'All' || shopRouteFilter !== 'All';
   const displayRoutesAndShops = (showAllShops || isShopsFiltered) ? filteredRoutesAndShops : filteredRoutesAndShops.slice(0, 5);
+
+  const handleClearShopsFilters = () => {
+    setShopFilter('All');
+    setShopSalesmanFilter('All');
+    setShopAreaFilter('All');
+    setShopRouteFilter('All');
+    setShowAllShops(false);
+  };
 
   const getStatusColor = (status) => {
     const s = String(status).toLowerCase();
@@ -237,7 +243,7 @@ export default function RoutePage() {
                 </div>
               </div>
 
-              {/* RIGHT: Route Performance Overview Card (Live Backend Data) */}
+              {/* RIGHT: Route Performance Overview Card */}
               <div className="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-lg sm:text-xl font-bold text-gray-900">Route Performance Overview</h3>
@@ -262,7 +268,9 @@ export default function RoutePage() {
                   {routePerformanceData.length > 0 ? (
                     routePerformanceData.map((item) => (
                       <div key={item.name} onMouseEnter={() => setHoveredRoute(item.name)} onMouseLeave={() => setHoveredRoute(null)} className="grid grid-cols-12 items-center text-xs sm:text-sm font-medium text-gray-800 transition">
-                        <div className="col-span-3 text-gray-800 font-semibold truncate pr-2">{item.name}</div>
+                        <div className="col-span-3 text-gray-800 font-semibold truncate pr-2">
+                          {item.name}
+                        </div>
                         <div className="col-span-8 pr-4">
                           <div className="w-full h-4 bg-transparent rounded-[2px] overflow-hidden flex items-center">
                             <div className="h-full bg-[#6E473B] rounded-[2px] transition-all duration-500 ease-out" style={{ width: `${item.performance}%`, opacity: hoveredRoute && hoveredRoute !== item.name ? 0.75 : 1 }} />
@@ -282,7 +290,7 @@ export default function RoutePage() {
             <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 space-y-6 text-left">
               <div className="flex flex-col space-y-4">
                 <div className="relative max-w-sm w-full border border-gray-300 rounded-full flex items-center px-4 py-2 bg-white shadow-2xs focus-within:border-gray-400 transition-colors">
-                  <svg className="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" /></svg>
+                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" /></svg>
                   <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search Routes...." className="text-xs sm:text-sm text-gray-800 outline-none w-full ml-2.5 bg-transparent placeholder-gray-400 font-normal" />
                   {searchQuery && <button type="button" onClick={() => setSearchQuery('')} className="text-gray-400 hover:text-gray-600 text-xs font-bold px-1 cursor-pointer">×</button>}
                 </div>
@@ -322,7 +330,6 @@ export default function RoutePage() {
                   </div>
 
                   <button type="button" onClick={handleClearFilters} className={`border rounded-md px-3.5 py-1.5 text-xs font-medium flex items-center space-x-1.5 transition-colors cursor-pointer shadow-2xs ${isFiltered ? 'bg-red-50 border-red-300 text-red-600 hover:bg-red-100' : 'bg-[#D9D9D9] border-gray-300 text-gray-600 hover:bg-gray-50'}`}>
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                     <span>Clear</span>
                   </button>
                 </div>
@@ -332,7 +339,7 @@ export default function RoutePage() {
                 <table className="w-full text-center border-collapse min-w-[750px]">
                   <thead>
                     <tr className="bg-[#D9D9D9] text-gray-900 text-xs sm:text-sm font-bold">
-                      <th className="py-3.5 px-4 sm:px-6">Route</th>
+                      <th className="py-3.5 px-4 sm:px-6">Route ID</th>
                       <th className="py-3.5 px-4 sm:px-6">Area</th>
                       <th className="py-3.5 px-4 sm:px-6">Salesman</th>
                       <th className="py-3.5 px-4 sm:px-6">Shops</th>
@@ -345,7 +352,9 @@ export default function RoutePage() {
                     {displayRoutes.length > 0 ? (
                       displayRoutes.map((item, idx) => (
                         <tr key={idx} className="hover:bg-gray-50/70 transition-colors">
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.route}</td>
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-bold">
+                            {item.route_id || item.route}
+                          </td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.area}</td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.salesman}</td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.shops}</td>
@@ -405,6 +414,10 @@ export default function RoutePage() {
                   </select>
                   <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                 </div>
+
+                <button type="button" onClick={handleClearShopsFilters} className={`border rounded-md px-3.5 py-1.5 text-xs font-medium flex items-center space-x-1.5 transition-colors cursor-pointer shadow-2xs ${isShopsFiltered ? 'bg-red-50 border-red-300 text-red-600 hover:bg-red-100' : 'bg-[#D9D9D9] border-gray-300 text-gray-600 hover:bg-gray-50'}`}>
+                  <span>Clear</span>
+                </button>
               </div>
 
               <div className="w-full overflow-x-auto rounded-xl border border-gray-300">
@@ -421,8 +434,14 @@ export default function RoutePage() {
                     {displayRoutesAndShops.length > 0 ? (
                       displayRoutesAndShops.map((item, idx) => (
                         <tr key={idx} className="hover:bg-gray-50/70 transition-colors">
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 bg-[#F4F1EF] font-medium border-r border-gray-300">{item.route}</td>
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium border-r border-gray-300">{item.area}</td>
+                          {/* Route ID in Route column */}
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 bg-[#F4F1EF] font-bold border-r border-gray-300">
+                            {item.route_id || item.route}
+                          </td>
+                          {/* Area Name in Area column */}
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium border-r border-gray-300">
+                            {item.area}
+                          </td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium bg-[#F4F1EF] border-r border-gray-300">{item.shop}</td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.salesman}</td>
                         </tr>

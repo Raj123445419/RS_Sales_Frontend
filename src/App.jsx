@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, ScrollRestoration } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Login from "./components/Login";
 import './App.css';
@@ -13,7 +13,13 @@ import AdminDashboard from './components/AdminDashboard';
 import Orders from './components/Orders';
 import RoutePage from './components/Route';
 import Salesmen from './components/Salesmen';
+import Shopkeepers from './components/Shopkeepers';
+
+
 import Salesmen1 from './components/Salesmen1';
+import Shopkeeper1 from './components/Shopkeeper1';
+// import Salesmen2 from './components/Salesmen2';
+// import Salesmen3 from './components/Salesmen3';
 
 
 function App() {
@@ -21,7 +27,6 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
-        
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<Products />} />
@@ -31,14 +36,18 @@ function App() {
         <Route path="/Cocacola" element={<Cocacola />} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/Orders" element={<Orders />} />
         <Route path="/routes" element={<RoutePage />} />
-        <Route path="/Routes" element={<RoutePage />} />
-        <Route path="/route" element={<RoutePage />} />
-        <Route path="/Route" element={<RoutePage />} />
+        <Route path="/shopkeepers" element={<Shopkeepers />} />
+        
+        {/* Main Salesmen Page */}
         <Route path="/salesmen" element={<Salesmen />} />
-        <Route path="/salesmen1" element={<Salesmen1 />} />
-
+        
+        {/* Different Pages for Each Salesman */}
+        <Route path="/salesman/:id" element={<Salesmen1 />} />
+        <Route path="/shopkeeper/:id" element={<Shopkeeper1 />} />
+        <Route path="/shopkeeper1" element={<Shopkeeper1 />} />
+        {/* <Route path="/salesmen2" element={<Salesmen2 />} />
+        <Route path="/salesmen3" element={<Salesmen3 />} /> */}
       </Routes>
     </Router>
   );

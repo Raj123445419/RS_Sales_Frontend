@@ -3,28 +3,28 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // Header & Navigation Assets
 import logoImg from '../assets/rs-logo.png';
-import bellIcon from '../assets/Bell.svg';
-import goldBellIcon from '../assets/Bell (2).svg';
-import adminAvatar from '../assets/Group 2.svg';
-import goldUserIcon from '../assets/Frame.svg';
-import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Home (2).svg';
-import boxIcon from '../assets/Box.svg';
-import routesIcon from '../assets/Vector (2).svg';
-import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
-import salesmanAvatar from '../assets/Frame Frist.svg';
-import salesmanCircle from '../assets/Ellipse 6 (2).svg';
-import shopkeepersIcon from '../assets/carbon_customer.svg';
+import bellIcon from '../assets/BellBlack.svg';
+import goldBellIcon from '../assets/BellGold.svg';
+import adminAvatar from '../assets/AdminAvatarBlack.svg';
+import goldUserIcon from '../assets/UserGold.svg';
+import goldCircle from '../assets/CircleGold.svg';
+import dashboardIcon from '../assets/HomeBlack.svg';
+import boxIcon from '../assets/BoxBlack.svg';
+import routesIcon from '../assets/RouteBlack.svg';
+import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
+import salesmanAvatar from '../assets/UserDarkGray.svg';
+import salesmanCircle from '../assets/CircleGold.svg';
+import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 import calendarIcon from '../assets/material-symbols-light_event-note-outline.svg';
-import dropDownArrowIcon from '../assets/icon (7).svg';
+import dropDownArrowIcon from '../assets/ChevronDownBlack.svg';
 
 // Stat Cards Assets
 import rupeeIcon from '../assets/mdi_rupee.svg';
-import ordersBagIcon from '../assets/icon (1).svg';
-import customersGreenIcon from '../assets/icon (5).svg';
-import walletIcon from '../assets/solar_wallet-outline.svg';
+import ordersBagIcon from '../assets/BagOrange.svg';
+import customersGreenIcon from '../assets/UserGreen.svg';
+import walletIcon from '../assets/WalletPurple.svg';
 
 export default function AdminDashboard() {
   const [activeNav, setActiveNav] = useState('Dashboard');

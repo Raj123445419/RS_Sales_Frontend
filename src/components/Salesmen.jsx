@@ -3,23 +3,23 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // Header & Navigation Assets
 import logoImg from '../assets/rs-logo.png';
-import bellIcon from '../assets/Bell.svg';
-import goldBellIcon from '../assets/Bell (2).svg';
-import adminAvatar from '../assets/Group 2.svg';
-import goldUserIcon from '../assets/Frame.svg';
-import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Home (2).svg';
-import boxIcon from '../assets/Box.svg';
-import routesIcon from '../assets/Vector (2).svg';
-import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
-import shopkeepersIcon from '../assets/carbon_customer.svg';
+import bellIcon from '../assets/BellBlack.svg';
+import goldBellIcon from '../assets/BellGold.svg';
+import adminAvatar from '../assets/AdminAvatarBlack.svg';
+import goldUserIcon from '../assets/UserGold.svg';
+import goldCircle from '../assets/CircleGold.svg';
+import dashboardIcon from '../assets/HomeBlack.svg';
+import boxIcon from '../assets/BoxBlack.svg';
+import routesIcon from '../assets/RouteBlack.svg';
+import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
+import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 
 // Stat Cards SVGs
-import totalSalesmenIcon from '../assets/Vector (4).svg';
-import totalSalesTodayIcon from '../assets/Vector (6).svg';
-import avgAchievementIcon from '../assets/Vector (5).svg';
+import totalSalesmenIcon from '../assets/UsersBlack.svg';
+import totalSalesTodayIcon from '../assets/BarChartBlack.svg';
+import avgAchievementIcon from '../assets/TrendingUpBlack.svg';
 
 export default function Salesmen() {
   const [activeNav, setActiveNav] = useState('Salesmen');
@@ -250,7 +250,7 @@ export default function Salesmen() {
                   {displayPerformance.length > 0 ? (
                     displayPerformance.map((item, idx) => (
                       <div key={idx} className="border border-gray-200 rounded-xl p-4 sm:p-5 bg-white space-y-2.5 transition hover:border-gray-300">
-                        <div className="text-sm sm:text-base font-bold text-gray-900 ">{item.name}</div>
+                        <div className="text-sm sm:text-base font-bold text-gray-900">{item.name}</div>
                         <div className="flex items-center justify-between text-xs sm:text-sm font-semibold text-gray-800">
                           <span>{item.sales}</span>
                           <span>{item.target}</span>
@@ -329,7 +329,14 @@ export default function Salesmen() {
                     {displaySalesmenTable.length > 0 ? (
                       displaySalesmenTable.map((item, idx) => (
                         <tr key={idx} className="hover:bg-gray-50/70 transition-colors">
-                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.salesman}</td>
+                          <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">
+<Link 
+  to={`/salesman/${item.id}`} 
+  className=" font-bold transition-colors cursor-pointer"
+>
+  {item.salesman}
+</Link>
+                          </td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.area}</td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.shops}</td>
                           <td className="py-3.5 px-4 sm:px-6 text-gray-900 font-medium">{item.orders}</td>

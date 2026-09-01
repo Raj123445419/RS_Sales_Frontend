@@ -5,10 +5,10 @@ import { LogOut, Menu, X } from 'lucide-react';
 // Header & Footer Assets
 import logoImg from '../assets/rs-logo.png';
 import login from '../assets/login.svg';
-import cart from '../assets/cart.svg';
+import cart from '../assets/CartGold.svg';
 import HeadPhon from '../assets/HeadPhon.svg';
-import Phonecallwhite from '../assets/Phonecallwhite.svg';
-import mailoutline from '../assets/mailoutline.svg';
+import Phonecallwhite from '../assets/PhoneCallWhite.svg';
+import mailoutline from '../assets/MailWhite.svg';
 import instagram from '../assets/instagram.svg';
 import facebook from '../assets/facebook.svg';
 import Vector from '../assets/Vector.svg';
@@ -19,14 +19,14 @@ import thumb1 from '../assets/image 77.png';
 import thumb2 from '../assets/image 79.png';
 import thumb3 from '../assets/image 78.png';
 import thumb4 from '../assets/image 80.png';
-import starIcon from '../assets/Star Icon.svg';
-import starIconOutline from '../assets/Star Icon (2).svg';
-import addIcon from '../assets/add.svg';
+import starIcon from '../assets/StarDarkGray.svg';
+import starIconOutline from '../assets/StarGold.svg';
+import addIcon from '../assets/AddBlack.svg';
 import minusIcon from '../assets/Icon (3).svg';
-import userIcon from '../assets/Frame Frist.svg';
+import userIcon from '../assets/UserDarkGray.svg';
 import arrowTriangleIcon from '../assets/icon (up dace).svg';
-import newPhoneIcon from '../assets/New Phone.svg';
-import arrowLeftIcon from '../assets/Arrowleft.svg';
+import newPhoneIcon from '../assets/PhoneWhite.svg';
+import arrowLeftIcon from '../assets/ArrowLeft.svg';
 
 // Related Products Assets
 import relatedFanta from '../assets/fanta.png';

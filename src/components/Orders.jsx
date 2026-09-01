@@ -3,29 +3,29 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // Header & Navigation Assets
 import logoImg from '../assets/rs-logo.png';
-import bellIcon from '../assets/Bell.svg';
-import goldBellIcon from '../assets/Bell (2).svg';
-import adminAvatar from '../assets/Group 2.svg';
-import goldUserIcon from '../assets/Frame.svg';
-import goldCircle from '../assets/Ellipse 6.svg';
-import dashboardIcon from '../assets/Home (2).svg';
-import boxIcon from '../assets/Box.svg';
-import routesIcon from '../assets/Vector (2).svg';
-import salesmenIcon from '../assets/iconamoon_profile-bold.svg';
-import shopkeepersIcon from '../assets/carbon_customer.svg';
+import bellIcon from '../assets/BellBlack.svg';
+import goldBellIcon from '../assets/BellGold.svg';
+import adminAvatar from '../assets/AdminAvatarBlack.svg';
+import goldUserIcon from '../assets/UserGold.svg';
+import goldCircle from '../assets/CircleGold.svg';
+import dashboardIcon from '../assets/HomeBlack.svg';
+import boxIcon from '../assets/BoxBlack.svg';
+import routesIcon from '../assets/RouteBlack.svg';
+import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
+import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 
 // Overview Cards Assets
 import boxOrdersIcon from '../assets/bx_box.svg';
-import pendingClockIcon from '../assets/Vector (3).svg';
-import cartOutlineIcon from '../assets/tabler_truck-loading (2).svg';
+import pendingClockIcon from '../assets/HistoryBlack.svg';
+import cartOutlineIcon from '../assets/TruckLoadingBlack.svg';
 import taskCompleteIcon from '../assets/carbon_task-complete.svg';
 import sIcon from '../assets/sIcon.svg';
-import Down from '../assets/icon (7).svg';
+import Down from '../assets/ChevronDownBlack.svg';
 import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
-import editIcon from '../assets/akar-icons_edit.svg';
-import plusIcon from '../assets/icon (14).svg';
+import editIcon from '../assets/EditGray.svg';
+import plusIcon from '../assets/AddWhite.svg';
 
 export default function Orders() {
   const [activeNav, setActiveNav] = useState('Orders');
@@ -41,13 +41,29 @@ export default function Orders() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [hoveredBar, setHoveredBar] = useState(null);
   
-  // New Order Modal State
+  // New Order Modal States
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newOrderShop, setNewOrderShop] = useState('');
+  const [newOrderCustomer, setNewOrderCustomer] = useState('');
   const [newOrderSalesman, setNewOrderSalesman] = useState('');
-  const [newOrderQty, setNewOrderQty] = useState(1);
-  const [newOrderStatus, setNewOrderStatus] = useState('Placed');
-  const [newOrderPayment, setNewOrderPayment] = useState('Pending');
+  const [newOrderProduct, setNewOrderProduct] = useState('');
+  const [newOrderQuantity, setNewOrderQuantity] = useState('');
+  const [newOrderStatus, setNewOrderStatus] = useState('');
+  const [newOrderDiscountVal, setNewOrderDiscountVal] = useState('');
+  const [newOrderDiscountType, setNewOrderDiscountType] = useState('');
+  const [newOrderTaxVal, setNewOrderTaxVal] = useState('');
+  const [newOrderTaxType, setNewOrderTaxType] = useState('');
+
+  // Edit Order Modal States
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editOrderId, setEditOrderId] = useState(null);
+  const [editOrderCustomer, setEditOrderCustomer] = useState('');
+  const [editOrderSalesman, setEditOrderSalesman] = useState('');
+  const [editOrderProduct, setEditOrderProduct] = useState('');
+  const [editOrderQuantity, setEditOrderQuantity] = useState('');
+  const [editOrderStatus, setEditOrderStatus] = useState('');
+  const [editOrderDiscountVal, setEditOrderDiscountVal] = useState('');
+  const [editOrderDiscountType, setEditOrderDiscountType] = useState('');
+  const [editOrderTaxVal, setEditOrderTaxVal] = useState('');
 
   const navigate = useNavigate();
 
@@ -56,6 +72,7 @@ export default function Orders() {
   const [ordersList, setOrdersList] = useState([]);
   const [salesmenOptions, setSalesmenOptions] = useState([]);
   const [shopkeeperOptions, setShopkeeperOptions] = useState([]);
+  const [productsOptions, setProductsOptions] = useState([]); 
   const [orderValueData, setOrderValueData] = useState([]);
 
   // Fetch Orders & Chart Data from Backend API
@@ -68,6 +85,7 @@ export default function Orders() {
           setOrdersList(data.orders || []);
           setSalesmenOptions(data.dropdowns.salesmen || []);
           setShopkeeperOptions(data.dropdowns.shopkeepers || []);
+          setProductsOptions(data.dropdowns.products || []); 
           setOrderValueData(data.orderValueChart || []);
         }
       })
@@ -85,20 +103,88 @@ export default function Orders() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        shopkeeper: newOrderShop || shopkeeperOptions[0],
+        shopkeeper: newOrderCustomer || shopkeeperOptions[0],
         salesman: newOrderSalesman || salesmenOptions[0],
-        quantity: newOrderQty,
-        status: newOrderStatus,
-        payment_status: newOrderPayment
+        product_id: newOrderProduct,
+        quantity: newOrderQuantity ? parseInt(newOrderQuantity) : 1,
+        status: newOrderStatus || 'placed',
+        discount_value: newOrderDiscountVal ? parseFloat(newOrderDiscountVal) : 0,
+        discount_type: newOrderDiscountType || 'rs',
+        tax_value: newOrderTaxVal ? parseFloat(newOrderTaxVal) : 0,
+        tax_type: newOrderTaxType || 'percent'
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        setIsModalOpen(false);
-        fetchOrdersData(); // લિસ્ટ રિફ્રેશ કરો
-      } else {
-        alert('Error: ' + data.error);
+    .then(async res => {
+      const textResponse = await res.text();
+      try {
+        const data = JSON.parse(textResponse);
+        if (data.success) {
+          setIsModalOpen(false);
+          setNewOrderCustomer('');
+          setNewOrderSalesman('');
+          setNewOrderProduct('');
+          setNewOrderQuantity('');
+          setNewOrderStatus('');
+          setNewOrderDiscountVal('');
+          setNewOrderDiscountType('');
+          setNewOrderTaxVal('');
+          setNewOrderTaxType('');
+          fetchOrdersData(); 
+        } else {
+          alert('Backend Error: ' + (data.error || textResponse));
+        }
+      } catch (parseErr) {
+        alert('Server Error: Check Console');
+      }
+    })
+    .catch(err => console.error(err));
+  };
+
+// Open Edit Modal and Set Existing Values
+  const handleOpenEditModal = (order) => {
+    const rawId = order.raw_id || order.id.replace('#', '');
+    setEditOrderId(rawId);
+    setEditOrderCustomer(order.customer || '');
+    setEditOrderSalesman(order.salesman || '');
+    setEditOrderStatus(order.status ? order.status.toLowerCase().replace(' ', '_') : 'placed');
+    setEditOrderQuantity(order.quantity !== undefined ? order.quantity : 1);
+    setEditOrderDiscountVal(order.discount_value !== undefined ? order.discount_value : '');
+    setEditOrderDiscountType(order.discount_type || 'rs');
+    setEditOrderTaxVal(order.tax_value !== undefined ? order.tax_value : '');
+    
+    setIsEditModalOpen(true);
+  };
+
+  // Handle Update Order Submit
+  const handleUpdateOrder = (e) => {
+    e.preventDefault();
+    fetch(`http://127.0.0.1:8000/api/v1/orders/${editOrderId}/update/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shopkeeper: editOrderCustomer,
+        salesman: editOrderSalesman,
+        product_id: editOrderProduct,
+        quantity: editOrderQuantity ? parseInt(editOrderQuantity) : 1,
+        status: editOrderStatus,
+        discount_value: editOrderDiscountVal ? parseFloat(editOrderDiscountVal) : 0,
+        discount_type: editOrderDiscountType,
+        tax_value: editOrderTaxVal ? parseFloat(editOrderTaxVal) : 0,
+        tax_type: 'percent'
+      })
+    })
+    .then(async res => {
+      const textResponse = await res.text();
+      try {
+        const data = JSON.parse(textResponse);
+        if (data.success) {
+          setIsEditModalOpen(false);
+          fetchOrdersData();
+        } else {
+          alert('Update Error: ' + (data.error || textResponse));
+        }
+      } catch (e) {
+        alert('Server Error during update');
       }
     })
     .catch(err => console.error(err));
@@ -114,7 +200,7 @@ export default function Orders() {
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
 
- const overviewCards = [
+  const overviewCards = [
     { id: 'total', title: 'Total Orders', value: metrics.total, icon: boxOrdersIcon, bg: 'bg-[#DCD6FB]', barColor: 'bg-[#9D8AF5]', bars: [40, 65, 85, 100] },
     { id: 'pending', title: 'Pending', value: metrics.pending, icon: pendingClockIcon, bg: 'bg-[#F8CECE]', barColor: 'bg-[#EF7C7C]', bars: [50, 75, 45, 100] },
     { id: 'processing', title: 'Processing', value: metrics.processing, icon: cartOutlineIcon, bg: 'bg-[#F8DCB4]', barColor: 'bg-[#E8AF67]', bars: [40, 65, 85, 100] },
@@ -430,7 +516,13 @@ export default function Orders() {
                           <td className="py-3.5 px-4 sm:px-6 font-bold text-gray-900">{order.amount}</td>
                           <td className="py-3.5 px-4 sm:px-6 relative text-center">
                             <span className={getStatusColor(order.status)}>{order.status}</span>
-                            <button type="button" className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 hover:opacity-75 transition cursor-pointer p-0.5" aria-label="Edit order">
+                            {/* Edit Button linked with handleOpenEditModal */}
+                            <button 
+                              type="button" 
+                              onClick={() => handleOpenEditModal(order)}
+                              className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 hover:opacity-75 transition cursor-pointer p-0.5" 
+                              aria-label="Edit order"
+                            >
                               <img src={editIcon} alt="edit" className="w-4 h-4 object-contain" />
                             </button>
                           </td>
@@ -459,47 +551,170 @@ export default function Orders() {
 
       {/* NEW ORDER MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full space-y-5 text-left shadow-xl">
-            <h3 className="text-xl font-bold text-gray-900">Create New Order</h3>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-all duration-300">
+          <div className="bg-white rounded-3xl p-7 sm:p-9 max-w-xl w-full space-y-6 text-left shadow-2xl border border-gray-100 max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight">Create New Order</h3>
+              <button type="button" onClick={() => setIsModalOpen(false)} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-red-100 hover:text-[#D71920] text-gray-500 flex items-center justify-center font-bold text-lg transition cursor-pointer">×</button>
+            </div>
             
             <form onSubmit={handleCreateOrder} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">Shopkeeper</label>
-                <select value={newOrderShop} onChange={(e) => setNewOrderShop(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Customer / Shopkeeper</label>
+                <select value={newOrderCustomer} onChange={(e) => setNewOrderCustomer(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                  <option value="" disabled selected>Select Customer / Shopkeeper</option>
                   {shopkeeperOptions.map((shop, i) => <option key={i} value={shop}>{shop}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">Salesman</label>
-                <select value={newOrderSalesman} onChange={(e) => setNewOrderSalesman(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Salesman</label>
+                <select value={newOrderSalesman} onChange={(e) => setNewOrderSalesman(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                  <option value="" disabled selected>Select Salesman</option>
                   {salesmenOptions.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Status</label>
-                  <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
-                    <option value="Placed">Placed</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Delivered">Delivered</option>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Product</label>
+                  <select value={newOrderProduct} onChange={(e) => setNewOrderProduct(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                    <option value="" disabled selected>Select Product</option>
+                    {productsOptions.map((prod) => (
+                      <option key={prod.id} value={prod.id}>{prod.name} (₹{prod.selling_price})</option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Payment</label>
-                  <select value={newOrderPayment} onChange={(e) => setNewOrderPayment(e.target.value)} className="w-full border border-gray-300 rounded-lg p-2.5 text-sm">
-                    <option value="Pending">Pending</option>
-                    <option value="Paid">Paid</option>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Quantity</label>
+                  <input type="number" min="1" value={newOrderQuantity} onChange={(e) => setNewOrderQuantity(e.target.value)} placeholder="Enter quantity" className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Order Status</label>
+                  <select value={newOrderStatus} onChange={(e) => setNewOrderStatus(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="placed">Placed</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="processing">Processing</option>
+                    <option value="ready_for_delivery">Ready for Delivery</option>
+                    <option value="out_for_delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Discount Type</label>
+                  <select value={newOrderDiscountType} onChange={(e) => setNewOrderDiscountType(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                    <option value="" disabled selected>Select Discount Type</option>
+                    <option value="rs">₹ (Rupees)</option>
+                    <option value="percent">% (Percentage)</option>
                   </select>
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 rounded-lg border border-gray-300 text-xs font-semibold text-gray-700 hover:bg-gray-50">Cancel</button>
-                <button type="submit" className="px-5 py-2 rounded-lg bg-[#D71920] hover:bg-[#B9151B] text-white text-xs font-semibold">Save Order</button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Discount Value</label>
+                  <input type="number" step="0.01" value={newOrderDiscountVal} onChange={(e) => setNewOrderDiscountVal(e.target.value)} placeholder="Enter discount value" className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Tax Value (%)</label>
+                  <input type="number" step="0.01" value={newOrderTaxVal} onChange={(e) => setNewOrderTaxVal(e.target.value)} placeholder="Enter tax percentage" className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition" />
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-5 border-t border-gray-100 mt-6">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl border-2 border-gray-200 hover:bg-gray-100 text-xs font-bold text-gray-700 cursor-pointer">Cancel</button>
+                <button type="submit" className="px-6 py-2.5 rounded-xl bg-[#D71920] hover:bg-[#B9151B] text-white text-xs font-bold shadow-lg cursor-pointer">Save Order</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* EDIT ORDER MODAL */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-all duration-300">
+          <div className="bg-white rounded-3xl p-7 sm:p-9 max-w-xl w-full space-y-6 text-left shadow-2xl border border-gray-100 max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight">Edit Order #{editOrderId}</h3>
+              <button type="button" onClick={() => setIsEditModalOpen(false)} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-red-100 hover:text-[#D71920] text-gray-500 flex items-center justify-center font-bold text-lg transition cursor-pointer">×</button>
+            </div>
+            
+            <form onSubmit={handleUpdateOrder} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Customer / Shopkeeper</label>
+                <select value={editOrderCustomer} onChange={(e) => setEditOrderCustomer(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                  {shopkeeperOptions.map((shop, i) => <option key={i} value={shop}>{shop}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Salesman</label>
+                <select value={editOrderSalesman} onChange={(e) => setEditOrderSalesman(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                  {salesmenOptions.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Product</label>
+                  <select value={editOrderProduct} onChange={(e) => setEditOrderProduct(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                    <option value="">Keep Existing Product</option>
+                    {productsOptions.map((prod) => (
+                      <option key={prod.id} value={prod.id}>{prod.name} (₹{prod.selling_price})</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Quantity</label>
+                  <input type="number" min="1" value={editOrderQuantity} onChange={(e) => setEditOrderQuantity(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Order Status</label>
+                  <select value={editOrderStatus} onChange={(e) => setEditOrderStatus(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                    <option value="placed">Placed</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="processing">Processing</option>
+                    <option value="ready_for_delivery">Ready for Delivery</option>
+                    <option value="out_for_delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Discount Type</label>
+                  <select value={editOrderDiscountType} onChange={(e) => setEditOrderDiscountType(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition cursor-pointer">
+                    <option value="rs">₹ (Rupees)</option>
+                    <option value="percent">% (Percentage)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Discount Value</label>
+                  <input type="number" step="0.01" value={editOrderDiscountVal} onChange={(e) => setEditOrderDiscountVal(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Tax Value (%)</label>
+                  <input type="number" step="0.01" value={editOrderTaxVal} onChange={(e) => setEditOrderTaxVal(e.target.value)} className="w-full border-2 border-gray-200 hover:border-gray-300 focus:border-[#D71920] rounded-xl p-3 text-sm bg-gray-50/50 outline-none transition" />
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-5 border-t border-gray-100 mt-6">
+                <button type="button" onClick={() => setIsEditModalOpen(false)} className="px-5 py-2.5 rounded-xl border-2 border-gray-200 hover:bg-gray-100 text-xs font-bold text-gray-700 cursor-pointer">Cancel</button>
+                <button type="submit" className="px-6 py-2.5 rounded-xl bg-[#D71920] hover:bg-[#B9151B] text-white text-xs font-bold shadow-lg cursor-pointer">Update Order</button>
               </div>
             </form>
           </div>

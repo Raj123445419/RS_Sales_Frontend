@@ -4,10 +4,10 @@ import { LogOut, Menu, X, User, ArrowRight, ChevronLeft, ChevronRight } from 'lu
 import logoImg from '../assets/rs-logo.png';
 import product from '../assets/product.png';
 import login from '../assets/login.svg';
-import cart from '../assets/cart.svg';
+import cart from '../assets/CartGold.svg';
 import HeadPhon from '../assets/HeadPhon.svg';
-import Phonecallwhite from '../assets/Phonecallwhite.svg';
-import mailoutline from '../assets/mailoutline.svg';
+import Phonecallwhite from '../assets/PhoneCallWhite.svg';
+import mailoutline from '../assets/MailWhite.svg';
 import instagram from '../assets/instagram.svg';
 import facebook from '../assets/facebook.svg';
 import Vector from '../assets/Vector.svg';
@@ -29,10 +29,10 @@ import late from '../assets/17.png';
 import mocha from '../assets/18.png';
 import bisl from '../assets/19.png';
 import beans from '../assets/20.png';
-import Icon from '../assets/Icon.svg';
-import Arrowleft from '../assets/Arrowleft.svg';
-import Arrowrightcircle from '../assets/Arrowrightcircle.svg';
-import Arrowrightcircleblack from '../assets/Arrowrightcircleblack.svg';
+import Icon from '../assets/ArrowRightCircleBlack.svg';
+import Arrowleft from '../assets/ArrowLeft.svg';
+import Arrowrightcircle from '../assets/ArrowRightCircleWhite.svg';
+import Arrowrightcircleblack from '../assets/ArrowRightCircleBlack.svg';
 
 export default function Products() {
   const [isOpen, setIsOpen] = useState(false);

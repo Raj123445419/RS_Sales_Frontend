@@ -6,19 +6,19 @@ import abbanner from '../assets/about banner.png';
 import mid from '../assets/about mid.png';
 import last from '../assets/about last.png';
 import login from '../assets/login.svg';
-import cart from '../assets/cart.svg';
+import cart from '../assets/CartGold.svg';
 import HeadPhon from '../assets/HeadPhon.svg';
-import Phonecallwhite from '../assets/Phonecallwhite.svg';
-import mailoutline from '../assets/mailoutline.svg';
+import Phonecallwhite from '../assets/PhoneCallWhite.svg';
+import mailoutline from '../assets/MailWhite.svg';
 import instagram from '../assets/instagram.svg';
 import facebook from '../assets/facebook.svg';
 import Vector from '../assets/Vector.svg';
-import Arrowrightcircle from '../assets/Arrowrightcircle.svg';
-import Phonecall from '../assets/Phonecall.svg';
+import Arrowrightcircle from '../assets/ArrowRightCircleWhite.svg';
+import Phonecall from '../assets/PhoneCallBlack.svg';
 import connectcontacts from '../assets/connectcontacts.svg';
 import planlight from '../assets/planlight.svg';
 import boxlinear from '../assets/boxlinear.svg';
-import lighttruck from '../assets/lighttruck.svg';
+import lighttruck from '../assets/DeliveryTruckBlack.svg';
 
 export default function About() {
   const [isOpen, setIsOpen] = useState(false);
