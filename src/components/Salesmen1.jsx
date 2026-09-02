@@ -11,13 +11,13 @@ import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
 import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
-import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
+import salesmenIcon from '../assets/Salesman.svg';
+import Shoopkeeper from '../assets/Shoopkeeper.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 
 // Page-specific SVGs
-import arrowLeftIcon from '../assets/ArrowLeft.svg';
+import arrowLeftIcon from '../assets/ArrowUpBlack.svg';
 import editIcon from '../assets/EditWhite.svg';
 import employeeIdIcon from '../assets/UserBlack.svg';
 import emailIcon from '../assets/EmailBlack.svg';
@@ -64,12 +64,12 @@ export default function Salesmen1() {
           }
 
           setEditForm({
-            name: data.salesman.name,
-            email: data.salesman.email,
+            name: data.salesman.name || '',
+            email: data.salesman.email || '',
             phone: data.salesman.phone || '', 
-            role: data.salesman.role,         
-            assigned_route: data.salesman.assigned_route, 
-            status: data.salesman.status
+            role: data.salesman.role || 'Salesman',         
+            assigned_route: data.salesman.assigned_route || 'Unassigned', 
+            status: data.salesman.status || 'Active'
           });
         }
       })
@@ -123,7 +123,7 @@ export default function Salesmen1() {
     { name: 'Orders', icon: boxIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: shopkeepersIcon, path: '/shopkeepers' },
+    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -177,7 +177,7 @@ export default function Salesmen1() {
       {/* BODY CONTAINER */}
       <div className="flex-1 flex w-full relative">
         <aside
-          className={`fixed md:sticky top-[58px] md:top-[80px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-80px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${
+          className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${
             isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
@@ -195,7 +195,7 @@ export default function Salesmen1() {
                   }}
                   className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${
                     isActive
-                      ? 'text-[#D71920] bg-red-50/60 font-bold'
+                      ? 'text-[#000000] bg-[#76544359] font-bold'
                       : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
                   }`}
                 >
@@ -241,7 +241,7 @@ export default function Salesmen1() {
                 className="p-2 -ml-2 rounded-lg hover:bg-gray-200/60 transition cursor-pointer flex items-center justify-center"
                 aria-label="Go Back"
               >
-                <img src={arrowLeftIcon} alt="Back" className="w-6 h-6 object-contain rotate-180" />
+                <img src={arrowLeftIcon} alt="Back" className="w-5 h-5 object-contain" />
               </button>
 
               <button
@@ -268,7 +268,7 @@ export default function Salesmen1() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 gap-x-8 text-xs sm:text-sm text-gray-800 pt-2">
                 <div className="flex items-center space-x-2.5">
-                  <img src={employeeIdIcon} alt="Employee ID" className="w-5 h-5 object-contain shrink-0" />
+                  <img src={employeeIdIcon} alt="Employee ID" className="w-4 h-4 object-contain shrink-0" />
                   <div>
                     <span className="font-bold text-gray-900">Employee ID:</span>{' '}
                     <span className="font-normal text-gray-700">{salesman?.employee_id}</span>

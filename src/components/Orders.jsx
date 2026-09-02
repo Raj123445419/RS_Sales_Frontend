@@ -11,8 +11,8 @@ import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
 import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
-import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
+import salesmenIcon from '../assets/Salesman.svg';
+import Shoopkeeper from '../assets/Shoopkeeper.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 
@@ -22,7 +22,7 @@ import pendingClockIcon from '../assets/HistoryBlack.svg';
 import cartOutlineIcon from '../assets/TruckLoadingBlack.svg';
 import taskCompleteIcon from '../assets/carbon_task-complete.svg';
 import sIcon from '../assets/sIcon.svg';
-import Down from '../assets/ChevronDownBlack.svg';
+import Dropdown from '../assets/Dropdown.svg';
 import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
 import editIcon from '../assets/EditGray.svg';
 import plusIcon from '../assets/AddWhite.svg';
@@ -195,7 +195,7 @@ export default function Orders() {
     { name: 'Orders', icon: boxIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: shopkeepersIcon, path: '/shopkeepers' },
+    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -281,7 +281,7 @@ export default function Orders() {
                   key={item.name}
                   type="button"
                   onClick={() => { setActiveNav(item.name); setIsMobileNavOpen(false); if (item.path) navigate(item.path); }}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#D71920] bg-red-50/60 font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
+                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
                 >
                   <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
                   <span>{item.name}</span>
@@ -357,7 +357,7 @@ export default function Orders() {
                       <option value="This Month">This Month</option>
                       <option value="This Year">This Year</option>
                     </select>
-                    <img src={Down} alt="arrow" className="w-3 h-3 absolute right-2 top-4 -translate-y-1/2 pointer-events-none object-contain" />
+                    <img src={Dropdown} alt="arrow" className="w-3 h-3 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
                 </div>
 
@@ -433,7 +433,7 @@ export default function Orders() {
                         <option value="Pending">Pending</option>
                         <option value="Returned">Returned</option>
                       </select>
-                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                     </div>
 
                     {/* Salesman Dropdown */}
@@ -442,7 +442,7 @@ export default function Orders() {
                         <option value="All">Salesman</option>
                         {salesmenOptions.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
                       </select>
-                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                     </div>
 
                     {/* Shopkeeper Dropdown */}
@@ -451,7 +451,7 @@ export default function Orders() {
                         <option value="All">Shopkeeper</option>
                         {shopkeeperOptions.map((shop, i) => <option key={i} value={shop}>{shop}</option>)}
                       </select>
-                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                     </div>
 
                     {/* Payment Dropdown */}
@@ -464,7 +464,7 @@ export default function Orders() {
                         <option value="Failed">Failed</option>
                         <option value="Refunded">Refunded</option>
                       </select>
-                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                     </div>
 
                     {/* Date Dropdown */}
@@ -476,7 +476,7 @@ export default function Orders() {
                         <option value="This Month">This Month</option>
                         <option value="This Year">This Year</option>
                       </select>
-                      <img src={arrowDropUpIcon} alt="arrow" className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                      <img src={arrowDropUpIcon} alt="arrow" className="w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                     </div>
 
                     <button type="button" onClick={handleClearFilters} className="bg-[#D9D9D9] hover:bg-gray-300 text-gray-800 text-xs font-medium px-3.5 py-1.5 rounded-md shadow-2xs transition-colors cursor-pointer">
@@ -486,7 +486,7 @@ export default function Orders() {
 
                   {/* + New Order Button */}
                   <button type="button" onClick={() => setIsModalOpen(true)} className="bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-1.5 px-4 rounded-lg flex items-center justify-center space-x-2 shadow-sm transition cursor-pointer self-start lg:self-auto shrink-0">
-                    <img src={plusIcon} alt="add" className="w-3 h-3 object-contain" />
+                    <img src={plusIcon} alt="add" className="w-5 h-5 object-contain" />
                     <span>New Order</span>
                   </button>
                 </div>
@@ -523,7 +523,7 @@ export default function Orders() {
                               className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 hover:opacity-75 transition cursor-pointer p-0.5" 
                               aria-label="Edit order"
                             >
-                              <img src={editIcon} alt="edit" className="w-4 h-4 object-contain" />
+                              <img src={editIcon} alt="edit" className="w-5 h-5 object-contain" />
                             </button>
                           </td>
                         </tr>

@@ -11,11 +11,12 @@ import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
 import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
-import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
+import salesmenIcon from '../assets/Salesman.svg';
+import Shoopkeeper from '../assets/Shoopkeeper.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
-import dropDownArrowIcon from '../assets/ChevronDownBlack.svg';
+import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
+import sIcon from '../assets/sIcon.svg';
 
 // Requested Specific Stat & Action SVGs
 import totalShopkeepersIcon from '../assets/UserOrange.svg';
@@ -39,118 +40,46 @@ export default function Shopkeepers() {
 
   // Top 4 Stat Cards Metrics
   const [metrics, setMetrics] = useState({
-    totalShopkeepers: 124,
-    activeShopkeepers: 221,
-    pendingVisits: 18,
-    ordersThisMonth: '₹4.82L'
+    totalShopkeepers: 0,
+    activeShopkeepers: 0,
+    pendingVisits: 0,
+    ordersThisMonth: '₹0'
   });
 
-  // Table Data matching exact reference screenshot
-  const [shopkeepersList, setShopkeepersList] = useState([
-    {
-      id: 1,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Active'
-    },
-    {
-      id: 2,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Active'
-    },
-    {
-      id: 3,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Inactive'
-    },
-    {
-      id: 4,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Active'
-    },
-    {
-      id: 5,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Inactive'
-    },
-    {
-      id: 6,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Active'
-    },
-    {
-      id: 7,
-      shopName: 'Patel General Store',
-      shopkeeper: 'Rahul Patel',
-      salesman: 'Rahul Patel',
-      route: 'RT-001',
-      outstanding: '₹12,000',
-      orders: 18,
-      status: 'Active'
-    }
-  ]);
+  // Table Data State
+  const [shopkeepersList, setShopkeepersList] = useState([]);
 
   // Dropdown options
-  const [salesmanOptions, setSalesmanOptions] = useState([
-    'Rahul Patel',
-    'Amit Sharma',
-    'Suresh Kumar',
-    'Vikas Patel'
-  ]);
-  const [routeOptions, setRouteOptions] = useState([
-    'RT-001',
-    'RT-002',
-    'RT-003',
-    'RT-004'
-  ]);
+  const [salesmanOptions, setSalesmanOptions] = useState([]);
+  const [routeOptions, setRouteOptions] = useState([]);
 
   // Modal States
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingShopkeeper, setEditingShopkeeper] = useState(null);
 
-  // Form State
+  // Comprehensive Form State mapped to backend Customer fields
   const [formData, setFormData] = useState({
     shopName: '',
     shopkeeper: '',
+    ownerName: '',
+    businessType: '',
+    gstNumber: '',
+    address: '',
+    area: '',
+    city: '',
+    state: '',
+    pincode: '',
     salesman: '',
     route: '',
+    creditLimit: '50000',
     outstanding: '₹0',
     orders: 0,
     status: 'Active'
   });
 
-  // Fetch dynamic data if API backend is running
-  useEffect(() => {
+  // Fetch dynamic data from Backend API
+  const fetchShopkeepersData = () => {
     fetch(`http://127.0.0.1:8000/api/v1/shopkeepers-page/?search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(statusFilter)}&salesman=${encodeURIComponent(salesmanFilter)}&route=${encodeURIComponent(routeFilter)}&timeFilter=${encodeURIComponent(timeFilter)}`)
       .then((res) => res.json())
       .then((data) => {
@@ -161,9 +90,11 @@ export default function Shopkeepers() {
           if (data.dropdowns?.routes) setRouteOptions(data.dropdowns.routes);
         }
       })
-      .catch(() => {
-        // Use default data
-      });
+      .catch((err) => console.error("Failed to fetch shopkeepers:", err));
+  };
+
+  useEffect(() => {
+    fetchShopkeepersData();
   }, [searchQuery, statusFilter, salesmanFilter, routeFilter, timeFilter]);
 
   const navItems = [
@@ -171,7 +102,7 @@ export default function Shopkeepers() {
     { name: 'Orders', icon: boxIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: shopkeepersIcon, path: '/shopkeepers' },
+    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -196,8 +127,7 @@ export default function Shopkeepers() {
     return matchesSearch && matchesStatus && matchesSalesman && matchesRoute;
   });
 
-  const isFiltered = searchQuery !== '' || statusFilter !== 'All' || salesmanFilter !== 'All' || routeFilter !== 'All';
-  const displayShopkeepers = (showAll || isFiltered) ? filteredShopkeepers : filteredShopkeepers.slice(0, 5);
+  const displayShopkeepers = filteredShopkeepers;
 
   const handleClearFilters = () => {
     setSearchQuery('');
@@ -211,9 +141,18 @@ export default function Shopkeepers() {
     setEditingShopkeeper(shop);
     setFormData({
       shopName: shop.shopName || '',
-      shopkeeper: shop.shopkeeper || '',
+      shopkeeper: shop.shopkeeper || shop.ownerName || '',
+      ownerName: shop.ownerName || shop.shopkeeper || '',
+      businessType: shop.businessType || '',
+      gstNumber: shop.gstNumber || '',
+      address: shop.address || '',
+      area: shop.area || '',
+      city: shop.city || '',
+      state: shop.state || '',
+      pincode: shop.pincode || '',
       salesman: shop.salesman || salesmanOptions[0] || '',
       route: shop.route || routeOptions[0] || '',
+      creditLimit: shop.creditLimit || '50000',
       outstanding: shop.outstanding || '₹0',
       orders: shop.orders || 0,
       status: shop.status || 'Active'
@@ -225,22 +164,40 @@ export default function Shopkeepers() {
     e.preventDefault();
     if (!editingShopkeeper) return;
 
-    setShopkeepersList((prev) =>
-      prev.map((item) =>
-        item.id === editingShopkeeper.id
-          ? { ...item, ...formData }
-          : item
-      )
-    );
-    setIsEditModalOpen(false);
+    fetch(`http://127.0.0.1:8000/api/v1/shopkeepers-update/${editingShopkeeper.id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setIsEditModalOpen(false);
+          fetchShopkeepersData();
+        } else {
+          alert('Failed to update shop: ' + (data.error || 'Unknown error'));
+        }
+      })
+      .catch((err) => console.error("Error updating shopkeeper:", err));
   };
 
   const handleOpenAddModal = () => {
     setFormData({
       shopName: '',
       shopkeeper: '',
-      salesman: salesmanOptions[0] || 'Rahul Patel',
-      route: routeOptions[0] || 'RT-001',
+      ownerName: '',
+      businessType: '',
+      gstNumber: '',
+      address: '',
+      area: '',
+      city: '',
+      state: '',
+      pincode: '',
+      salesman: salesmanOptions[0] || '',
+      route: routeOptions[0] || '',
+      creditLimit: '50000',
       outstanding: '₹0',
       orders: 0,
       status: 'Active'
@@ -250,14 +207,24 @@ export default function Shopkeepers() {
 
   const handleSaveAdd = (e) => {
     e.preventDefault();
-    const newId = shopkeepersList.length + 1;
-    const newShop = {
-      id: newId,
-      ...formData
-    };
-
-    setShopkeepersList([newShop, ...shopkeepersList]);
-    setIsAddModalOpen(false);
+    
+    fetch('http://127.0.0.1:8000/api/v1/shopkeepers-create/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setIsAddModalOpen(false);
+          fetchShopkeepersData();
+        } else {
+          alert('Failed to add shop: ' + (data.error || 'Unknown error'));
+        }
+      })
+      .catch((err) => console.error("Error adding shopkeeper:", err));
   };
 
   const handleLogout = () => {
@@ -306,7 +273,7 @@ export default function Shopkeepers() {
       {/* BODY CONTAINER */}
       <div className="flex-1 flex w-full relative">
         {/* SIDEBAR NAVIGATION */}
-        <aside className={`fixed md:sticky top-[58px] md:top-[80px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-80px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <aside className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
           <nav className="space-y-1.5 text-left">
             {navItems.map((item) => {
               const isActive = activeNav === item.name;
@@ -320,7 +287,7 @@ export default function Shopkeepers() {
                     if (item.path) navigate(item.path);
                   }}
                   className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${
-                    isActive ? 'text-[#D71920] bg-red-50/60 font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
+                    isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
                   }`}
                 >
                   <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
@@ -422,14 +389,12 @@ export default function Shopkeepers() {
               {/* Search Bar on Top */}
               <div>
                 <div className="relative max-w-sm w-full border border-gray-300 rounded-full flex items-center px-4 py-2 bg-white shadow-2xs focus-within:border-gray-400 transition-colors">
-                  <svg className="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" />
-                  </svg>
+                  <img src={sIcon} alt="search" className="w-4 h-4 shrink-0 object-contain" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search Orders...."
+                    placeholder="Search Shopkeepers...."
                     className="text-xs sm:text-sm text-gray-800 outline-none w-full ml-2.5 bg-transparent placeholder-gray-400 font-normal"
                   />
                   {searchQuery && (
@@ -445,7 +410,7 @@ export default function Shopkeepers() {
                 <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
                   
                   {/* Status Dropdown */}
-                  <div className="relative">
+                  <div className="relative inline-block">
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
@@ -455,11 +420,11 @@ export default function Shopkeepers() {
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
                     </select>
-                    <img src={dropDownArrowIcon} alt="arrow" className="w-2.5 h-2 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-60" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   {/* Salesman Dropdown */}
-                  <div className="relative">
+                  <div className="relative inline-block">
                     <select
                       value={salesmanFilter}
                       onChange={(e) => setSalesmanFilter(e.target.value)}
@@ -470,11 +435,11 @@ export default function Shopkeepers() {
                         <option key={i} value={sm}>{sm}</option>
                       ))}
                     </select>
-                    <img src={dropDownArrowIcon} alt="arrow" className="w-2.5 h-2 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-60" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   {/* Routes Dropdown */}
-                  <div className="relative">
+                  <div className="relative inline-block">
                     <select
                       value={routeFilter}
                       onChange={(e) => setRouteFilter(e.target.value)}
@@ -485,7 +450,7 @@ export default function Shopkeepers() {
                         <option key={i} value={rt}>{rt}</option>
                       ))}
                     </select>
-                    <img src={dropDownArrowIcon} alt="arrow" className="w-2.5 h-2 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-60" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   {/* Clear Button */}
@@ -569,20 +534,6 @@ export default function Shopkeepers() {
                 </table>
               </div>
 
-              {/* View All Red Button */}
-              <div className="pt-1">
-                <button
-                  type="button"
-                  onClick={() => setShowAll(!showAll)}
-                  className="bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-medium py-2.5 px-5 rounded-md inline-flex items-center space-x-2 shadow-xs transition-all duration-200 cursor-pointer"
-                >
-                  <span>{showAll ? 'Show Less' : 'View All'}</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </button>
-              </div>
-
             </div>
 
           </div>
@@ -591,8 +542,8 @@ export default function Shopkeepers() {
 
       {/* ADD SHOP MODAL */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 text-left animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 text-left my-8">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <h3 className="text-lg font-bold text-gray-900">Add New Shop</h3>
               <button
@@ -604,29 +555,110 @@ export default function Shopkeepers() {
               </button>
             </div>
 
-            <form onSubmit={handleSaveAdd} className="space-y-4 text-xs sm:text-sm">
-              <div>
-                <label className="block font-semibold text-gray-700 mb-1">Shop Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.shopName}
-                  onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
-                  placeholder="e.g. Patel General Store"
-                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
-                />
+            <form onSubmit={handleSaveAdd} className="space-y-3 text-xs sm:text-sm max-h-[75vh] overflow-y-auto pr-1">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Shop Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.shopName}
+                    onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
+                    placeholder="e.g. Patel General Store"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Shopkeeper/Owner *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.shopkeeper}
+                    onChange={(e) => setFormData({ ...formData, shopkeeper: e.target.value, ownerName: e.target.value })}
+                    placeholder="e.g. Rahul Patel"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Business Type</label>
+                  <input
+                    type="text"
+                    value={formData.businessType}
+                    onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
+                    placeholder="e.g. Retail / Grocery"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">GST Number</label>
+                  <input
+                    type="text"
+                    value={formData.gstNumber}
+                    onChange={(e) => setFormData({ ...formData, gstNumber: e.target.value })}
+                    placeholder="e.g. 24AAAAA0000A1Z5"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block font-semibold text-gray-700 mb-1">Shopkeeper Name *</label>
+                <label className="block font-semibold text-gray-700 mb-1">Address</label>
                 <input
                   type="text"
-                  required
-                  value={formData.shopkeeper}
-                  onChange={(e) => setFormData({ ...formData, shopkeeper: e.target.value })}
-                  placeholder="e.g. Rahul Patel"
-                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  placeholder="e.g. Shop No 4, Market Road"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Area</label>
+                  <input
+                    type="text"
+                    value={formData.area}
+                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                    placeholder="e.g. Maninagar"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">City</label>
+                  <input
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    placeholder="e.g. Ahmedabad"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">State</label>
+                  <input
+                    type="text"
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    placeholder="e.g. Gujarat"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Pincode</label>
+                  <input
+                    type="text"
+                    value={formData.pincode}
+                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                    placeholder="e.g. 380008"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -635,21 +667,22 @@ export default function Shopkeepers() {
                   <select
                     value={formData.salesman}
                     onChange={(e) => setFormData({ ...formData, salesman: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500 bg-white"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500 bg-white"
                   >
+                    <option value="">Select Salesman</option>
                     {salesmanOptions.map((sm, i) => (
                       <option key={i} value={sm}>{sm}</option>
                     ))}
                   </select>
                 </div>
-
                 <div>
                   <label className="block font-semibold text-gray-700 mb-1">Route</label>
                   <select
                     value={formData.route}
                     onChange={(e) => setFormData({ ...formData, route: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500 bg-white"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500 bg-white"
                   >
+                    <option value="">Select Route</option>
                     {routeOptions.map((rt, i) => (
                       <option key={i} value={rt}>{rt}</option>
                     ))}
@@ -659,38 +692,25 @@ export default function Shopkeepers() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Outstanding</label>
+                  <label className="block font-semibold text-gray-700 mb-1">Credit Limit</label>
                   <input
                     type="text"
-                    value={formData.outstanding}
-                    onChange={(e) => setFormData({ ...formData, outstanding: e.target.value })}
-                    placeholder="e.g. ₹12,000"
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
+                    value={formData.creditLimit}
+                    onChange={(e) => setFormData({ ...formData, creditLimit: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
                   />
                 </div>
-
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Orders</label>
-                  <input
-                    type="number"
-                    value={formData.orders}
-                    onChange={(e) => setFormData({ ...formData, orders: parseInt(e.target.value) || 0 })}
-                    placeholder="e.g. 18"
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
-                  />
+                  <label className="block font-semibold text-gray-700 mb-1">Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500 bg-white"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
                 </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-gray-700 mb-1">Status</label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500 bg-white"
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
               </div>
 
               <div className="flex items-center justify-end space-x-3 pt-3 border-t border-gray-100">
@@ -715,8 +735,8 @@ export default function Shopkeepers() {
 
       {/* EDIT SHOP MODAL */}
       {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 text-left animate-in fade-in zoom-in duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4 text-left my-8">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <h3 className="text-lg font-bold text-gray-900">Edit Shop Details</h3>
               <button
@@ -728,27 +748,101 @@ export default function Shopkeepers() {
               </button>
             </div>
 
-            <form onSubmit={handleSaveEdit} className="space-y-4 text-xs sm:text-sm">
-              <div>
-                <label className="block font-semibold text-gray-700 mb-1">Shop Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.shopName}
-                  onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
-                />
+            <form onSubmit={handleSaveEdit} className="space-y-3 text-xs sm:text-sm max-h-[75vh] overflow-y-auto pr-1">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Shop Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.shopName}
+                    onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Shopkeeper/Owner *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.shopkeeper}
+                    onChange={(e) => setFormData({ ...formData, shopkeeper: e.target.value, ownerName: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Business Type</label>
+                  <input
+                    type="text"
+                    value={formData.businessType}
+                    onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">GST Number</label>
+                  <input
+                    type="text"
+                    value={formData.gstNumber}
+                    onChange={(e) => setFormData({ ...formData, gstNumber: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block font-semibold text-gray-700 mb-1">Shopkeeper Name *</label>
+                <label className="block font-semibold text-gray-700 mb-1">Address</label>
                 <input
                   type="text"
-                  required
-                  value={formData.shopkeeper}
-                  onChange={(e) => setFormData({ ...formData, shopkeeper: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Area</label>
+                  <input
+                    type="text"
+                    value={formData.area}
+                    onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">City</label>
+                  <input
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">State</label>
+                  <input
+                    type="text"
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Pincode</label>
+                  <input
+                    type="text"
+                    value={formData.pincode}
+                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -757,21 +851,22 @@ export default function Shopkeepers() {
                   <select
                     value={formData.salesman}
                     onChange={(e) => setFormData({ ...formData, salesman: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500 bg-white"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500 bg-white"
                   >
+                    <option value="">Select Salesman</option>
                     {salesmanOptions.map((sm, i) => (
                       <option key={i} value={sm}>{sm}</option>
                     ))}
                   </select>
                 </div>
-
                 <div>
                   <label className="block font-semibold text-gray-700 mb-1">Route</label>
                   <select
                     value={formData.route}
                     onChange={(e) => setFormData({ ...formData, route: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500 bg-white"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500 bg-white"
                   >
+                    <option value="">Select Route</option>
                     {routeOptions.map((rt, i) => (
                       <option key={i} value={rt}>{rt}</option>
                     ))}
@@ -781,36 +876,25 @@ export default function Shopkeepers() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Outstanding</label>
+                  <label className="block font-semibold text-gray-700 mb-1">Credit Limit</label>
                   <input
                     type="text"
-                    value={formData.outstanding}
-                    onChange={(e) => setFormData({ ...formData, outstanding: e.target.value })}
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
+                    value={formData.creditLimit}
+                    onChange={(e) => setFormData({ ...formData, creditLimit: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500"
                   />
                 </div>
-
                 <div>
-                  <label className="block font-semibold text-gray-700 mb-1">Orders</label>
-                  <input
-                    type="number"
-                    value={formData.orders}
-                    onChange={(e) => setFormData({ ...formData, orders: parseInt(e.target.value) || 0 })}
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500"
-                  />
+                  <label className="block font-semibold text-gray-700 mb-1">Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:border-red-500 bg-white"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
                 </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-gray-700 mb-1">Status</label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2 outline-none focus:border-red-500 bg-white"
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
               </div>
 
               <div className="flex items-center justify-end space-x-3 pt-3 border-t border-gray-100">

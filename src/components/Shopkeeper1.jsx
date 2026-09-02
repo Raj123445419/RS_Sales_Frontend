@@ -11,28 +11,24 @@ import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
 import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
-import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
+import salesmenIcon from '../assets/Salesman.svg';
+import Shoopkeeper from '../assets/Shoopkeeper.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 
 // Requested Page-specific SVGs
-import arrowLeftIcon from '../assets/ArrowLeft.svg';
+import arrowLeftIcon from '../assets/ArrowUpBlack.svg';
 import editIcon from '../assets/EditWhite.svg';
 import employeeIdIcon from '../assets/UserBlack.svg';
 import emailIcon from '../assets/EmailBlack.svg';
-import assignedRouteIcon from '../assets/RouteBlack.svg';
-import roleIcon from '../assets/BarChartBlack.svg';
-import phoneIcon from '../assets/PhoneBlack.svg';
 import locationIcon from '../assets/LocationPinBlack.svg';
-import statusIcon from '../assets/TargetBlack.svg';
 import calendarIcon from '../assets/CalendarBlack.svg';
 import totalSalesIcon from '../assets/BarChartBlack.svg';
 import ordersBagIcon from '../assets/BagBlack.svg';
 import targetBullseyeIcon from '../assets/TargetBlack.svg';
 import walletIcon from '../assets/WalletPurple.svg';
 import ordersBagOrangeIcon from '../assets/BagOrange.svg';
-import userOrangeIcon from '../assets/UserOrange.svg';
+import Redperson from '../assets/Redperson.svg';
 
 export default function Shopkeeper1() {
   const { id } = useParams();
@@ -59,93 +55,21 @@ export default function Shopkeeper1() {
 
   // 4 Stat Cards Metrics
   const [metrics, setMetrics] = useState({
-    totalOrders: 124,
-    ordersGrowth: '+4 this month',
-    totalPurchase: '₹1,46,000',
+    totalOrders: 0,
+    ordersGrowth: '0 this month',
+    totalPurchase: '₹0',
     purchasePeriod: 'This year',
-    outstanding: '₹8,500',
+    outstanding: '₹0',
     outstandingStatus: 'Payment due',
-    lastOrderDate: '25 Aug 2026',
-    lastOrderAmount: '₹8,450'
+    lastOrderDate: 'N/A',
+    lastOrderAmount: '₹0'
   });
 
   // Recent Orders State
-  const [recentOrders, setRecentOrders] = useState([
-    {
-      orderId: '#ORD-1024',
-      date: '25 Aug 2026',
-      items: 'Coco Cola + 2 more',
-      orderValue: '₹12,500',
-      payment: 'Paid',
-      status: 'Pending'
-    },
-    {
-      orderId: '#ORD-1024',
-      date: '25 Aug 2026',
-      items: 'Coco Cola + 2 more',
-      orderValue: '₹12,500',
-      payment: 'Pending',
-      status: 'Scheduled'
-    },
-    {
-      orderId: '#ORD-1024',
-      date: '25 Aug 2026',
-      items: 'Coco Cola + 2 more',
-      orderValue: '₹12,500',
-      payment: 'Paid',
-      status: 'Completed'
-    },
-    {
-      orderId: '#ORD-1024',
-      date: '25 Aug 2026',
-      items: 'Coco Cola + 2 more',
-      orderValue: '₹12,500',
-      payment: 'Pending',
-      status: 'Scheduled'
-    },
-    {
-      orderId: '#ORD-1024',
-      date: '25 Aug 2026',
-      items: 'Coco Cola + 2 more',
-      orderValue: '₹12,500',
-      payment: 'Paid',
-      status: 'Completed'
-    }
-  ]);
+  const [recentOrders, setRecentOrders] = useState([]);
 
   // Recent Visits State
-  const [recentVisits, setRecentVisits] = useState([
-    {
-      date: '25 Aug 2026',
-      salesman: 'Amit Shah',
-      purpose: 'Order Visit',
-      outcome: 'Order Placed'
-    },
-    {
-      date: '25 Aug 2026',
-      salesman: 'Amit Shah',
-      purpose: 'Collection',
-      outcome: 'Payment Received'
-    },
-    {
-      date: '25 Aug 2026',
-      salesman: 'Amit Shah',
-      purpose: 'Product Visit',
-      outcome: 'Order Placed'
-    },
-    {
-      date: '25 Aug 2026',
-      salesman: 'Amit Shah',
-      purpose: 'Order Visit',
-      outcome: 'Order Placed'
-    },
-    {
-      date: '25 Aug 2026',
-      salesman: 'Amit Shah',
-      purpose: 'Product Visit',
-      outcome: 'Payment Received'
-    }
-  ]);
+  const [recentVisits, setRecentVisits] = useState([]);
 
   // Edit Modal State
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -160,54 +84,79 @@ export default function Shopkeeper1() {
     status: 'Active'
   });
 
-  // Load initial form data
+  // Load initial form data when shopkeeperData changes
   useEffect(() => {
     setEditForm({
-      name: shopkeeperData.name,
-      shopName: shopkeeperData.shopName,
-      email: shopkeeperData.email,
-      phone: shopkeeperData.phone,
-      shopType: shopkeeperData.shopType,
-      shopAddress: shopkeeperData.shopAddress,
-      assignedSalesman: shopkeeperData.assignedSalesman,
-      status: shopkeeperData.status
+      name: shopkeeperData.name || '',
+      shopName: shopkeeperData.shopName || '',
+      email: shopkeeperData.email || '',
+      phone: shopkeeperData.phone || '',
+      shopType: shopkeeperData.shopType || 'General Store',
+      shopAddress: shopkeeperData.shopAddress || '',
+      assignedSalesman: shopkeeperData.assignedSalesman || '',
+      status: shopkeeperData.status || 'Active'
     });
   }, [shopkeeperData]);
 
-  // Try fetching dynamic data if backend is available
+  // Fetch dynamic data from Backend based on shopkeeper ID
   useEffect(() => {
     if (id) {
       fetch(`http://127.0.0.1:8000/api/v1/shopkeeper-detail/${id}/`)
         .then((res) => res.json())
         .then((data) => {
-          if (data && data.success && data.shopkeeper) {
-            setShopkeeperData(data.shopkeeper);
+          if (data && data.success) {
+            if (data.shopkeeper) setShopkeeperData(data.shopkeeper);
             if (data.metrics) setMetrics(data.metrics);
             if (data.recentOrders) setRecentOrders(data.recentOrders);
             if (data.recentVisits) setRecentVisits(data.recentVisits);
           }
         })
-        .catch(() => {
-          // Keep default mock data
-        });
+        .catch((err) => console.error("Failed to fetch shopkeeper details:", err));
     }
   }, [id]);
 
   const handleUpdateProfile = (e) => {
     e.preventDefault();
-    setShopkeeperData((prev) => ({
-      ...prev,
-      name: editForm.name,
-      ownerName: editForm.name,
-      shopName: editForm.shopName,
-      email: editForm.email,
-      phone: editForm.phone,
-      shopType: editForm.shopType,
-      shopAddress: editForm.shopAddress,
-      assignedSalesman: editForm.assignedSalesman,
-      status: editForm.status
-    }));
-    setIsEditModalOpen(false);
+
+    fetch(`http://127.0.0.1:8000/api/v1/shopkeepers-update/${id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        shopName: editForm.shopName,
+        ownerName: editForm.name,
+        shopkeeper: editForm.name,
+        email: editForm.email,
+        phone: editForm.phone,
+        shopType: editForm.shopType,
+        address: editForm.shopAddress,
+        salesman: editForm.assignedSalesman,
+        status: editForm.status
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setShopkeeperData((prev) => ({
+            ...prev,
+            name: editForm.name,
+            ownerName: editForm.name,
+            shopName: editForm.shopName,
+            email: editForm.email,
+            phone: editForm.phone,
+            shopType: editForm.shopType,
+            shopAddress: editForm.shopAddress,
+            location: editForm.shopAddress,
+            assignedSalesman: editForm.assignedSalesman,
+            status: editForm.status
+          }));
+          setIsEditModalOpen(false);
+        } else {
+          alert('Failed to update profile: ' + (data.error || 'Unknown error'));
+        }
+      })
+      .catch((err) => console.error("Error updating shopkeeper:", err));
   };
 
   const getOrderStatusColor = (status) => {
@@ -223,7 +172,7 @@ export default function Shopkeeper1() {
     { name: 'Orders', icon: boxIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: shopkeepersIcon, path: '/shopkeepers' },
+    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -275,7 +224,7 @@ export default function Shopkeeper1() {
       <div className="flex-1 flex w-full relative">
         {/* SIDEBAR NAVIGATION */}
         <aside
-          className={`fixed md:sticky top-[58px] md:top-[80px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-80px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${
+          className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${
             isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
@@ -292,7 +241,7 @@ export default function Shopkeeper1() {
                     if (item.path) navigate(item.path);
                   }}
                   className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${
-                    isActive ? 'text-[#D71920] bg-red-50/60 font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
+                    isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
                   }`}
                 >
                   <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
@@ -337,7 +286,7 @@ export default function Shopkeeper1() {
                 className="p-2 -ml-2 rounded-lg hover:bg-gray-200/60 transition cursor-pointer flex items-center justify-center"
                 aria-label="Go Back"
               >
-                <img src={arrowLeftIcon} alt="Back" className="w-6 h-6 object-contain rotate-180" />
+                <img src={arrowLeftIcon} alt="Back" className="w-5 h-5 object-contain" />
               </button>
 
               <button
@@ -398,7 +347,7 @@ export default function Shopkeeper1() {
                   </div>
 
                   <div className="flex items-center space-x-2.5">
-                    <img src={phoneIcon} alt="Phone" className="w-4 h-4 object-contain shrink-0" />
+                    <img src={employeeIdIcon} alt="Phone" className="w-4 h-4 object-contain shrink-0" />
                     <div>
                       <span className="font-bold text-gray-900">Phone:</span>{' '}
                       <span className="font-normal text-gray-700">{shopkeeperData.phone}</span>
@@ -486,7 +435,7 @@ export default function Shopkeeper1() {
               {/* Card 3: Outstanding */}
               <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-xs flex items-center space-x-4 transition hover:shadow-sm">
                 <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FCE8EA] flex items-center justify-center shrink-0">
-                  <img src={userOrangeIcon} alt="Outstanding" className="w-6 h-6 object-contain" />
+                  <img src={Redperson} alt="Outstanding" className="w-7 h-7 object-contain" />
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs sm:text-sm font-semibold text-gray-700">Outstanding</p>

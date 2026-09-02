@@ -11,14 +11,13 @@ import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
 import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
-import salesmanAvatar from '../assets/UserDarkGray.svg';
-import salesmanCircle from '../assets/CircleGold.svg';
-import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
+import salesmenIcon from '../assets/Salesman.svg';
+import Shoopkeeper from '../assets/Shoopkeeper.svg';
+import salesmanAvatar from '../assets/AdminAvatarBlack.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 import calendarIcon from '../assets/material-symbols-light_event-note-outline.svg';
-import dropDownArrowIcon from '../assets/ChevronDownBlack.svg';
+import Dropdown from '../assets/Dropdown.svg';
 
 // Stat Cards Assets
 import rupeeIcon from '../assets/mdi_rupee.svg';
@@ -107,7 +106,7 @@ export default function AdminDashboard() {
     { name: 'Orders', icon: boxIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: shopkeepersIcon, path: '/shopkeepers' },
+    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -164,7 +163,7 @@ export default function AdminDashboard() {
                   key={item.name}
                   type="button"
                   onClick={() => { setActiveNav(item.name); setIsMobileNavOpen(false); if (item.path !== '/AdminDashboard') navigate(item.path); }}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#D71920] bg-red-50/60 font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
+                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
                 >
                   <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
                   <span>{item.name}</span>
@@ -248,7 +247,7 @@ export default function AdminDashboard() {
                       <option value="This Month">This Month</option>
                       <option value="This Year">This Year</option>
                     </select>
-                    <img src={dropDownArrowIcon} alt="arrow" className="w-2.5 h-2 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    <img src={Dropdown} alt="arrow" className="w-2.5 h-2 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
                 </div>
 
@@ -389,8 +388,8 @@ export default function AdminDashboard() {
                         <td className="py-3 px-4 sm:px-6 bg-[#E8E1DE78] border-r border-gray-200 font-semibold text-gray-900">
                           <div className="flex items-center space-x-3">
                             <div className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
-                              <img src={salesmanCircle} alt="circle" className="absolute inset-0 w-full h-full object-contain" />
-                              <img src={salesmanAvatar} alt={item.name} className="w-4 h-4 sm:w-4.5 sm:h-4.5 object-contain relative z-10" />
+                             
+                              <img src={salesmanAvatar} alt={item.name} className="w-4 h-4 sm:w-7 sm:h-7 object-contain relative z-10" />
                             </div>
                             <span>{item.name}</span>
                           </div>

@@ -11,11 +11,15 @@ import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
 import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/SalesmanProfileBlack.svg';
-import shopkeepersIcon from '../assets/ShopkeeperProfileBlack.svg';
+import salesmenIcon from '../assets/Salesman.svg';
+import Shoopkeeper from '../assets/Shoopkeeper.svg';
 import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
+import Dropdown from '../assets/Dropdown.svg';
+import sIcon from '../assets/sIcon.svg';
+
+
 
 export default function RoutePage() {
   const [activeNav, setActiveNav] = useState('Routes');
@@ -75,7 +79,7 @@ export default function RoutePage() {
     { name: 'Orders', icon: boxIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: shopkeepersIcon, path: '/shopkeepers' },
+    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -170,7 +174,7 @@ export default function RoutePage() {
 
       {/* BODY CONTAINER */}
       <div className="flex-1 flex w-full relative">
-        <aside className={`fixed md:sticky top-[58px] md:top-[80px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-80px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <aside className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
           <nav className="space-y-1.5 text-left">
             {navItems.map((item) => {
               const isActive = activeNav === item.name;
@@ -179,7 +183,7 @@ export default function RoutePage() {
                   key={item.name}
                   type="button"
                   onClick={() => { setActiveNav(item.name); setIsMobileNavOpen(false); if (item.path) navigate(item.path); }}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#D71920] bg-red-50/60 font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
+                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
                 >
                   <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
                   <span>{item.name}</span>
@@ -247,15 +251,24 @@ export default function RoutePage() {
               <div className="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-lg sm:text-xl font-bold text-gray-900">Route Performance Overview</h3>
-                  <div className="relative">
-                    <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)} className="bg-white border border-gray-200 hover:border-gray-300 rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-medium text-gray-700 cursor-pointer focus:outline-none pr-8 appearance-none shadow-2xs">
-                      <option value="This Week">This Week</option>
-                      <option value="This Month">This Month</option>
-                      <option value="Today">Today</option>
-                      <option value="This Year">This Year</option>
-                    </select>
-                    <svg className="w-4 h-4 text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
-                  </div>
+<div className="relative inline-flex items-center">
+  <select
+    value={timeFilter}
+    onChange={(e) => setTimeFilter(e.target.value)}
+    className="bg-white border border-gray-200 hover:border-gray-300 rounded-lg px-3.5 py-1.5 pr-8 text-xs sm:text-sm font-medium text-gray-700 cursor-pointer focus:outline-none shadow-2xs appearance-none"
+  >
+    <option value="This Week">This Week</option>
+    <option value="This Month">This Month</option>
+    <option value="Today">Today</option>
+    <option value="This Year">This Year</option>
+  </select>
+
+  <img
+    src={Dropdown}
+    alt=""
+    className="absolute right-2.5 top-4.5 -translate-y-1/2 w-3 h-3 pointer-events-none"
+  />
+</div>
                 </div>
 
                 <div className="grid grid-cols-12 items-center text-xs sm:text-sm font-bold text-gray-900 pb-4 mb-4 border-b border-transparent">
@@ -290,7 +303,7 @@ export default function RoutePage() {
             <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 space-y-6 text-left">
               <div className="flex flex-col space-y-4">
                 <div className="relative max-w-sm w-full border border-gray-300 rounded-full flex items-center px-4 py-2 bg-white shadow-2xs focus-within:border-gray-400 transition-colors">
-                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M16.65 11a5.65 5.65 0 11-11.3 0 5.65 5.65 0 0111.3 0z" /></svg>
+                  <img src={sIcon} alt="search" className="w-4 h-4 shrink-0 object-contain" />
                   <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search Routes...." className="text-xs sm:text-sm text-gray-800 outline-none w-full ml-2.5 bg-transparent placeholder-gray-400 font-normal" />
                   {searchQuery && <button type="button" onClick={() => setSearchQuery('')} className="text-gray-400 hover:text-gray-600 text-xs font-bold px-1 cursor-pointer">×</button>}
                 </div>
@@ -302,7 +315,7 @@ export default function RoutePage() {
                       <option value="Active">Active</option>
                       <option value="Completed">Completed</option>
                     </select>
-                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   <div className="relative inline-block">
@@ -310,7 +323,7 @@ export default function RoutePage() {
                       <option value="All">Salesman</option>
                       {uniqueSalesmen.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
                     </select>
-                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   <div className="relative inline-block">
@@ -318,7 +331,7 @@ export default function RoutePage() {
                       <option value="All">Area</option>
                       {uniqueAreas.map((ar, i) => <option key={i} value={ar}>{ar}</option>)}
                     </select>
-                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   <div className="relative inline-block">
@@ -326,7 +339,7 @@ export default function RoutePage() {
                       <option value="All">Route</option>
                       {uniqueRoutes.map((rt, i) => <option key={i} value={rt}>{rt}</option>)}
                     </select>
-                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                    <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                   </div>
 
                   <button type="button" onClick={handleClearFilters} className={`border rounded-md px-3.5 py-1.5 text-xs font-medium flex items-center space-x-1.5 transition-colors cursor-pointer shadow-2xs ${isFiltered ? 'bg-red-50 border-red-300 text-red-600 hover:bg-red-100' : 'bg-[#D9D9D9] border-gray-300 text-gray-600 hover:bg-gray-50'}`}>
@@ -388,7 +401,7 @@ export default function RoutePage() {
                     <option value="All">Shop</option>
                     {uniqueShops.map((sh, i) => <option key={i} value={sh}>{sh}</option>)}
                   </select>
-                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                 </div>
 
                 <div className="relative inline-block">
@@ -396,7 +409,7 @@ export default function RoutePage() {
                     <option value="All">Salesman</option>
                     {uniqueSalesmen.map((sm, i) => <option key={i} value={sm}>{sm}</option>)}
                   </select>
-                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                 </div>
 
                 <div className="relative inline-block">
@@ -404,7 +417,7 @@ export default function RoutePage() {
                     <option value="All">Area</option>
                     {uniqueAreas.map((ar, i) => <option key={i} value={ar}>{ar}</option>)}
                   </select>
-                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                 </div>
 
                 <div className="relative inline-block">
@@ -412,7 +425,7 @@ export default function RoutePage() {
                     <option value="All">Route</option>
                     {uniqueRoutes.map((rt, i) => <option key={i} value={rt}>{rt}</option>)}
                   </select>
-                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
+                  <img src={arrowDropUpIcon} alt="dropdown arrow" className="w-5 h-5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none object-contain" />
                 </div>
 
                 <button type="button" onClick={handleClearShopsFilters} className={`border rounded-md px-3.5 py-1.5 text-xs font-medium flex items-center space-x-1.5 transition-colors cursor-pointer shadow-2xs ${isShopsFiltered ? 'bg-red-50 border-red-300 text-red-600 hover:bg-red-100' : 'bg-[#D9D9D9] border-gray-300 text-gray-600 hover:bg-gray-50'}`}>

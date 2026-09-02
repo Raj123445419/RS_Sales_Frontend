@@ -23,7 +23,6 @@ import starIcon from '../assets/StarDarkGray.svg';
 import starIconOutline from '../assets/StarGold.svg';
 import addIcon from '../assets/AddBlack.svg';
 import minusIcon from '../assets/Icon (3).svg';
-import userIcon from '../assets/UserDarkGray.svg';
 import arrowTriangleIcon from '../assets/icon (up dace).svg';
 import newPhoneIcon from '../assets/PhoneWhite.svg';
 import arrowLeftIcon from '../assets/ArrowLeft.svg';

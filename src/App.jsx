@@ -18,6 +18,8 @@ import Shopkeepers from './components/Shopkeepers';
 
 import Salesmen1 from './components/Salesmen1';
 import Shopkeeper1 from './components/Shopkeeper1';
+import Notification from './components/Notification';
+import Settings from './components/Settings';
 // import Salesmen2 from './components/Salesmen2';
 // import Salesmen3 from './components/Salesmen3';
 
@@ -46,6 +48,9 @@ function App() {
         <Route path="/salesman/:id" element={<Salesmen1 />} />
         <Route path="/shopkeeper/:id" element={<Shopkeeper1 />} />
         <Route path="/shopkeeper1" element={<Shopkeeper1 />} />
+        <Route path="/notifications" element={<Notification />} />
+        <Route path="/notification" element={<Notification />} />
+        <Route path="/settings" element={<Settings />} />
         {/* <Route path="/salesmen2" element={<Salesmen2 />} />
         <Route path="/salesmen3" element={<Salesmen3 />} /> */}
       </Routes>
