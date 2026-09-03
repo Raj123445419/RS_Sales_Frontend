@@ -25,7 +25,8 @@ import addIcon from '../assets/AddBlack.svg';
 import minusIcon from '../assets/Icon (3).svg';
 import arrowTriangleIcon from '../assets/icon (up dace).svg';
 import newPhoneIcon from '../assets/PhoneWhite.svg';
-import arrowLeftIcon from '../assets/ArrowLeft.svg';
+import arrowLeftIcon from '../assets/ArrowUpBlack.svg';
+import userIcon from '../assets/UserBlack.svg';
 
 // Related Products Assets
 import relatedFanta from '../assets/fanta.png';
@@ -783,7 +784,7 @@ export default function Cocacola() {
                     <img
                       src={arrowLeftIcon}
                       alt="view product"
-                      className="w-5 h-5 object-contain transition-transform group-hover:translate-x-1"
+                      className="w-4 h-4 sm:w-5 sm:h-5 object-contain rotate-180 transition-transform group-hover:translate-x-1 shrink-0"
                     />
                   </Link>
                 </div>

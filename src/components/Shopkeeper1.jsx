@@ -17,6 +17,8 @@ import settingsIcon from '../assets/Settings.svg';
 import logoutIcon from '../assets/Log out.svg';
 
 // Requested Page-specific SVGs
+
+import PhoneBlack from '../assets/PhoneBlack.svg';
 import arrowLeftIcon from '../assets/ArrowUpBlack.svg';
 import editIcon from '../assets/EditWhite.svg';
 import employeeIdIcon from '../assets/UserBlack.svg';
@@ -347,7 +349,7 @@ export default function Shopkeeper1() {
                   </div>
 
                   <div className="flex items-center space-x-2.5">
-                    <img src={employeeIdIcon} alt="Phone" className="w-4 h-4 object-contain shrink-0" />
+                    <img src={PhoneBlack} alt="Phone" className="w-5 h-5 object-contain shrink-0" />
                     <div>
                       <span className="font-bold text-gray-900">Phone:</span>{' '}
                       <span className="font-normal text-gray-700">{shopkeeperData.phone}</span>

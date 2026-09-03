@@ -260,28 +260,28 @@ const getUserRoleBadge = () => {
               <img
                 src={coco}
                 alt="Coco Cola"
-                className="max-h-40 sm:max-h-48 w-auto max-w-full object-contain drop-shadow-xl hover:-translate-y-2 transition-transform duration-300 z-10"
+                className="max-h-35 sm:max-h-48 w-auto max-w-full object-contain drop-shadow-xl hover:-translate-y-2 transition-transform duration-300 z-10"
               />
             </div>
             <div className="text-center mt-3 sm:mt-4 w-full">
               <h3 className="text-sm sm:text-lg font-bold text-black mb-2 sm:mb-3">Coco Cola</h3>
-              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#E62429] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-red-700 transition-colors uppercase tracking-wider cursor-pointer">
+              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#D71920] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-red-700 transition-colors uppercase tracking-wider cursor-pointer">
                 shop
               </button>
             </div>
           </div>
 
           <div className="rounded-3xl p-3 sm:p-6 flex bg-[#FFFFFF] flex-col items-center justify-between border border-black/10 shadow-sm">
-            <div className="relative w-full h-44 sm:h-52 flex items-center justify-center my-2">
-              <img
-                src={sprite}
-                alt="Sprite"
-                className="max-h-40 sm:max-h-48 w-auto max-w-full object-contain drop-shadow-xl hover:-translate-y-2 transition-transform duration-300 z-10"
-              />
-            </div>
+<div className="relative w-full h-44 sm:h-52 flex items-center justify-center my-2">
+  <img
+    src={sprite}
+    alt="Sprite"
+    className="h-[155px] w-auto max-h-none max-w-none object-contain drop-shadow-xl hover:-translate-y-2 transition-transform duration-300 z-10"
+  />
+</div>
             <div className="text-center mt-3 sm:mt-4 w-full">
               <h3 className="text-sm sm:text-lg font-bold text-black mb-2 sm:mb-3">Sprite</h3>
-              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#2B8A3E] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-green-700 transition-colors uppercase tracking-wider cursor-pointer">
+              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#D71920] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-red-700 transition-colors uppercase tracking-wider cursor-pointer">
                 shop
               </button>
             </div>
@@ -297,7 +297,7 @@ const getUserRoleBadge = () => {
             </div>
             <div className="text-center mt-3 sm:mt-4 w-full">
               <h3 className="text-sm sm:text-lg font-bold text-black mb-2 sm:mb-3">Pepsi</h3>
-              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#3B30B5] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-indigo-800 transition-colors uppercase tracking-wider cursor-pointer">
+              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#D71920] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-red-700 transition-colors uppercase tracking-wider cursor-pointer">
                 shop
               </button>
             </div>
@@ -313,7 +313,7 @@ const getUserRoleBadge = () => {
             </div>
             <div className="text-center mt-3 sm:mt-4 w-full">
               <h3 className="text-sm sm:text-lg font-bold text-black mb-2 sm:mb-3">Fanta</h3>
-              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#EC6608] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-orange-600 transition-colors uppercase tracking-wider cursor-pointer">
+              <button onClick={() => navigate('/products')} className="w-full py-2 bg-[#D71920] text-white text-xs sm:text-sm font-bold rounded-lg shadow hover:bg-red-700 transition-colors uppercase tracking-wider cursor-pointer">
                 shop
               </button>
             </div>

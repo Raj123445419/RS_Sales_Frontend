@@ -124,14 +124,15 @@ export default function Gallery() {
     {
       id: 'pepsi',
       name: 'Pepsi',
-      image: pepsiCan,
+      image: pepsiCan,  
       bgColor: 'bg-[#353BEB]',
-      bgStyle: { backgroundColor: '#353BEB' }
+      bgStyle: { backgroundColor: '#353BEB' },
+      imageHeight: 'h-[145px] sm:h-[170px]',
     }
   ];
 
   return (
-    <div className="min-h-screen bg-[#EDE7DD] text-gray-900 relative overflow-x-hidden flex flex-col justify-between" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
+    <div className="min-h-screen bg-[#E9E1D4] text-gray-900 relative overflow-x-hidden flex flex-col justify-between" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
 
       {/* Top Header & Navbar */}
       <div className="w-full relative">
@@ -533,7 +534,7 @@ export default function Gallery() {
       </div>
 
       {/* Brand Showcase Section */}
-      <section className="w-full py-8 sm:py-12 lg:py-16 bg-[#EDE7DD]">
+      <section className="w-full py-8 sm:py-12 lg:py-16 bg-[#E9E1D4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section Header with Horizontal Line */}
@@ -541,7 +542,7 @@ export default function Gallery() {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight whitespace-nowrap">
               Brand Showcase
             </h2>
-            <div className="h-[1.5px] bg-[#BFB7AB] flex-1"></div>
+            <div className=" bg-black flex-1 h-[1.5px]"></div>
           </div>
 
           {/* 5 Brand Cards Grid */}
@@ -562,7 +563,7 @@ export default function Gallery() {
                   <img
                     src={brand.image}
                     alt={brand.name}
-                    className="relative z-10 max-h-[97%] max-w-[97%] object-contain transition-transform duration-300 group-hover:scale-105"
+                    className={` ${brand.imageHeight} relative z-10 object-contain transition-transform duration-300 group-hover:scale-105 `}
                   />
                 </div>
 

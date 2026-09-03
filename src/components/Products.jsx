@@ -30,7 +30,7 @@ import mocha from '../assets/18.png';
 import bisl from '../assets/19.png';
 import beans from '../assets/20.png';
 import Icon from '../assets/ArrowRightCircleBlack.svg';
-import Arrowleft from '../assets/ArrowLeft.svg';
+import Arrowleft from '../assets/ArrowUpBlack.svg';
 import Arrowrightcircle from '../assets/ArrowRightCircleWhite.svg';
 import Arrowrightcircleblack from '../assets/ArrowRightCircleBlack.svg';
 
@@ -238,7 +238,7 @@ export default function Products() {
           </nav>
 
           {/* Hero Section Content (Text) */}
-          <div className="w-full flex flex-col justify-center items-center text-center px-4 py-16 sm:py-24 md:py-32 pointer-events-none">
+          <div className="w-full flex flex-col justify-center items-center text-center px-4 py-16 mb-70 pointer-events-none">
             <div className="pointer-events-auto max-w-3xl mx-auto space-y-1.5 sm:space-y-3">
               <p className="text-[10px] xs:text-xs sm:text-base md:text-xl font-bold tracking-widest text-gray-800 uppercase">
                 Carbonated <span className="mx-1 text-red-600">•</span> Coffee <span className="mx-1 text-red-600">•</span> Packaged Water
@@ -479,7 +479,7 @@ export default function Products() {
                     className="flex items-center justify-between text-xs sm:text-sm font-semibold text-gray-900 group-hover:text-[#E5383B] transition-colors duration-300 pt-2 sm:pt-3 border-t border-gray-200/80 mt-auto"
                   >
                     <span>View Product</span>
-                    <img src={Arrowleft} className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:translate-x-1 shrink-0" alt="Arrow" />
+                    <img src={Arrowleft} className="h-4 w-4 sm:h-5 sm:w-5 object-contain rotate-180 transition-transform duration-300 group-hover:translate-x-1 shrink-0" alt="Arrow" />
                   </Link>
                 </div>
               </div>

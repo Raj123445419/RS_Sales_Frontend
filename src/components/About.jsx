@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LogOut, Menu, X, User } from 'lucide-react';
 import logoImg from '../assets/rs-logo.png';
 import abbanner from '../assets/about banner.png';
+import whoWeAreImg from '../assets/About WhoWeAre.png';
 import mid from '../assets/about mid.png';
 import last from '../assets/about last.png';
 import login from '../assets/login.svg';
@@ -52,7 +53,7 @@ export default function About() {
   };
 
   return (
-    <div className="bg-[#F5F0E6] text-gray-900 relative overflow-x-hidden min-h-screen" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
+    <div className="bg-[#E9E1D4] text-gray-900 relative overflow-x-hidden min-h-screen" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
       
       {/* ================= HERO & HEADER BANNER ================= */}
       <div className="w-full relative">
@@ -198,32 +199,48 @@ export default function About() {
       </div>
 
       {/* ================= WHO WE ARE SECTION ================= */}
-      <section className="bg-[#EFECE6] py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center space-y-10 sm:space-y-12">
-          <div className="space-y-3">
-            <span className="text-xs sm:text-sm font-bold tracking-widest text-gray-500 uppercase">Who We Are</span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-gray-900 max-w-3xl mx-auto leading-tight">
-              A Reliable Partner in Beverage Sales & Distribution.
-            </h2>
+      <section className=" py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Left: Illustration Image */}
+          <div className="lg:col-span-4 flex justify-center lg:justify-start">
+            <img
+              src={whoWeAreImg}
+              alt="Who We Are - Partner in Beverage Sales"
+              className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full object-contain"
+            />
           </div>
 
-          {/* 3 Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            <div className="bg-[#E4C495] hover:bg-[#D9C4A3] transition-all duration-300 rounded-2xl p-6 sm:p-8 text-center shadow-sm flex flex-col justify-between w-full">
-              <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
-                Ravi Sales works across the beverage market to connect products with businesses and customers. We focus on creating reliable connections between beverage brands and markets.
+          {/* Middle: Text Content */}
+          <div className="lg:col-span-4 text-center lg:text-left space-y-3 sm:space-y-4">
+            <span className="text-xs sm:text-sm font-semibold tracking-wider text-gray-700 block">
+              Who We Are
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 leading-tight">
+              A Reliable Partner in <br />
+              <span className="text-[#E62429]">Beverage Sales</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-700 leading-relaxed max-w-md mx-auto lg:mx-0">
+              Ravi Sales works across the beverage market to connect products with businesses
+            </p>
+          </div>
+
+          {/* Right: 3 Feature Cards */}
+          <div className="lg:col-span-4 space-y-4 sm:space-y-5">
+            <div className="bg-[#E4C495] rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm">
+              <p className="text-xs sm:text-sm text-gray-800 leading-relaxed text-left">
+                We make beverage products more accessible while supporting the sales and distribution
               </p>
             </div>
 
-            <div className="bg-[#E4C495] hover:bg-[#D9C4A3] transition-all duration-300 rounded-2xl p-6 sm:p-8 text-center shadow-sm flex flex-col justify-between w-full">
-              <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
-                With a diverse range of products and pack sizes, we make beverage products more accessible while supporting the sales and distribution needs of our valued business partners.
+            <div className="bg-[#E4C495] rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm">
+              <p className="text-xs sm:text-sm text-gray-800 leading-relaxed text-left">
+                We focus on creating reliable connections between beverage brands and markets.
               </p>
             </div>
 
-            <div className="bg-[#E4C495] hover:bg-[#D9C4A3] transition-all duration-300 rounded-2xl p-6 sm:p-8 text-center shadow-sm flex flex-col justify-between w-full">
-              <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
-                Our approach is built around dependable service, strong relationships, and a clear understanding of market requirements. We work to create lasting value for every business partnership.
+            <div className="bg-[#E4C495] rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm">
+              <p className="text-xs sm:text-sm text-gray-800 leading-relaxed text-left">
+                Our approach is built around dependable service, strong relationships, and a clear understanding
               </p>
             </div>
           </div>
@@ -231,45 +248,45 @@ export default function About() {
       </section>
 
       {/* ================= WHAT WE DO & APPROACH & WHY US ================= */}
-      <div className="bg-[#E9E1D4] text-gray-900 py-10 sm:py-16 overflow-x-hidden">
+      <div className="bg-[#E9E1D4] text-gray-900 py-10 sm:py-16 overflow-x-hidden ">
         
-        {/* 1. What We Do: Card with Image */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="bg-[#F6F3EE] rounded-3xl sm:rounded-[40px] shadow-md p-6 sm:p-10 lg:p-12">
+        {/* 1. What We Do: Card with Image (Flush to Left Screen Edge) */}
+        <div className="w-full pb-6">
+          <div className="w-full lg:w-[86%] xl:w-[82%] 2xl:w-[78%] mr-auto bg-[#F6F3EE] rounded-l-none rounded-r-[35px] sm:rounded-r-[60px] lg:rounded-r-[90px] shadow-sm py-8 sm:py-12 lg:py-16 pl-4 sm:pl-10 md:pl-14 lg:pl-20 xl:pl-28 pr-4 sm:pr-8 lg:pr-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Text Content */}
-              <div className="space-y-5 sm:space-y-6">
+              <div className="space-y-5 sm:space-y-6 lg:space-y-7">
                 <div>
-                  <span className="text-xs sm:text-sm font-bold tracking-widest text-gray-500 uppercase">
-                    What We Do
+                  <span className="text-xs sm:text-sm font-semibold tracking-wider text-gray-700 block">
+                    What We do
                   </span>
-                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 mt-2 leading-tight">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 mt-2 leading-tight max-w-xl">
                     More Than <span className="text-[#E62429]">Moving Products.</span>
                   </h2>
                 </div>
 
-                <div className="space-y-4 text-xs sm:text-sm lg:text-base text-gray-700 leading-relaxed">
+                <div className="space-y-4 sm:space-y-5 text-xs sm:text-sm text-gray-700 leading-relaxed">
                   <div>
                     <h4 className="font-bold text-gray-900 text-sm sm:text-base mb-1">Sales</h4>
-                    <p className="text-gray-600">We support beverage brands by helping their products reach the right businesses and market opportunities through focused sales efforts.</p>
+                    <p className="text-gray-700">We support beverage brands by helping their products reach the right businesses and market opportunities through focused sales efforts.</p>
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 text-sm sm:text-base mb-1">Distribution</h4>
-                    <p className="text-gray-600">We help ensure products move efficiently through the market, supporting reliable availability for retailers and business partners.</p>
+                    <p className="text-gray-700">We help ensure products move efficiently through the market, supporting reliable availability for retailers and business partners.</p>
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 text-sm sm:text-base mb-1">Market Reach</h4>
-                    <p className="text-gray-600">We build connections between beverage brands and businesses, helping products expand their presence across different markets.</p>
+                    <p className="text-gray-700">We build connections between beverage brands and businesses, helping products expand their presence across different markets.</p>
                   </div>
                 </div>
               </div>
 
               {/* Right Illustration */}
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center lg:justify-end items-center">
                 <img 
                   src={mid} 
                   alt="Moving Products Illustration" 
-                  className="w-full max-w-xs sm:max-w-sm lg:max-w-md object-contain max-h-[360px]"
+                  className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain max-h-[360px] sm:max-h-[400px]"
                 />
               </div>
             </div>
@@ -328,7 +345,7 @@ export default function About() {
         </div>
 
         {/* 3. Why Ravi Sales Section */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 bg-[#F6F3EE] rounded-3xl sm:rounded-[40px] shadow-sm space-y-8 sm:space-y-10 mt-12 sm:mt-16">
+        <div className="w-full max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 bg-[#F6F3EE] shadow-sm space-y-8 sm:space-y-10 mt-12 sm:mt-16">
           <div className="text-center sm:text-left">
             <span className="text-xs sm:text-sm font-bold tracking-widest text-gray-500 uppercase">
               Why Ravi Sales
@@ -467,7 +484,7 @@ export default function About() {
               <img 
                 src={last} 
                 alt="Vision Mission Illustration" 
-                className="w-full max-w-md object-contain max-h-[380px]"
+                className="w-full max-w-md object-contain max-h-full"
               />
             </div>
 
