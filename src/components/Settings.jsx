@@ -10,6 +10,9 @@ import goldUserIcon from '../assets/UserGold.svg';
 import goldCircle from '../assets/CircleGold.svg';
 import dashboardIcon from '../assets/HomeBlack.svg';
 import boxIcon from '../assets/BoxBlack.svg';
+import cartIcon from '../assets/CartIcon.svg';
+import paymentIcon from '../assets/moneybag.svg';
+import chartIcon from '../assets/Chart.svg';
 import routesIcon from '../assets/RouteBlack.svg';
 import salesmenIcon from '../assets/Salesman.svg';
 import Shoopkeeper from '../assets/Shoopkeeper.svg';
@@ -124,10 +127,13 @@ export default function Settings() {
 
   const navItems = [
     { name: 'Dashboard', icon: dashboardIcon, path: '/AdminDashboard' },
-    { name: 'Orders', icon: boxIcon, path: '/orders' },
+    { name: 'Inventory', icon: boxIcon, path: '#' },
+    { name: 'Orders', icon: cartIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
     { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
     { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
+    { name: 'Payments', icon: paymentIcon, path: '#' },
+    { name: 'Reports', icon: chartIcon, path: '#' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -345,7 +351,7 @@ export default function Settings() {
                   onClick={() => {
                     setActiveNav(item.name);
                     setIsMobileNavOpen(false);
-                    if (item.path) navigate(item.path);
+                    if (item.path && item.path !== '#' && item.path !== '/settings') navigate(item.path);
                   }}
                   className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${
                     isActive
