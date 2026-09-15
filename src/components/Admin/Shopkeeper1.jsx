@@ -1,44 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-
-// Header & Navigation Assets
-import logoImg from '../assets/rs-logo.png';
-import bellIcon from '../assets/BellBlack.svg';
-import goldBellIcon from '../assets/BellGold.svg';
-import adminAvatar from '../assets/AdminAvatarBlack.svg';
-import goldUserIcon from '../assets/UserGold.svg';
-import goldCircle from '../assets/CircleGold.svg';
-import dashboardIcon from '../assets/HomeBlack.svg';
-import boxIcon from '../assets/BoxBlack.svg';
-import cartIcon from '../assets/CartIcon.svg';
-import paymentIcon from '../assets/moneybag.svg';
-import chartIcon from '../assets/Chart.svg';
-import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/Salesman.svg';
-import Shoopkeeper from '../assets/Shoopkeeper.svg';
-import settingsIcon from '../assets/Settings.svg';
-import logoutIcon from '../assets/Log out.svg';
+import Navbar from './Navbar';
 
 // Requested Page-specific SVGs
-
-import PhoneBlack from '../assets/PhoneBlack.svg';
-import arrowLeftIcon from '../assets/ArrowUpBlack.svg';
-import editIcon from '../assets/EditWhite.svg';
-import employeeIdIcon from '../assets/UserBlack.svg';
-import emailIcon from '../assets/EmailBlack.svg';
-import locationIcon from '../assets/LocationPinBlack.svg';
-import calendarIcon from '../assets/CalendarBlack.svg';
-import totalSalesIcon from '../assets/BarChartBlack.svg';
-import ordersBagIcon from '../assets/BagBlack.svg';
-import targetBullseyeIcon from '../assets/TargetBlack.svg';
-import walletIcon from '../assets/WalletPurple.svg';
-import ordersBagOrangeIcon from '../assets/BagOrange.svg';
-import Redperson from '../assets/Redperson.svg';
+import PhoneBlack from '../../assets/PhoneBlack.svg';
+import arrowLeftIcon from '../../assets/ArrowUpBlack.svg';
+import editIcon from '../../assets/EditWhite.svg';
+import employeeIdIcon from '../../assets/UserBlack.svg';
+import emailIcon from '../../assets/EmailBlack.svg';
+import locationIcon from '../../assets/LocationPinBlack.svg';
+import calendarIcon from '../../assets/CalendarBlack.svg';
+import totalSalesIcon from '../../assets/BarChartBlack.svg';
+import ordersBagIcon from '../../assets/BagBlack.svg';
+import targetBullseyeIcon from '../../assets/TargetBlack.svg';
+import walletIcon from '../../assets/WalletPurple.svg';
+import ordersBagOrangeIcon from '../../assets/BagOrange.svg';
+import Redperson from '../../assets/Redperson.svg';
 
 export default function Shopkeeper1() {
   const { id } = useParams();
-  const [activeNav, setActiveNav] = useState('Shopkeepers');
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const navigate = useNavigate();
 
   // Shopkeeper Details State
@@ -46,99 +26,106 @@ export default function Shopkeeper1() {
     id: id || '1',
     initials: 'RP',
     name: 'Rahul Patel',
-    shopName: 'Patel General Store',
-    location: 'Satellite, Ahmedabad, Gujarat',
-    assignedSalesman: 'Amit Shah',
     ownerName: 'Rahul Patel',
-    email: 'rahul.patel@ravisales.com',
+    shopName: 'Patel General Store',
+    shopType: 'Retail General Store',
+    shopAddress: 'Shop No 4, Satellite Road, Ahmedabad',
+    location: 'Satellite, Ahmedabad, Gujarat',
+    email: 'rahul.patel@gmail.com',
     phone: '+91 98765 43210',
-    shopType: 'General Store',
-    shopAddress: 'Satellite, Ahmedabad, Gujarat',
-    joinedDate: '12 January 2026',
-    status: 'Active'
+    joinedDate: '15 Jan 2023',
+    assignedSalesman: 'Vikram Singh',
+    assignedRoute: 'Route A - Satellite Area',
+    status: 'Active',
+    totalSales: '₹1,24,500',
+    ordersThisMonth: '18 Orders',
+    pendingVisits: '2 Visits Pending',
+    outstandingAmount: '₹14,500',
   });
 
-  // 4 Stat Cards Metrics
+  // Metrics Stat Cards State
   const [metrics, setMetrics] = useState({
-    totalOrders: 0,
-    ordersGrowth: '0 this month',
-    totalPurchase: '₹0',
-    purchasePeriod: 'This year',
-    outstanding: '₹0',
-    outstandingStatus: 'Payment due',
-    lastOrderDate: 'N/A',
-    lastOrderAmount: '₹0'
+    totalOrders: '42',
+    ordersGrowth: '+12% from last month',
+    totalPurchase: '₹1,24,500',
+    purchasePeriod: 'This Year',
+    outstanding: '₹14,500',
+    outstandingStatus: 'Due in 5 days',
+    lastOrderDate: '24 May 2024',
+    lastOrderAmount: '₹12,400',
   });
 
   // Recent Orders State
-  const [recentOrders, setRecentOrders] = useState([]);
+  const [recentOrders, setRecentOrders] = useState([
+    { orderId: '#ORD-8942', date: '24 May 2024', items: '8 Items', orderValue: '₹12,400', payment: 'Paid', status: 'Completed' },
+    { orderId: '#ORD-8910', date: '18 May 2024', items: '5 Items', orderValue: '₹8,250', payment: 'Paid', status: 'Completed' },
+    { orderId: '#ORD-8876', date: '12 May 2024', items: '11 Items', orderValue: '₹15,100', payment: 'Pending', status: 'Pending' },
+    { orderId: '#ORD-8820', date: '04 May 2024', items: '4 Items', orderValue: '₹6,750', payment: 'Scheduled', status: 'Scheduled' },
+  ]);
 
   // Recent Visits State
-  const [recentVisits, setRecentVisits] = useState([]);
+  const [recentVisits, setRecentVisits] = useState([
+    { date: '22 May 2024', salesman: 'Vikram Singh', purpose: 'Order Collection', outcome: 'Order Placed (₹12,400)' },
+    { date: '15 May 2024', salesman: 'Vikram Singh', purpose: 'Stock Audit', outcome: 'Stock Checked' },
+    { date: '08 May 2024', salesman: 'Vikram Singh', purpose: 'Payment Follow-up', outcome: 'Partial Payment (₹5,000)' },
+  ]);
 
-  // Edit Modal State
+  // Modal States
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editForm, setEditForm] = useState({
     name: '',
     shopName: '',
-    email: '',
     phone: '',
-    shopType: 'General Store',
-    shopAddress: '',
+    email: '',
     assignedSalesman: '',
-    status: 'Active'
+    assignedRoute: '',
+    status: 'Active',
+    shopAddress: '',
   });
 
-  // Load initial form data when shopkeeperData changes
+  // Fetch shopkeeper details from backend
   useEffect(() => {
-    setEditForm({
-      name: shopkeeperData.name || '',
-      shopName: shopkeeperData.shopName || '',
-      email: shopkeeperData.email || '',
-      phone: shopkeeperData.phone || '',
-      shopType: shopkeeperData.shopType || 'General Store',
-      shopAddress: shopkeeperData.shopAddress || '',
-      assignedSalesman: shopkeeperData.assignedSalesman || '',
-      status: shopkeeperData.status || 'Active'
-    });
-  }, [shopkeeperData]);
-
-  // Fetch dynamic data from Backend based on shopkeeper ID
-  useEffect(() => {
-    if (id) {
-      fetch(`http://127.0.0.1:8000/api/v1/shopkeeper-detail/${id}/`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data && data.success) {
-            if (data.shopkeeper) setShopkeeperData(data.shopkeeper);
-            if (data.metrics) setMetrics(data.metrics);
-            if (data.recentOrders) setRecentOrders(data.recentOrders);
-            if (data.recentVisits) setRecentVisits(data.recentVisits);
+    fetch(`http://127.0.0.1:8000/api/v1/shopkeepers-detail/${id}/`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          if (data.shopkeeper) {
+            setShopkeeperData((prev) => ({ ...prev, ...data.shopkeeper }));
           }
-        })
-        .catch((err) => console.error("Failed to fetch shopkeeper details:", err));
-    }
+          if (data.metrics) {
+            setMetrics((prev) => ({ ...prev, ...data.metrics }));
+          }
+          if (data.recentOrders) {
+            setRecentOrders(data.recentOrders);
+          }
+          if (data.recentVisits) {
+            setRecentVisits(data.recentVisits);
+          }
+        }
+      })
+      .catch((err) => console.error("Failed to fetch shopkeeper details:", err));
   }, [id]);
 
-  const handleUpdateProfile = (e) => {
-    e.preventDefault();
+  const handleOpenEditModal = () => {
+    setEditForm({
+      name: shopkeeperData.name || shopkeeperData.ownerName || '',
+      shopName: shopkeeperData.shopName || '',
+      phone: shopkeeperData.phone || '',
+      email: shopkeeperData.email || '',
+      assignedSalesman: shopkeeperData.assignedSalesman || '',
+      assignedRoute: shopkeeperData.assignedRoute || '',
+      status: shopkeeperData.status || 'Active',
+      shopAddress: shopkeeperData.shopAddress || shopkeeperData.location || '',
+    });
+    setIsEditModalOpen(true);
+  };
 
+  const handleUpdateProfile = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     fetch(`http://127.0.0.1:8000/api/v1/shopkeepers-update/${id}/`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        shopName: editForm.shopName,
-        ownerName: editForm.name,
-        shopkeeper: editForm.name,
-        email: editForm.email,
-        phone: editForm.phone,
-        shopType: editForm.shopType,
-        address: editForm.shopAddress,
-        salesman: editForm.assignedSalesman,
-        status: editForm.status
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(editForm),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -148,13 +135,13 @@ export default function Shopkeeper1() {
             name: editForm.name,
             ownerName: editForm.name,
             shopName: editForm.shopName,
-            email: editForm.email,
             phone: editForm.phone,
-            shopType: editForm.shopType,
+            email: editForm.email,
+            assignedSalesman: editForm.assignedSalesman,
+            assignedRoute: editForm.assignedRoute,
+            status: editForm.status,
             shopAddress: editForm.shopAddress,
             location: editForm.shopAddress,
-            assignedSalesman: editForm.assignedSalesman,
-            status: editForm.status
           }));
           setIsEditModalOpen(false);
         } else {
@@ -163,6 +150,7 @@ export default function Shopkeeper1() {
       })
       .catch((err) => console.error("Error updating shopkeeper:", err));
   };
+  const handleSaveEdit = handleUpdateProfile;
 
   const getOrderStatusColor = (status) => {
     const s = String(status || '').toLowerCase();
@@ -172,119 +160,9 @@ export default function Shopkeeper1() {
     return 'text-gray-700 font-semibold';
   };
 
-  const navItems = [
-    { name: 'Dashboard', icon: dashboardIcon, path: '/AdminDashboard' },
-    { name: 'Inventory', icon: boxIcon, path: '#' },
-    { name: 'Orders', icon: cartIcon, path: '/orders' },
-    { name: 'Routes', icon: routesIcon, path: '/routes' },
-    { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
-    { name: 'Payments', icon: paymentIcon, path: '#' },
-    { name: 'Reports', icon: chartIcon, path: '#' },
-    { name: 'Notifications', icon: bellIcon, path: '/notifications' },
-    { name: 'Settings', icon: settingsIcon, path: '/settings' },
-  ];
-
-  const handleLogout = () => {
-    localStorage.removeItem('shopzee_user');
-    navigate('/login');
-  };
-
   return (
-    <div className="min-h-screen bg-[#F5F6F8] flex flex-col font-sans">
-      
-      {/* TOP HEADER */}
-      <header className="w-full h-20 bg-[#181818] text-white px-4 sm:px-8 py-2.5 sm:py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
-        <div className="flex items-center space-x-4">
-          <button
-            type="button"
-            onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-            className="md:hidden p-1.5 rounded-lg bg-white/10 text-white focus:outline-none cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <Link to="/AdminDashboard" className="flex items-center">
-            <img src={logoImg} alt="RS Logo" className="h-12 sm:h-20 w-auto object-contain transition-transform hover:scale-105" />
-          </Link>
-        </div>
-
-        <div className="flex items-center space-x-5 sm:space-x-7">
-          <button type="button" className="p-1 hover:opacity-85 transition cursor-pointer" aria-label="Notifications">
-            <img src={goldBellIcon} alt="Notifications" className="w-7 h-7 object-contain" />
-          </button>
-          <div className="flex items-center space-x-3 text-left">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shrink-0">
-              <img src={goldCircle} alt="circle border" className="absolute inset-0 w-full h-full object-contain" />
-              <img src={goldUserIcon} alt="Admin" className="w-5 h-5 object-contain relative z-10" />
-            </div>
-            <div className="hidden sm:block">
-              <h4 className="text-sm font-bold text-white leading-tight">Admin</h4>
-              <span className="text-[11px] text-gray-400 font-normal">Administrator</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* BODY CONTAINER */}
-      <div className="flex-1 flex w-full relative">
-        {/* SIDEBAR NAVIGATION */}
-        <aside
-          className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${
-            isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-          }`}
-        >
-          <nav className="space-y-1.5 text-left">
-            {navItems.map((item) => {
-              const isActive = activeNav === item.name;
-              return (
-                <button
-                  key={item.name}
-                  type="button"
-                  onClick={() => {
-                    setActiveNav(item.name);
-                    setIsMobileNavOpen(false);
-                    if (item.path && item.path !== '#') navigate(item.path);
-                  }}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${
-                    isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
-                  }`}
-                >
-                  <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
-                  <span>{item.name}</span>
-                </button>
-              );
-            })}
-          </nav>
-
-          <div className="pt-6 border-t border-gray-100 space-y-4 text-left">
-            <div className="flex items-center space-x-3 px-2">
-              <img src={adminAvatar} alt="Admin Profile" className="w-10 h-10 object-contain" />
-              <div>
-                <h4 className="text-sm font-bold text-gray-900 leading-tight">Admin</h4>
-                <span className="text-xs text-gray-500 font-normal">Administrator</span>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="w-full bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-2.5 px-5 rounded-full flex items-center justify-center space-x-2.5 shadow-sm hover:shadow transition cursor-pointer"
-            >
-              <img src={logoutIcon} alt="logout" className="w-4 h-4 object-contain" />
-              <span>Log Out</span>
-            </button>
-          </div>
-        </aside>
-
-        {isMobileNavOpen && (
-          <div onClick={() => setIsMobileNavOpen(false)} className="fixed inset-0 bg-black/40 z-30 md:hidden" />
-        )}
-
-        {/* MAIN CONTENT AREA */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-          <div className="max-w-7xl mx-auto space-y-6 text-left">
+    <Navbar activeNav="Shopkeepers">
+      <div className="max-w-7xl mx-auto space-y-6 text-left">
             
             {/* TOP ACTION BAR: BACK ARROW & EDIT PROFILE BUTTON */}
             <div className="flex items-center justify-between">
@@ -299,7 +177,7 @@ export default function Shopkeeper1() {
 
               <button
                 type="button"
-                onClick={() => setIsEditModalOpen(true)}
+                onClick={handleOpenEditModal}
                 className="bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-lg flex items-center space-x-2 shadow-xs transition cursor-pointer"
               >
                 <span>Edit profile</span>
@@ -543,8 +421,6 @@ export default function Shopkeeper1() {
             </div>
 
           </div>
-        </main>
-      </div>
 
       {/* EDIT PROFILE MODAL */}
       {isEditModalOpen && (
@@ -657,7 +533,6 @@ export default function Shopkeeper1() {
           </div>
         </div>
       )}
-
-    </div>
+    </Navbar>
   );
 }

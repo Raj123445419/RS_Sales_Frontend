@@ -1,70 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, Menu, X, User, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import logoImg from '../assets/rs-logo.png';
-import product from '../assets/product.png';
-import login from '../assets/login.svg';
-import cart from '../assets/CartGold.svg';
-import HeadPhon from '../assets/HeadPhon.svg';
-import Phonecallwhite from '../assets/PhoneCallWhite.svg';
-import mailoutline from '../assets/MailWhite.svg';
-import instagram from '../assets/instagram.svg';
-import facebook from '../assets/facebook.svg';
-import Vector from '../assets/Vector.svg';
-import coco from '../assets/2.png';
-import pepsi from '../assets/3.png';
-import sprite from '../assets/4.png';
-import fanta from '../assets/5.png';
-import nescafe from '../assets/6.png';
-import bisleri from '../assets/7.png';
-import botels from '../assets/8.png';
-import coffee from '../assets/9.png';
-import water from '../assets/10.png';
-import co from '../assets/11.png';
-import pep from '../assets/13.png';
-import bis from '../assets/14.png';
-import drink from '../assets/15.png';
-import or from '../assets/16.png';
-import late from '../assets/17.png';
-import mocha from '../assets/18.png';
-import bisl from '../assets/19.png';
-import beans from '../assets/20.png';
-import Icon from '../assets/ArrowRightCircleBlack.svg';
-import Arrowleft from '../assets/ArrowUpBlack.svg';
-import Arrowrightcircle from '../assets/ArrowRightCircleWhite.svg';
-import Arrowrightcircleblack from '../assets/ArrowRightCircleBlack.svg';
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+
+import Navbar from './Navbar';
+import Footer from './Footer';
+
+import product from '../../assets/product.png';
+import coco from '../../assets/2.png';
+import pepsi from '../../assets/3.png';
+import sprite from '../../assets/4.png';
+import fanta from '../../assets/5.png';
+import nescafe from '../../assets/6.png';
+import bisleri from '../../assets/7.png';
+import botels from '../../assets/8.png';
+import coffee from '../../assets/9.png';
+import water from '../../assets/10.png';
+import co from '../../assets/11.png';
+import pep from '../../assets/13.png';
+import bis from '../../assets/14.png';
+import drink from '../../assets/15.png';
+import or from '../../assets/16.png';
+import late from '../../assets/17.png';
+import mocha from '../../assets/18.png';
+import bisl from '../../assets/19.png';
+import beans from '../../assets/20.png';
+import Icon from '../../assets/ArrowRightCircleBlack.svg';
+import Arrowleft from '../../assets/ArrowUpBlack.svg';
+import Arrowrightcircle from '../../assets/ArrowRightCircleWhite.svg';
+import Arrowrightcircleblack from '../../assets/ArrowRightCircleBlack.svg';
 
 export default function Products() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
   const [activeTab, setActiveTab] = useState('All');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const user = localStorage.getItem('shopzee_user');
-    if (user) {
-      setLoggedInUser(JSON.parse(user));
-    }
-  }, []);
-
-  const getAvatarInitials = () => {
-    if (!loggedInUser) return "RS";
-    const name = loggedInUser.username || loggedInUser.email || "RS";
-    return name.substring(0, 2).toUpperCase();
-  };
-
-  const getUserRoleBadge = () => {
-    if (!loggedInUser) return { bg: "bg-gray-600", label: "User" };
-    return loggedInUser.role === 'admin'
-      ? { bg: "bg-green-600", label: "Admin" }
-      : { bg: "bg-blue-600", label: "Member" };
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('shopzee_user');
-    setLoggedInUser(null);
-    navigate('/login');
-  };
 
   // Small Screen Scroll function for categories
   const scrollRef = useRef(null);
@@ -121,7 +87,7 @@ export default function Products() {
     : products.filter(item => item.category === activeTab);
 
   return (
-    <div className="bg-[#F5F0E6] text-gray-900 relative overflow-x-hidden min-h-screen" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
+    <div className="bg-[#F5F0E6] text-gray-900 relative overflow-x-hidden min-h-screen flex flex-col justify-between" style={{ fontFamily: 'Arial, sans-serif !important', fontWeight: 400, letterSpacing: 'normal' }}>
       
       {/* HERO / NAVBAR CONTAINER */}
       <div className="w-full relative">
@@ -131,111 +97,8 @@ export default function Products() {
             backgroundImage: `url(${product})`,
           }}
         >
-          {/* Navbar */}
-          <nav className="w-full bg-[#161616] backdrop-blur-sm z-50 transition-all duration-300">
-            <div className="w-full px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between h-16 sm:h-19 items-center relative">
-                <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2">
-                  <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
-                </Link>
-
-                <div className="hidden md:flex space-x-8 font-medium text-black absolute left-1/2 transform -translate-x-1/2">
-                  <Link to="/" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Home</Link>
-                  <Link to="/about" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">About</Link>
-                  <Link to="/products" className="text-[#FEC26C] font-semibold transition hover:text-[#B2B2B2]">Products</Link>
-                  <Link to="/gallery" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Gallery</Link>
-                  <Link to="/contact" className="hover:text-[#FEC26C] text-[#B2B2B2] transition duration-200">Contact Us</Link>
-                </div>
-
-                <div className="hidden md:flex items-center space-x-4 pr-0 sm:pr-2">
-                  {loggedInUser ? (
-                    <div className="flex items-center space-x-3">
-                      <div className="flex items-center space-x-2 bg-white/20 px-3 py-1.5 rounded-full shadow-inner border border-white/10">
-                        <div className="h-8 w-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-xs shadow">
-                          {getAvatarInitials()}
-                        </div>
-                        <div className="flex flex-col text-left">
-                          <span className="text-xs font-bold text-white leading-tight truncate max-w-[90px]">
-                            {loggedInUser.username || loggedInUser.email}
-                          </span>
-                          <span className={`text-[9px] font-extrabold text-white px-1.5 py-0.2 rounded w-fit ${getUserRoleBadge().bg}`}>
-                            {getUserRoleBadge().label}
-                          </span>
-                        </div>
-                      </div>
-                      <button onClick={handleLogout} className="flex items-center space-x-1 bg-red-500 hover:bg-red-900 text-white px-3 py-2 rounded-lg font-medium transition text-sm cursor-pointer">
-                        <LogOut className="h-4 w-4" />
-                        <span>Logout</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <Link
-                      to="/login"
-                      className="relative rounded-full hover:scale-105 transition duration-300 shadow-sm"
-                      title="Login"
-                    >
-                      <img src={login} alt="Login" className="w-[35px] h-[35px]" />
-                    </Link>
-                  )}
-
-                  <Link
-                    to="/cart"
-                    className="relative p-3 hover:scale-105 transition duration-300 shadow-sm"
-                    title="Cart"
-                  >
-                    <img src={cart} alt="Cart" className="w-[40px] h-[30px]" />
-                  </Link>
-                </div>
-
-                {/* Mobile Icons and Hamburger */}
-                <div className="flex md:hidden items-center space-x-2.5 pr-1">
-                  {loggedInUser ? (
-                    <div className="flex items-center space-x-1.5 bg-white/20 px-2 py-1 rounded-full border border-white/10">
-                      <div className="h-7 w-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center text-[10px]">
-                        {getAvatarInitials()}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link to="/login" className="p-1.5">
-                      <img src={login} alt="Login" className="h-6 w-6" />
-                    </Link>
-                  )}
-
-                  <Link to="/cart" className="p-1.5">
-                    <img src={cart} alt="Cart" className="h-6 w-6" />
-                  </Link>
-                  <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-red-400 focus:outline-none p-1.5 rounded-lg bg-white/20 cursor-pointer">
-                    {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Dropdown Menu */}
-            <div className={`md:hidden bg-black/95 backdrop-blur-md border-t border-white/10 shadow-xl overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[450px] opacity-100 py-4 px-6' : 'max-h-0 opacity-0 py-0 px-6'}`}>
-              <div className="space-y-2 text-left">
-                <Link to="/" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg text-sm">Home</Link>
-                <Link to="/about" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg text-sm">About</Link>
-                <Link to="/products" onClick={() => setIsOpen(false)} className="block text-[#FEC26C] font-semibold py-2.5 px-3 rounded-lg bg-white/10 text-sm">Products</Link>
-                <Link to="/gallery" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg text-sm">Gallery</Link>
-                <Link to="/contact" onClick={() => setIsOpen(false)} className="block text-white hover:text-red-400 py-2.5 px-3 rounded-lg text-sm">Contact Us</Link>
-
-                <div className="pt-2 flex items-center space-x-3">
-                  {loggedInUser ? (
-                    <button onClick={() => { handleLogout(); setIsOpen(false); }} className="w-full flex items-center justify-center space-x-2 bg-red-500/20 text-white py-2.5 rounded-lg font-medium text-sm">
-                      <LogOut className="h-4 w-4" />
-                      <span>Logout</span>
-                    </button>
-                  ) : (
-                    <Link to="/login" onClick={() => setIsOpen(false)} className="w-full flex items-center justify-center space-x-2 bg-white/20 text-white py-2.5 rounded-lg font-medium text-sm">
-                      <User className="h-4 w-4" />
-                      <span>Login / Register</span>
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
-          </nav>
+          {/* Unified Navbar */}
+          <Navbar />
 
           {/* Hero Section Content (Text) */}
           <div className="w-full flex flex-col justify-center items-center text-center px-4 py-16 mb-70 pointer-events-none">
@@ -387,7 +250,7 @@ export default function Products() {
       </section>
 
       {/* ========================================================================= */}
-      {/* FEATURED PRODUCTS SECTION (FULLY RESPONSIVE & MOBILE POLISHED) */}
+      {/* FEATURED PRODUCTS SECTION */}
       {/* ========================================================================= */}
       <section className="w-full py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F0E6]">
         <div className="max-w-7xl mx-auto">
@@ -403,7 +266,7 @@ export default function Products() {
               </h2>
             </div>
 
-            {/* Filter Pills - 100% Fully Responsive on All Devices */}
+            {/* Filter Pills */}
             <div className="w-full md:w-auto overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
               <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#D8D3CB]/90 backdrop-blur-sm p-1.5 rounded-2xl sm:rounded-full shadow-inner min-w-max">
                 {['All', 'Carbonated', 'Coffee', 'Water'].map((tab) => {
@@ -444,19 +307,11 @@ export default function Products() {
               >
                 {/* Product Image Container */}
                 <div className="w-24 xs:w-28 sm:w-full h-28 xs:h-32 sm:h-52 bg-[#E5E1D8] rounded-xl sm:rounded-2xl flex items-center justify-center p-2.5 sm:p-4 overflow-hidden relative shrink-0 transition-colors duration-300 group-hover:bg-[#dfd9ce]">
-                  {productItem.isBackground ? (
-                    <div 
-                      className="w-full h-full bg-center bg-contain bg-no-repeat transition-transform duration-500 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${productItem.image})` }}
-                    />
-                  ) : (
-                    <img 
-                      src={productItem.image} 
-                      alt={productItem.name} 
-                      style={productItem.imgStyle || {}}
-                      className="max-h-full max-w-full object-contain m-auto transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" 
-                    />
-                  )}
+                  <img 
+                    src={productItem.image} 
+                    alt={productItem.name} 
+                    className="max-h-full max-w-full object-contain m-auto transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" 
+                  />
                 </div>
 
                 {/* Details Container */}
@@ -702,121 +557,8 @@ export default function Products() {
         </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* HELP BAR */}
-      {/* ========================================================================= */}
-      <div className="w-full bg-[#E62429] py-6 sm:py-8 px-4 sm:px-8 shadow-xl mt-4 sm:mt-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-center text-white">
-          <div className="flex items-center justify-start sm:justify-center md:justify-start space-x-4 max-w-[280px] sm:max-w-none mx-auto w-full md:mx-0">
-            <div className="bg-white/10 p-3 rounded-full shrink-0 flex items-center justify-center">
-              <img src={HeadPhon} className="h-7 w-7 sm:h-8 sm:w-8 text-white" alt="headphones" />
-            </div>
-            <div className="text-left">
-              <p className="text-xs text-white/80 font-medium">Have Any Questions?</p>
-              <h4 className="text-base sm:text-lg font-bold whitespace-nowrap">We're Here to Help!</h4>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-start sm:justify-center md:justify-center space-x-4 max-w-[280px] sm:max-w-none mx-auto w-full">
-            <div className="bg-white/10 p-3 rounded-full shrink-0 flex items-center justify-center">
-              <img src={Phonecallwhite} className="h-7 w-7 sm:h-8 sm:w-8 text-white" alt="call" />
-            </div>
-            <div className="text-left">
-              <p className="text-xs text-white/80 font-medium">Call Us Now</p>
-              <a href="tel:+919999900000" className="text-base sm:text-lg font-bold hover:underline whitespace-nowrap">
-                +91 99999 00000
-              </a>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-start sm:justify-center md:justify-end space-x-4 max-w-[280px] sm:max-w-none mx-auto w-full md:mx-0">
-            <div className="bg-white/10 p-3 rounded-full shrink-0 flex items-center justify-center">
-              <img src={mailoutline} className="h-7 w-7 sm:h-8 sm:w-8 text-white" alt="email" />
-            </div>
-            <div className="text-left">
-              <p className="text-xs text-white/80 font-medium">Email Us</p>
-              <a href="mailto:ravisales@gmail.com" className="text-base sm:text-lg font-bold hover:underline">
-                ravisales@gmail.com
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* FOOTER */}
-      {/* ========================================================================= */}
-      <footer className="bg-[#1A1A1A] text-white pt-8 sm:pt-12 pb-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-12 gap-8 pb-8 md:pb-12 border-b border-white/10">
-          {/* Logo & Info */}
-          <div className="col-span-2 md:col-span-5 space-y-3 md:space-y-4">
-            <Link to="/" className="flex items-center space-x-2 group pl-0 sm:pl-2 inline-block">
-              <img src={logoImg} alt="RS Logo" className="h-14 w-14 sm:h-20 sm:w-20 object-contain transform group-hover:scale-105 transition duration-300" />
-            </Link>
-            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-sm">
-              Beverage sales and distribution, connecting trusted brands with growing markets.
-            </p>
-
-            <div className="flex space-x-4 pt-1">
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition hover:opacity-80">
-                <img src={instagram} alt="Instagram" className="h-6 w-6 sm:h-7 sm:w-7" />
-              </a>
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition hover:opacity-80">
-                <img src={facebook} alt="Facebook" className="h-6 w-6 sm:h-7 sm:w-7" />
-              </a>
-              <a href="#" className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition hover:opacity-80">
-                <img src={Vector} alt="Vector" className="h-5 w-5 sm:h-6 sm:w-6" />
-              </a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-start text-left">
-            <div className="w-full">
-              <h4 className="text-sm font-bold tracking-wider uppercase text-white mb-2">Quick Links</h4>
-              <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
-                <li><button onClick={() => navigate('/')} className="hover:text-white transition cursor-pointer">Home</button></li>
-                <li><button onClick={() => navigate('/about')} className="hover:text-white transition cursor-pointer">About Us</button></li>
-                <li><button onClick={() => navigate('/products')} className="hover:text-white transition cursor-pointer">Products</button></li>
-                <li><button onClick={() => navigate('/gallery')} className="hover:text-white transition cursor-pointer">Gallery</button></li>
-                <li><button onClick={() => navigate('/contact')} className="hover:text-white transition cursor-pointer">Contact Us</button></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Products */}
-          <div className="col-span-1 md:col-span-2 space-y-2 md:space-y-3 flex flex-col items-start text-left">
-            <div className="w-full">
-              <h4 className="text-sm font-bold tracking-wider uppercase text-white mb-2">Products</h4>
-              <ul className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
-                <li><button onClick={() => navigate('/products')} className="hover:text-white transition cursor-pointer">All Products</button></li>
-                <li><button onClick={() => navigate('/products')} className="hover:text-white transition cursor-pointer">Beverage Brands</button></li>
-                <li><button onClick={() => navigate('/products')} className="hover:text-white transition cursor-pointer">Product Categories</button></li>
-                <li><button onClick={() => navigate('/products')} className="hover:text-white transition cursor-pointer">Pack Sizes</button></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Get in Touch */}
-          <div className="col-span-2 md:col-span-3 space-y-2 md:space-y-3 text-left">
-            <h4 className="text-sm font-bold tracking-wider uppercase text-white">Get in Touch</h4>
-            <div className="space-y-1.5 md:space-y-2 text-xs sm:text-sm text-gray-400">
-              <p><strong className="text-white">Phone:</strong><br />+91 99999 00000</p>
-              <p><strong className="text-white">Email Id:</strong><br />ravisales@gmail.com</p>
-              <p><strong className="text-white">Address:</strong><br />Ahmedabad, Gujarat, India</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6 flex flex-col sm:flex-row items-center justify-between text-xs text-white">
-          <p className="hover:text-red-400">© 2026 Ravi Sales. All Rights Reserved.</p>
-          <div className="flex space-x-6 mt-3 sm:mt-0">
-            <a href="#" className="text-white hover:text-red-400 transition">Privacy Policy</a>
-            <span className="text-white">|</span>
-            <a href="#" className="text-white hover:text-red-400 transition">Terms & Conditions</a>
-          </div>
-        </div>
-      </footer>
+      {/* Unified Footer */}
+      <Footer />
     </div>
   );
 }

@@ -1,37 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// Header & Navigation Assets
-import logoImg from '../assets/rs-logo.png';
-import bellIcon from '../assets/BellBlack.svg';
-import goldBellIcon from '../assets/BellGold.svg';
-import adminAvatar from '../assets/AdminAvatarBlack.svg';
-import goldUserIcon from '../assets/UserGold.svg';
-import goldCircle from '../assets/CircleGold.svg';
-import dashboardIcon from '../assets/HomeBlack.svg';
-import boxIcon from '../assets/BoxBlack.svg';
-import cartIcon from '../assets/CartIcon.svg';
-import paymentIcon from '../assets/moneybag.svg';
-import chartIcon from '../assets/Chart.svg';
-import routesIcon from '../assets/RouteBlack.svg';
-import salesmenIcon from '../assets/Salesman.svg';
-import Shoopkeeper from '../assets/Shoopkeeper.svg';
-import settingsIcon from '../assets/Settings.svg';
-import logoutIcon from '../assets/Log out.svg';
+import Navbar from './Navbar';
 
 // Overview Cards Assets
-import boxOrdersIcon from '../assets/bx_box.svg';
-import pendingClockIcon from '../assets/HistoryBlack.svg';
-import cartOutlineIcon from '../assets/TruckLoadingBlack.svg';
-import taskCompleteIcon from '../assets/carbon_task-complete.svg';
-import sIcon from '../assets/sIcon.svg';
-import Dropdown from '../assets/Dropdown.svg';
-import arrowDropUpIcon from '../assets/arrow_drop_up.svg';
-import editIcon from '../assets/EditGray.svg';
-import plusIcon from '../assets/AddWhite.svg';
+import boxOrdersIcon from '../../assets/bx_box.svg';
+import pendingClockIcon from '../../assets/HistoryBlack.svg';
+import cartOutlineIcon from '../../assets/TruckLoadingBlack.svg';
+import taskCompleteIcon from '../../assets/carbon_task-complete.svg';
+import sIcon from '../../assets/sIcon.svg';
+import Dropdown from '../../assets/Dropdown.svg';
+import arrowDropUpIcon from '../../assets/arrow_drop_up.svg';
+import editIcon from '../../assets/EditGray.svg';
+import plusIcon from '../../assets/AddWhite.svg';
 
 export default function Orders() {
-  const [activeNav, setActiveNav] = useState('Orders');
   const [timeFilter, setTimeFilter] = useState('This Week');
   const [selectedCard, setSelectedCard] = useState('Processing');
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,7 +23,6 @@ export default function Orders() {
   const [paymentFilter, setPaymentFilter] = useState('All');
   const [dateFilter, setDateFilter] = useState('All');
   const [showAll, setShowAll] = useState(false);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [hoveredBar, setHoveredBar] = useState(null);
   
   // New Order Modal States
@@ -193,30 +174,12 @@ export default function Orders() {
     .catch(err => console.error(err));
   };
 
-  const navItems = [
-    { name: 'Dashboard', icon: dashboardIcon, path: '/AdminDashboard' },
-    { name: 'Inventory', icon: boxIcon, path: '#' },
-    { name: 'Orders', icon: cartIcon, path: '/orders' },
-    { name: 'Routes', icon: routesIcon, path: '/routes' },
-    { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
-    { name: 'Payments', icon: paymentIcon, path: '#' },
-    { name: 'Reports', icon: chartIcon, path: '#' },
-    { name: 'Notifications', icon: bellIcon, path: '/notifications' },
-    { name: 'Settings', icon: settingsIcon, path: '/settings' },
-  ];
-
   const overviewCards = [
     { id: 'total', title: 'Total Orders', value: metrics.total, icon: boxOrdersIcon, bg: 'bg-[#DCD6FB]', barColor: 'bg-[#9D8AF5]', bars: [40, 65, 85, 100] },
     { id: 'pending', title: 'Pending', value: metrics.pending, icon: pendingClockIcon, bg: 'bg-[#F8CECE]', barColor: 'bg-[#EF7C7C]', bars: [50, 75, 45, 100] },
     { id: 'processing', title: 'Processing', value: metrics.processing, icon: cartOutlineIcon, bg: 'bg-[#F8DCB4]', barColor: 'bg-[#E8AF67]', bars: [40, 65, 85, 100] },
     { id: 'delivered', title: 'Delivered', value: metrics.delivered, icon: taskCompleteIcon, bg: 'bg-[#CCE6D2]', barColor: 'bg-[#7BC28B]', bars: [40, 65, 85, 100] },
   ];
-
-  const handleLogout = () => {
-    localStorage.removeItem('shopzee_user');
-    navigate('/login');
-  };
 
   const handleClearFilters = () => {
     setSearchQuery('');
@@ -246,73 +209,8 @@ export default function Orders() {
   const displayOrders = (showAll || isFiltered) ? ordersList : ordersList.slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-[#F5F6F8] flex flex-col font-sans">
-      
-      {/* HEADER */}
-      <header className="w-full h-20 bg-[#181818] text-white px-4 sm:px-8 py-2.5 sm:py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
-        <div className="flex items-center space-x-4">
-          <button type="button" onClick={() => setIsMobileNavOpen(!isMobileNavOpen)} className="md:hidden p-1.5 rounded-lg bg-white/10 text-white focus:outline-none">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-          </button>
-          <Link to="/AdminDashboard" className="flex items-center">
-            <img src={logoImg} alt="RS Logo" className="h-12 sm:h-20 w-auto object-contain transition-transform hover:scale-105" />
-          </Link>
-        </div>
-
-        <div className="flex items-center space-x-5 sm:space-x-7">
-          <button type="button" className="p-1 hover:opacity-85 transition cursor-pointer"><img src={goldBellIcon} alt="Notifications" className="w-7 h-7 object-contain" /></button>
-          <div className="flex items-center space-x-3 text-left">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shrink-0">
-              <img src={goldCircle} alt="circle border" className="absolute inset-0 w-full h-full object-contain" />
-              <img src={goldUserIcon} alt="Admin" className="w-5 h-5 object-contain relative z-10" />
-            </div>
-            <div className="hidden sm:block">
-              <h4 className="text-sm font-bold text-white leading-tight">Admin</h4>
-              <span className="text-[11px] text-gray-400 font-normal">Administrator</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* CONTAINER */}
-      <div className="flex-1 flex w-full relative">
-
-        {/* SIDEBAR */}
-        <aside className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
-          <nav className="space-y-1.5 text-left">
-            {navItems.map((item) => {
-              const isActive = activeNav === item.name;
-              return (
-                <button
-                  key={item.name}
-                  type="button"
-                  onClick={() => { setActiveNav(item.name); setIsMobileNavOpen(false); if (item.path && item.path !== '#' && item.path !== '/orders') navigate(item.path); }}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive ? 'text-[#000000] bg-[#76544359] font-bold' : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'}`}
-                >
-                  <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
-                  <span>{item.name}</span>
-                </button>
-              );
-            })}
-          </nav>
-
-          <div className="pt-6 border-t border-gray-100 space-y-4 text-left">
-            <div className="flex items-center space-x-3 px-2">
-              <img src={adminAvatar} alt="Admin Profile" className="w-10 h-10 object-contain" />
-              <div><h4 className="text-sm font-bold text-gray-900 leading-tight">Admin</h4><span className="text-xs text-gray-500 font-normal">Administrator</span></div>
-            </div>
-            <button type="button" onClick={handleLogout} className="w-full bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-2.5 px-5 rounded-full flex items-center justify-center space-x-2.5 shadow-sm hover:shadow transition cursor-pointer">
-              <img src={logoutIcon} alt="logout" className="w-4 h-4 object-contain" />
-              <span>Log Out</span>
-            </button>
-          </div>
-        </aside>
-
-        {isMobileNavOpen && <div onClick={() => setIsMobileNavOpen(false)} className="fixed inset-0 bg-black/40 z-30 md:hidden" />}
-
-        {/* MAIN CONTENT */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-          <div className="max-w-7xl mx-auto space-y-6">
+    <Navbar activeNav="Orders">
+      <div className="max-w-7xl mx-auto space-y-6">
 
             <div className="text-left">
               <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Orders</h1>
@@ -551,9 +449,6 @@ export default function Orders() {
             </div>
 
           </div>
-        </main>
-
-      </div>
 
       {/* NEW ORDER MODAL */}
       {isModalOpen && (
@@ -726,7 +621,6 @@ export default function Orders() {
           </div>
         </div>
       )}
-
-    </div>
+    </Navbar>
   );
 }

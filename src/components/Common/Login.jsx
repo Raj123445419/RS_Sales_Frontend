@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logoImg from '../assets/rs-logo.png';
-import image74 from '../assets/image 74.png';
-import EyeOffIcon from '../assets/Eye off.svg';
+import logoImg from '../../assets/rs-logo.png';
+import image74 from '../../assets/image 74.png';
+import EyeOffIcon from '../../assets/Eye off.svg';
 
 export default function Login() {
   const [identifier, setIdentifier] = useState(''); // Email or Username
