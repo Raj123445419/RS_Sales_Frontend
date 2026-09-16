@@ -206,37 +206,37 @@ export default function Shopkeepers() {
   };
 
   return (
-    <Navbar activeNav="Shopkeepers">
+    <Navbar activeNav="Customers">
       <div className="max-w-7xl mx-auto space-y-6 text-left">
             
             {/* Page Header */}
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Shopkeepers</h1>
-              <p className="text-xs sm:text-sm text-gray-600 font-normal mt-1">Manage shopkeepers, assigned salesmen, visits, and business activity.</p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Customers</h1>
+              <p className="text-xs sm:text-sm text-gray-600 font-normal mt-1">Manage customers, registered shops, assigned routes, and business activity.</p>
             </div>
 
             {/* 4 STAT CARDS ROW */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 pt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5 pt-1">
               
-              {/* Card 1: Total Shopkeepers */}
+              {/* Card 1: Total Customers */}
               <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-xs flex items-center space-x-4 transition hover:shadow-sm">
                 <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FFF4E5] flex items-center justify-center shrink-0">
-                  <img src={totalShopkeepersIcon} alt="Total Shopkeepers" className="w-6 h-6 object-contain" />
+                  <img src={totalShopkeepersIcon} alt="Total Customers" className="w-6 h-6 object-contain" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Shopkeepers</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Customers</p>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">{metrics.totalShopkeepers}</h3>
                   <p className="text-[11px] sm:text-xs text-gray-400 font-normal">Registered shops</p>
                 </div>
               </div>
 
-              {/* Card 2: Active Shopkeepers */}
+              {/* Card 2: Active Customers */}
               <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-xs flex items-center space-x-4 transition hover:shadow-sm">
                 <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#E6F8E9] flex items-center justify-center shrink-0">
-                  <img src={activeShopkeepersIcon} alt="Active Shopkeepers" className="w-6 h-6 object-contain" />
+                  <img src={activeShopkeepersIcon} alt="Active Customers" className="w-6 h-6 object-contain" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs sm:text-sm font-medium text-gray-600">Active Shopkeepers</p>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Active Customers</p>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">{metrics.activeShopkeepers}</h3>
                   <p className="text-[11px] sm:text-xs text-gray-400 font-normal">Currently active</p>
                 </div>

@@ -14,12 +14,15 @@ import Login from './components/Common/Login';
 
 // Admin Components
 import AdminDashboard from './components/Admin/AdminDashboard';
+import Inventory from './components/Admin/Inventory';
 import Orders from './components/Admin/Orders';
 import RoutePage from './components/Admin/Route';
 import Salesmen from './components/Admin/Salesmen';
 import Salesmen1 from './components/Admin/Salesmen1';
 import Shopkeepers from './components/Admin/Shopkeepers';
 import Shopkeeper1 from './components/Admin/Shopkeeper1';
+import Payments from './components/Admin/Payments';
+import Reports from './components/Admin/Reports';
 import Notification from './components/Admin/Notification';
 import Settings from './components/Admin/Settings';
 
@@ -42,9 +45,14 @@ function App() {
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/inventory" element={<Inventory />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/routes" element={<RoutePage />} />
         <Route path="/route" element={<RoutePage />} />
+        <Route path="/customers" element={<Shopkeepers />} />
+        <Route path="/customer/:id" element={<Shopkeeper1 />} />
+        <Route path="/payments" element={<Payments />} />
+        <Route path="/reports" element={<Reports />} />
         <Route path="/salesmen" element={<Salesmen />} />
         <Route path="/salesman/:id" element={<Salesmen1 />} />
         <Route path="/salesman1" element={<Salesmen1 />} />

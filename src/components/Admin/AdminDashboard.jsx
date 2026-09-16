@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 
@@ -9,11 +9,15 @@ import rupeeIcon from '../../assets/mdi_rupee.svg';
 import ordersBagIcon from '../../assets/BagOrange.svg';
 import customersGreenIcon from '../../assets/UserGreen.svg';
 import walletIcon from '../../assets/WalletPurple.svg';
-import salesmanAvatar from '../../assets/SalesmanProfileBlack.svg';
+import adWhiteCart from '../../assets/ADWhite Cart.svg';
+import adRedHouse from '../../assets/ADRed House.svg';
+import adRedPluceUser from '../../assets/ADRed PluceUser.svg';
+import adRedShape from '../../assets/ADRed Shape.svg';
+import adRedR from '../../assets/ADRed R.svg';
+import adGreenSide from '../../assets/ADGreen Side.svg';
 
 export default function AdminDashboard() {
   const [timeFilter, setTimeFilter] = useState('This Week');
-  const dateInputRef = useRef(null);
 
   const [metrics, setMetrics] = useState({
     total_sales: '₹0',
@@ -22,68 +26,44 @@ export default function AdminDashboard() {
     pending_payment: '₹0'
   });
   const [salesOverview, setSalesOverview] = useState([]);
-  const [recentOrders, setRecentOrders] = useState([]);
   const [topProducts, setTopProducts] = useState([]);
-  const [salesmenPerformance, setSalesmenPerformance] = useState([]);
+  
+  // ફાઇનાન્સિયલ ડેટા માટે નવા સ્ટેટ્સ ઉમેર્યા
+  const [financials, setFinancials] = useState({
+    outstanding_payments: '₹0',
+    monthly_sales_mtd: '₹0',
+    target_percentage: 0
+  });
 
-  const getISODate = (d = new Date()) => {
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const formatDate = (dateStringOrObj) => {
-    if (!dateStringOrObj) return '';
-    const parts = String(dateStringOrObj).split('-');
-    if (parts.length === 3) {
-      const year = parts[0];
-      const monthIndex = parseInt(parts[1], 10) - 1;
-      const day = parseInt(parts[2], 10);
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      return `${day} ${monthNames[monthIndex] || ''} ${year}`;
-    }
-    const d = new Date(dateStringOrObj);
+  const getTodayFormattedDate = () => {
+    const d = new Date();
     const day = d.getDate();
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    return `${day} ${monthNames[d.getMonth()]} ${d.getFullYear()}`;
+    const year = d.getFullYear();
+    return `${day} ${monthNames[d.getMonth()]} ${year}`;
   };
 
-  const [rawDate, setRawDate] = useState(getISODate());
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setRawDate(getISODate());
-
-    fetch(`http://127.0.0.1:8000/api/v1/dashboard-stats/?filter=${encodeURIComponent(timeFilter)}`)
-      .then((res) => res.json())
+      fetch(`http://127.0.0.1:8000/api/admin/dashboard/?filter=${encodeURIComponent(timeFilter)}`)      .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setMetrics(data.metrics);
           setSalesOverview(data.salesOverview || []);
-          setRecentOrders(data.recentOrders);
-          setTopProducts(data.topProducts);
-          setSalesmenPerformance(data.salesmenPerformance);
+          setTopProducts(data.topProducts || []);
+
+          // બેકડેન્ડથી આવતા ફાઇનાન્સિયલ ડેટાને અહીં સેટ કર્યો છે
+          setFinancials({
+            outstanding_payments: data.metrics.pending_payment,
+            monthly_sales_mtd: data.metrics.total_sales, // અથવા જો અલગ હોય તો તે મુજબ
+            target_percentage: data.targetPercentage || 65 // જો બેકડેન્ડમાંથી પર્સન્ટેજ ન આવતા હોય તો ડિફોલ્ટ અથવા ગણતરી
+          });
         }
       })
       .catch((err) => console.error("Failed to fetch dashboard stats:", err));
   }, [timeFilter]);
-
-  // Frontend helper to colorize order statuses properly
-  const getStatusColor = (statusText) => {
-    const s = String(statusText).toLowerCase();
-    if (s.includes('placed')) return 'text-blue-600 font-bold';
-    if (s.includes('confirmed')) return 'text-indigo-600 font-bold';
-    if (s.includes('processing')) return 'text-amber-600 font-bold';
-    if (s.includes('ready')) return 'text-purple-600 font-bold';
-    if (s.includes('out')) return 'text-cyan-600 font-bold';
-    if (s.includes('delivered')) return 'text-emerald-600 font-bold';
-    if (s.includes('completed')) return 'text-green-600 font-bold';
-    if (s.includes('cancelled')) return 'text-rose-600 font-bold';
-    if (s.includes('returned')) return 'text-red-600 font-bold';
-    return 'text-gray-700 font-semibold';
-  };
 
   const statCards = [
     { id: 1, title: 'Total Sales', value: metrics.total_sales, change: '3.4%', isPositive: true, icon: rupeeIcon, iconBg: 'bg-[#FCE8EA]', sparklineColor: '#EF4444', sparklinePoints: 'M 0 20 L 15 15 L 30 18 L 45 6 L 60 2' },
@@ -98,18 +78,16 @@ export default function AdminDashboard() {
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 text-left tracking-tight">Dashboard</h1>
-              <div onClick={() => dateInputRef.current?.showPicker?.() || dateInputRef.current?.click()} className="relative inline-flex items-center space-x-2.5 bg-white border border-gray-300 rounded-xl px-4 py-2.5 shadow-sm text-xs sm:text-sm font-medium text-gray-700 cursor-pointer self-start sm:self-auto hover:border-gray-400 transition group select-none">
-                <img src={calendarIcon} alt="calendar" className="w-5 h-5 object-contain pointer-events-none" />
-                <span className="font-semibold text-gray-900 pointer-events-none">{formatDate(rawDate)}</span>
-                <svg className="w-4 h-4 text-gray-500 ml-1 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
-                <input ref={dateInputRef} type="date" value={rawDate} onChange={(e) => { if (e.target.value) setRawDate(e.target.value); }} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+              <div className="inline-flex items-center space-x-2.5 bg-white border border-gray-300 rounded-xl px-4 py-2.5 shadow-2xs text-xs sm:text-sm font-semibold text-gray-900 select-none self-start sm:self-auto pointer-events-none">
+                <img src={calendarIcon} alt="calendar" className="w-5 h-5 object-contain" />
+                <span>{getTodayFormattedDate()}</span>
               </div>
             </div>
 
             {/* Metric Summary Stat Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
               {statCards.map((card) => (
-                <div key={card.id} className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition duration-200">
+                <div key={card.id} className="bg-white rounded-lg p-4 sm:p-5 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition duration-200">
                   <div className="flex items-start space-x-3.5 mb-3 text-left">
                     <div className={`w-11 h-11 rounded-full ${card.iconBg} flex items-center justify-center shrink-0`}>
                       <img src={card.icon} alt={card.title} className="w-5 h-5 object-contain" />
@@ -119,25 +97,27 @@ export default function AdminDashboard() {
                       <h3 className="text-lg sm:text-xl font-extrabold text-gray-900 leading-tight mt-0.5">{card.value}</h3>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-1">
-                    <span className={`text-xs font-bold flex items-center space-x-1 ${card.isPositive ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
+                  <div className="flex items-center space-x-3 pt-1">
+                    <span className={`text-xs font-bold flex items-center space-x-1 shrink-0 ${card.isPositive ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
                       <span>{card.isPositive ? '▲' : '▼'}</span>
                       <span>{card.change}</span>
-                      <span className="text-[11px] text-gray-500 font-normal ml-1">vs last month</span>
+                      <span className="text-[11px] text-gray-500 font-normal ml-0.5 whitespace-nowrap">vs last month</span>
                     </span>
-                    <svg viewBox="0 0 60 25" className="w-14 h-6 overflow-visible">
-                      <path d={card.sparklinePoints} fill="none" stroke={card.sparklineColor} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <div className="w-10 sm:w-12 h-5 shrink-0 flex items-center">
+                      <svg viewBox="0 0 60 25" className="w-full h-full">
+                        <path d={card.sparklinePoints} fill="none" stroke={card.sparklineColor} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* CHARTS ROW */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
 
               {/* Sales Overview Line Chart */}
-              <div className="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between">
+              <div className="xl:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 text-left">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Sales Overview</h3>
@@ -198,15 +178,15 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-{/* Top Selling Products */}
-              <div className="lg:col-span-5 flex flex-col justify-start text-left pt-1">
+              {/* Top Selling Products */}
+              <div className="xl:col-span-5 flex flex-col justify-start text-left pt-1">
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 sm:mb-8">Top Selling Products</h3>
-                <div className="flex flex-col sm:flex-row items-center justify-start gap-8 sm:gap-10">
+                <div className="flex flex-col sm:flex-row items-center justify-start gap-8 sm:gap-12">
                   
-                  {/* CSS Conic Gradient Donut Chart (બિના કિસી વ્હાઈટ ગેપ કે) */}
-                  <div className="relative w-52 h-52 sm:w-64 sm:h-64 shrink-0 flex items-center justify-center">
+                  {/* CSS Conic Gradient Donut Chart */}
+                  <div className="relative w-56 h-56 sm:w-64 sm:h-64 shrink-0 flex items-center justify-center">
                     <div 
-                      className="w-44 h-44 sm:w-56 sm:h-56 rounded-full flex items-center justify-center relative shadow-inner"
+                      className="w-52 h-52 sm:w-60 sm:h-60 rounded-full flex items-center justify-center relative shadow-md"
                       style={{
                         background: topProducts.length === 0 
                           ? '#E5E7EB' 
@@ -222,17 +202,16 @@ export default function AdminDashboard() {
                             })()
                       }}
                     >
-                      {/* વચ્ચેનો સફેદ ભાગ જેથી ડૉનટ (Donut) શેપ બની રહે */}
-                      <div className="w-28 h-28 sm:w-36 sm:h-36 bg-white rounded-full shadow-sm flex items-center justify-center"></div>
+                      <div className="w-32 h-32 sm:w-36 sm:h-36 bg-[#F5F6F8] rounded-full shadow-inner flex items-center justify-center"></div>
                     </div>
                   </div>
 
-<div className="space-y-4 sm:space-y-5 text-left">
+                  <div className="space-y-4 sm:space-y-5 text-left flex-1 min-w-0">
                     {topProducts.length > 0 ? [...topProducts].sort((a, b) => b.pct - a.pct).map((prod) => (
                       <div key={prod.name} className="flex items-center space-x-4 text-sm sm:text-base font-semibold text-gray-900">
-                        <span className="w-4 h-4 rounded-[3px] shrink-0" style={{ backgroundColor: prod.color }} />
+                        <span className="w-4 h-4 rounded-[4px] shrink-0 shadow-2xs" style={{ backgroundColor: prod.color }} />
                         <span className="min-w-[90px] text-gray-900 font-medium">{prod.name}</span>
-                        <span className="font-semibold text-gray-900 ml-4 text-right">{prod.count}</span>
+                        <span className="font-bold text-gray-900 ml-4 text-right">{prod.count}</span>
                       </div>
                     )) : (
                       <p className="text-sm text-gray-500">No sales recorded yet.</p>
@@ -242,84 +221,101 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* RECENT ORDERS SECTION */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 text-left">
-              <h3 className="text-xl font-bold text-gray-900 mb-5 tracking-tight">Recent Orders</h3>
-              <div className="w-full overflow-x-auto rounded-xl border border-gray-200">
-                <table className="w-full text-left border-collapse min-w-[650px]">
-                  <thead>
-                    <tr className="bg-[#D9D9D9] text-gray-800 text-xs sm:text-sm font-bold">
-                      <th className="py-3.5 px-4 sm:px-6">Order Id</th>
-                      <th className="py-3.5 px-4 sm:px-6">Customer</th>
-                      <th className="py-3.5 px-4 sm:px-6">Product</th>
-                      <th className="py-3.5 px-4 sm:px-6">Qty./Size</th>
-                      <th className="py-3.5 px-4 sm:px-6">Amount</th>
-                      <th className="py-3.5 px-4 sm:px-6">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-white">
-                    {recentOrders.length > 0 ? recentOrders.map((order, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50/70 transition">
-                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-gray-900">{order.id}</td>
-                        <td className="py-3.5 px-4 sm:px-6 font-medium text-gray-800">{order.customer}</td>
-                        <td className="py-3.5 px-4 sm:px-6 text-gray-700">{order.product}</td>
-                        <td className="py-3.5 px-4 sm:px-6 text-gray-700">{order.qty}</td>
-                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-gray-900">{order.amount}</td>
-                        <td className={`py-3.5 px-4 sm:px-6 ${getStatusColor(order.status)}`}>{order.status}</td>
-                      </tr>
-                    )) : (
-                      <tr><td colSpan="6" className="text-center py-4 text-gray-500">No recent orders found.</td></tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            {/* QUICK ACTIONS & FINANCIALS SECTION */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+              
+              {/* Quick Actions Card */}
+              <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between text-left">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
+                  
+                  {/* Create Order Red Button */}
+                  <div className="flex justify-center mb-6">
+                    <button
+                      onClick={() => navigate('/orders')}
+                      className="bg-[#D71920] hover:bg-[#b8141a] text-white px-8 py-3 rounded-lg font-medium text-sm sm:text-base flex items-center justify-center space-x-3 shadow-sm transition-all duration-150 cursor-pointer"
+                    >
+                      <img src={adWhiteCart} alt="Create Order" className="w-5 h-5 object-contain" />
+                      <span>Create Order</span>
+                    </button>
+                  </div>
 
-            {/* SALESMEN PERFORMANCE SECTION */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 text-left max-w-3xl">
-              <h3 className="text-xl font-bold text-gray-900 mb-5 tracking-tight">Salesmen Performance</h3>
-              <div className="w-full overflow-x-auto rounded-xl border border-gray-200">
-                <table className="w-full text-left border-collapse min-w-[500px]">
-                  <thead>
-                    <tr className="bg-[#E8E1DE78] border-b border-gray-200 text-xs sm:text-sm font-bold text-gray-800">
-                      <th className="py-3.5 px-4 sm:px-6 border-r border-gray-200 w-44">Salesman</th>
-                      <th className="py-3.5 px-4 sm:px-6 border-r bg-white border-gray-200">Sales</th>
-                      <th className="py-3.5 px-4 sm:px-6 border-r border-gray-200">Target</th>
-                      <th className="py-3.5 px-4 sm:px-6 bg-white">Achiev</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 text-xs sm:text-sm font-medium text-gray-800 bg-white">
-                    {salesmenPerformance.length > 0 ? salesmenPerformance.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50/70 transition">
-                        <td className="py-3 px-4 sm:px-6 bg-[#E8E1DE78] border-r border-gray-200 font-semibold text-gray-900">
-                          <div className="flex items-center space-x-3">
-                            <div className="relative w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
-                             
-                              <img src={salesmanAvatar} alt={item.name} className="w-4 h-4 sm:w-7 sm:h-7 object-contain relative z-10" />
-                            </div>
-                            <span>{item.name}</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 sm:px-6 border-r border-gray-200 font-medium text-gray-900">{item.sales}</td>
-                        <td className="py-3 px-4 sm:px-6 border-r bg-[#E8E1DE78] border-gray-200 font-medium text-gray-900">{item.target}</td>
-                        <td className="py-3 px-4 sm:px-6">
-                          <div className="flex items-center space-x-3">
-                            <span className="min-w-[36px] font-semibold text-gray-900">{item.achiev}</span>
-                            <div className="w-24 sm:w-32 bg-gray-100 h-2 rounded-full overflow-hidden">
-                              <div 
-  className="h-full rounded-full transition-all duration-500 ease-out" 
-  style={{ width: `${item.pct}%`, backgroundColor: item.barColor || '#10B981' }} 
-/>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )) : (
-                      <tr><td colSpan="4" className="text-center py-4 text-gray-500">No salesmen performance data.</td></tr>
-                    )}
-                  </tbody>
-                </table>
+                  {/* 2x2 Action Buttons Grid */}
+                  <div className="grid grid-cols-2 gap-4 sm:gap-5">
+                    <button
+                      onClick={() => navigate('/customers')}
+                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
+                    >
+                      <img src={adRedHouse} alt="Add Shop" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
+                      <span className="text-xs sm:text-sm font-semibold text-gray-800">Add Shop</span>
+                    </button>
+
+                    <button
+                      onClick={() => navigate('/salesmen')}
+                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
+                    >
+                      <img src={adRedPluceUser} alt="Add Salesman" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
+                      <span className="text-xs sm:text-sm font-semibold text-gray-800">Add Salesman</span>
+                    </button>
+
+                    <button
+                      onClick={() => navigate('/inventory')}
+                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
+                    >
+                      <img src={adRedShape} alt="Add Product" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
+                      <span className="text-xs sm:text-sm font-semibold text-gray-800">Add Product</span>
+                    </button>
+
+                    <button
+                      onClick={() => navigate('/routes')}
+                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
+                    >
+                      <img src={adRedR} alt="Assign Route" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
+                      <span className="text-xs sm:text-sm font-semibold text-gray-800">Assign Route</span>
+                    </button>
+                  </div>
+                </div>
               </div>
+
+              {/* Financials Card (ಬૅકએન્ડ ડેટા સાથે અપડેટ કરેલ) */}
+              <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between text-left">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Financials</h3>
+                  
+                  {/* Outstanding Payments Box */}
+                  <div className="bg-[#E5E5E5] border border-gray-300 rounded-xl p-4 sm:p-5 text-left mb-4 sm:mb-5">
+                    <p className="text-xs sm:text-sm text-gray-600 font-medium">Outstanding Payments</p>
+                    <div className="flex items-end justify-between mt-2">
+                      <h4 className="text-2xl sm:text-3xl font-bold text-[#D71920] tracking-tight">{metrics.pending_payment}</h4>
+                      <button 
+                        onClick={() => navigate('/payments')}
+                        className="flex items-center space-x-1.5 text-xs sm:text-sm text-[#2DA12F] font-semibold hover:underline cursor-pointer pb-0.5"
+                      >
+                        <span>View Aging Report</span>
+                        <img src={adGreenSide} alt="arrow" className="w-2 h-2.5 object-contain" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Monthly Sales (MTD) Box */}
+                  <div className="bg-[#E5E5E5] border border-gray-300 rounded-xl p-4 sm:p-5 text-left">
+                    <p className="text-xs sm:text-sm text-gray-600 font-medium">Monthly Sales (MTD)</p>
+                    <h4 className="text-2xl sm:text-3xl font-bold text-[#D71920] tracking-tight mt-2 mb-3">{metrics.total_sales}</h4>
+                    
+                    {/* Progress bar */}
+                    <div>
+                      <div className="w-full bg-white rounded-full h-3 overflow-hidden p-0.5 shadow-inner">
+                        <div 
+                          className="bg-[#D71920] h-full rounded-full transition-all duration-500" 
+                          style={{ width: `${financials.target_percentage}%` }}
+                        />
+                      </div>
+                      <p className="text-[11px] sm:text-xs text-gray-600 font-medium text-right mt-1.5">{financials.target_percentage}% of Target</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
           </div>

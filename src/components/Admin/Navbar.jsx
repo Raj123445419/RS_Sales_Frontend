@@ -11,11 +11,10 @@ import goldCircle from '../../assets/CircleGold.svg';
 import dashboardIcon from '../../assets/HomeBlack.svg';
 import boxIcon from '../../assets/BoxBlack.svg';
 import cartIcon from '../../assets/CartIcon.svg';
-import paymentIcon from '../../assets/moneybag.svg';
-import chartIcon from '../../assets/Chart.svg';
 import routesIcon from '../../assets/RouteBlack.svg';
-import salesmenIcon from '../../assets/Salesman.svg';
-import Shoopkeeper from '../../assets/Shoopkeeper.svg';
+import customersIcon from '../../assets/Shoopkeeper.svg';
+import paymentIcon from '../../assets/moneybag.svg';
+import chartIcon from '../../assets/BarChartBlack.svg';
 import settingsIcon from '../../assets/Settings.svg';
 import logoutIcon from '../../assets/Log out.svg';
 
@@ -31,13 +30,12 @@ export default function Navbar({ children, activeNav }) {
 
   const navItems = [
     { name: 'Dashboard', icon: dashboardIcon, path: '/AdminDashboard' },
-    { name: 'Inventory', icon: boxIcon, path: '#' },
+    { name: 'Inventory', icon: boxIcon, path: '/inventory' },
     { name: 'Orders', icon: cartIcon, path: '/orders' },
     { name: 'Routes', icon: routesIcon, path: '/routes' },
-    { name: 'Salesmen', icon: salesmenIcon, path: '/salesmen' },
-    { name: 'Shopkeepers', icon: Shoopkeeper, path: '/shopkeepers' },
-    { name: 'Payments', icon: paymentIcon, path: '#' },
-    { name: 'Reports', icon: chartIcon, path: '#' },
+    { name: 'Customers', icon: customersIcon, path: '/customers' },
+    { name: 'Payments', icon: paymentIcon, path: '/payments' },
+    { name: 'Reports', icon: chartIcon, path: '/reports' },
     { name: 'Notifications', icon: bellIcon, path: '/notifications' },
     { name: 'Settings', icon: settingsIcon, path: '/settings' },
   ];
@@ -46,15 +44,14 @@ export default function Navbar({ children, activeNav }) {
   const getActiveNavName = () => {
     if (activeNav) return activeNav;
     const path = location.pathname.toLowerCase();
+    if (path.includes('inventory')) return 'Inventory';
     if (path.includes('order')) return 'Orders';
     if (path.includes('route')) return 'Routes';
-    if (path.includes('salesm')) return 'Salesmen';
-    if (path.includes('shopkeeper')) return 'Shopkeepers';
-    if (path.includes('notification')) return 'Notifications';
-    if (path.includes('setting')) return 'Settings';
-    if (path.includes('inventory')) return 'Inventory';
+    if (path.includes('customer') || path.includes('shopkeeper')) return 'Customers';
     if (path.includes('payment')) return 'Payments';
     if (path.includes('report')) return 'Reports';
+    if (path.includes('notification')) return 'Notifications';
+    if (path.includes('setting')) return 'Settings';
     return 'Dashboard';
   };
 
@@ -110,10 +107,11 @@ export default function Navbar({ children, activeNav }) {
       <div className="flex-1 flex w-full relative">
         {/* SIDEBAR NAVIGATION */}
         <aside
-          className={`fixed md:sticky top-[58px] md:top-[66px] left-0 z-40 h-[calc(100vh-58px)] md:h-[calc(100vh-66px)] w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-5 transition-transform duration-300 ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-            }`}
+          className={`fixed md:sticky top-20 left-0 z-40 h-[calc(100vh-5rem)] w-60 sm:w-64 bg-white border-r border-gray-200 flex flex-col justify-between p-3.5 sm:p-4 transition-transform duration-300 shrink-0 overflow-y-auto ${
+            isMobileNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          }`}
         >
-          <nav className="space-y-1.5 text-left">
+          <nav className="space-y-1 text-left">
             {navItems.map((item) => {
               const isActive = currentActive === item.name;
               return (
@@ -126,32 +124,33 @@ export default function Navbar({ children, activeNav }) {
                       navigate(item.path);
                     }
                   }}
-                  className={`w-full flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition cursor-pointer ${isActive
-                      ? 'text-[#000000] bg-[#76544359] font-bold'
+                  className={`w-full flex items-center space-x-3 px-3.5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer ${
+                    isActive
+                      ? 'text-[#201C18] bg-[#C8BEB7] font-bold shadow-2xs'
                       : 'text-[#201C18] hover:bg-gray-100/70 hover:text-black'
-                    }`}
+                  }`}
                 >
-                  <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
+                  <img src={item.icon} alt={item.name} className="w-4.5 h-4.5 object-contain shrink-0" />
                   <span>{item.name}</span>
                 </button>
               );
             })}
           </nav>
 
-          <div className="pt-6 border-t border-gray-100 space-y-4 text-left">
-            <div className="flex items-center space-x-3 px-2">
-              <img src={adminAvatar} alt="Admin Profile" className="w-10 h-10 object-contain" />
-              <div>
-                <h4 className="text-sm font-bold text-gray-900 leading-tight">Admin</h4>
-                <span className="text-xs text-gray-500 font-normal">Administrator</span>
+          <div className="pt-3 border-t border-gray-100 space-y-2.5 text-left mt-2 shrink-0">
+            <div className="flex items-center space-x-3 px-1">
+              <img src={adminAvatar} alt="Admin Profile" className="w-8 h-8 sm:w-9 sm:h-9 object-contain rounded-full border border-gray-200 shrink-0" />
+              <div className="min-w-0">
+                <h4 className="text-xs sm:text-sm font-bold text-gray-900 leading-tight truncate">Admin</h4>
+                <span className="text-[11px] text-gray-500 font-normal block truncate">Administrator</span>
               </div>
             </div>
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-2.5 px-5 rounded-full flex items-center justify-center space-x-2.5 shadow-sm hover:shadow transition cursor-pointer"
+              className="w-full bg-[#D71920] hover:bg-[#B9151B] text-white text-xs sm:text-sm font-semibold py-2 px-4 rounded-full flex items-center justify-center space-x-2 shadow-sm hover:shadow transition cursor-pointer"
             >
-              <img src={logoutIcon} alt="logout" className="w-4 h-4 object-contain" />
+              <img src={logoutIcon} alt="logout" className="w-3.5 h-3.5 object-contain" />
               <span>Log Out</span>
             </button>
           </div>
@@ -165,8 +164,8 @@ export default function Navbar({ children, activeNav }) {
           />
         )}
 
-        {/* MAIN PAGE CONTENT */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        {/* MAIN PAGE CONTENT - Unified Page Scroll */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
           {children}
         </main>
       </div>

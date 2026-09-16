@@ -161,14 +161,14 @@ export default function Shopkeeper1() {
   };
 
   return (
-    <Navbar activeNav="Shopkeepers">
+    <Navbar activeNav="Customers">
       <div className="max-w-7xl mx-auto space-y-6 text-left">
             
             {/* TOP ACTION BAR: BACK ARROW & EDIT PROFILE BUTTON */}
             <div className="flex items-center justify-between">
               <button
                 type="button"
-                onClick={() => navigate('/shopkeepers')}
+                onClick={() => navigate('/customers')}
                 className="p-2 -ml-2 rounded-lg hover:bg-gray-200/60 transition cursor-pointer flex items-center justify-center"
                 aria-label="Go Back"
               >

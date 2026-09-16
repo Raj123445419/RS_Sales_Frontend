@@ -61,7 +61,7 @@ export default function Orders() {
 
   // Fetch Orders & Chart Data from Backend API
   const fetchOrdersData = () => {
-    fetch(`http://127.0.0.1:8000/api/v1/orders-page/?search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(statusFilter)}&salesman=${encodeURIComponent(salesmanFilter)}&shopkeeper=${encodeURIComponent(shopkeeperFilter)}&payment=${encodeURIComponent(paymentFilter)}&date=${encodeURIComponent(dateFilter)}&timeFilter=${encodeURIComponent(timeFilter)}`)
+    fetch(`http://127.0.0.1:8000/api/admin/order/?search=${encodeURIComponent(searchQuery)}&status=${encodeURIComponent(statusFilter)}&salesman=${encodeURIComponent(salesmanFilter)}&shopkeeper=${encodeURIComponent(shopkeeperFilter)}&payment=${encodeURIComponent(paymentFilter)}&date=${encodeURIComponent(dateFilter)}&timeFilter=${encodeURIComponent(timeFilter)}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
