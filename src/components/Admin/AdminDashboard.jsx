@@ -23,16 +23,23 @@ export default function AdminDashboard() {
     total_sales: '₹0',
     total_orders: '0',
     customers: '0',
+    total_stock_value: '₹0',
+    pending_delivery: '0',
+    total_shops: '0',
+    low_stock_items: '0',
+    sales_change: '0%',
+    is_sales_positive: true,
     pending_payment: '₹0'
   });
+  
   const [salesOverview, setSalesOverview] = useState([]);
+  const [maxSalesVal, setMaxSalesVal] = useState(50000); // ડાયનેમિક ચાર્ટ મેક્સ વેલ્યુ
   const [topProducts, setTopProducts] = useState([]);
   
-  // ફાઇનાન્સિયલ ડેટા માટે નવા સ્ટેટ્સ ઉમેર્યા
   const [financials, setFinancials] = useState({
     outstanding_payments: '₹0',
     monthly_sales_mtd: '₹0',
-    target_percentage: 0
+    target_percentage: 65
   });
 
   const getTodayFormattedDate = () => {
@@ -47,29 +54,104 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-      fetch(`http://127.0.0.1:8000/api/admin/dashboard/?filter=${encodeURIComponent(timeFilter)}`)      .then((res) => res.json())
-      .then((data) => {
+     fetch(`http://127.0.0.1:8000/api/admin/dashboard/?filter=${encodeURIComponent(timeFilter)}`)
+     .then((res) => res.json())
+     .then((data) => {
         if (data.success) {
-          setMetrics(data.metrics);
+          setMetrics(prev => ({ ...prev, ...data.metrics }));
           setSalesOverview(data.salesOverview || []);
+          if (data.maxSalesValue) {
+            setMaxSalesVal(data.maxSalesValue);
+          }
           setTopProducts(data.topProducts || []);
 
-          // બેકડેન્ડથી આવતા ફાઇનાન્સિયલ ડેટાને અહીં સેટ કર્યો છે
           setFinancials({
-            outstanding_payments: data.metrics.pending_payment,
-            monthly_sales_mtd: data.metrics.total_sales, // અથવા જો અલગ હોય તો તે મુજબ
-            target_percentage: data.targetPercentage || 65 // જો બેકડેન્ડમાંથી પર્સન્ટેજ ન આવતા હોય તો ડિફોલ્ટ અથવા ગણતરી
+            outstanding_payments: data.metrics?.pending_payment || '₹0', 
+            monthly_sales_mtd: data.metrics?.total_sales || '₹0', 
+            target_percentage: data.targetPercentage || 65 
           });
         }
-      })
-      .catch((err) => console.error("Failed to fetch dashboard stats:", err));
+     })
+     .catch((err) => console.error("Failed to fetch dashboard stats:", err));
   }, [timeFilter]);
 
+  // ડાયનેમિક ચાર્ટ ગ્રીડ લાઈન્સ (૫ ભાગમાં વેચવા માટે)
+  const getGridLines = () => {
+    const step = maxSalesVal / 5;
+    return [
+      { label: `${Math.round(step * 5 / 1000)}k`, y: 30 },
+      { label: `${Math.round(step * 4 / 1000)}k`, y: 70 },
+      { label: `${Math.round(step * 3 / 1000)}k`, y: 110 },
+      { label: `${Math.round(step * 2 / 1000)}k`, y: 150 },
+      { label: `${Math.round(step * 1 / 1000)}k`, y: 190 },
+    ];
+  };
+
   const statCards = [
-    { id: 1, title: 'Total Sales', value: metrics.total_sales, change: '3.4%', isPositive: true, icon: rupeeIcon, iconBg: 'bg-[#FCE8EA]', sparklineColor: '#EF4444', sparklinePoints: 'M 0 20 L 15 15 L 30 18 L 45 6 L 60 2' },
-    { id: 2, title: 'Total Orders', value: metrics.total_orders, change: '3.4%', isPositive: true, icon: ordersBagIcon, iconBg: 'bg-[#FFF4E5]', sparklineColor: '#F59E0B', sparklinePoints: 'M 0 22 L 15 17 L 30 20 L 45 8 L 60 3' },
-    { id: 3, title: 'Customers', value: metrics.customers, change: '3.4%', isPositive: true, icon: customersGreenIcon, iconBg: 'bg-[#E6F8E9]', sparklineColor: '#22C55E', sparklinePoints: 'M 0 20 L 15 18 L 30 14 L 45 15 L 60 4' },
-    { id: 4, title: 'Pending Payment', value: metrics.pending_payment, change: '3.4%', isPositive: false, icon: walletIcon, iconBg: 'bg-[#ECE6FF]', sparklineColor: '#8B5CF6', sparklinePoints: 'M 0 22 L 15 16 L 30 21 L 45 10 L 60 4' },
+    { 
+      id: 1, 
+      title: 'Today Sales', 
+      value: metrics.total_sales, 
+      icon: rupeeIcon, 
+      iconBg: 'bg-[#FCE8EA]', 
+      sparklineColor: '#EF4444', 
+      sparklinePoints: 'M 0 20 L 15 15 L 30 18 L 45 6 L 60 2',
+      footer: (
+        <div className="flex items-center space-x-1.5 text-xs whitespace-nowrap">
+          <span className={`${metrics.is_sales_positive ? 'text-[#16A34A]' : 'text-[#DC2626]'} font-bold flex items-center space-x-0.5`}>
+            <span className="text-[10px]">{metrics.is_sales_positive ? '▲' : '▼'}</span>
+            <span>{metrics.sales_change}</span>
+          </span>
+          <span className="text-gray-500 font-normal text-[11px] sm:text-xs">From Yesterday</span>
+        </div>
+      )
+    },
+    { 
+      id: 2, 
+      title: 'Total Orders', 
+      value: metrics.total_orders, 
+      icon: ordersBagIcon, 
+      iconBg: 'bg-[#FFF4E5]', 
+      sparklineColor: '#F59E0B', 
+      sparklinePoints: 'M 0 22 L 15 17 L 30 20 L 45 8 L 60 3',
+      footer: (
+        <div className="flex items-center space-x-1.5 text-xs whitespace-nowrap">
+          <span className="text-[#16A34A] font-bold text-xs">{metrics.pending_delivery}</span>
+          <span className="text-gray-500 font-normal text-[11px] sm:text-xs">Pending Delivery</span>
+        </div>
+      )
+    },
+    { 
+      id: 3, 
+      title: 'Active Shops', 
+      value: metrics.customers, 
+      icon: customersGreenIcon, 
+      iconBg: 'bg-[#E6F8E9]', 
+      sparklineColor: '#22C55E', 
+      sparklinePoints: 'M 0 20 L 15 18 L 30 14 L 45 15 L 60 4',
+      footer: (
+        <div className="flex items-center space-x-1.5 text-xs whitespace-nowrap">
+          <span className="text-[#16A34A] font-bold text-xs">{metrics.total_shops}</span>
+          <span className="text-gray-500 font-normal text-[11px] sm:text-xs">Total</span>
+        </div>
+      )
+    },
+    { 
+      id: 4, 
+      title: 'Total Stock Value', 
+      value: metrics.total_stock_value, 
+      icon: walletIcon, 
+      iconBg: 'bg-[#ECE6FF]', 
+      sparklineColor: '#8B5CF6', 
+      sparklinePoints: 'M 0 22 L 15 16 L 30 21 L 45 10 L 60 4',
+      footer: (
+        <div className="flex items-center text-xs text-gray-500 font-normal text-[11px] sm:text-xs whitespace-nowrap">
+          <span>Low Stock in</span>
+          <span className="text-[#DC2626] font-bold mx-1">{metrics.low_stock_items}</span>
+          <span>items</span>
+        </div>
+      )
+    },
   ];
 
   return (
@@ -97,14 +179,10 @@ export default function AdminDashboard() {
                       <h3 className="text-lg sm:text-xl font-extrabold text-gray-900 leading-tight mt-0.5">{card.value}</h3>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 pt-1">
-                    <span className={`text-xs font-bold flex items-center space-x-1 shrink-0 ${card.isPositive ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
-                      <span>{card.isPositive ? '▲' : '▼'}</span>
-                      <span>{card.change}</span>
-                      <span className="text-[11px] text-gray-500 font-normal ml-0.5 whitespace-nowrap">vs last month</span>
-                    </span>
-                    <div className="w-10 sm:w-12 h-5 shrink-0 flex items-center">
-                      <svg viewBox="0 0 60 25" className="w-full h-full">
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="shrink-0">{card.footer}</div>
+                    <div className="w-10 sm:w-12 h-5 shrink-0 flex items-center justify-end">
+                      <svg viewBox="0 0 60 25" className="w-full h-full overflow-visible">
                         <path d={card.sparklinePoints} fill="none" stroke={card.sparklineColor} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -116,7 +194,7 @@ export default function AdminDashboard() {
             {/* CHARTS ROW */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
 
-              {/* Sales Overview Line Chart */}
+              {/* Sales Overview Line Chart (Dynamic Max Value) */}
               <div className="xl:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 text-left">
                   <div>
@@ -139,7 +217,7 @@ export default function AdminDashboard() {
 
                 <div className="w-full relative mt-2">
                   <svg viewBox="0 0 520 240" className="w-full h-auto overflow-visible select-none">
-                    {[{ label: '50k', y: 30 }, { label: '40k', y: 70 }, { label: '30k', y: 110 }, { label: '20k', y: 150 }, { label: '10k', y: 190 }].map((grid) => (
+                    {getGridLines().map((grid) => (
                       <g key={grid.label}>
                         <text x="35" y={grid.y + 4} textAnchor="end" className="text-[11px] fill-gray-600 font-medium">{grid.label}</text>
                         <line x1="50" y1={grid.y} x2="495" y2={grid.y} stroke="#E5E7EB" strokeWidth="1" />
@@ -147,11 +225,10 @@ export default function AdminDashboard() {
                     ))}
 
                     {salesOverview.length > 0 && (() => {
-                      const maxVal = 50000;
                       const pts = salesOverview.map((item, idx) => {
                         const x = 75 + idx * (420 / Math.max(salesOverview.length - 1, 1));
-                        const clampedVal = Math.min(Math.max(item.value, 0), maxVal);
-                        const y = 190 - (clampedVal / maxVal) * 160;
+                        const clampedVal = Math.min(Math.max(item.value, 0), maxSalesVal);
+                        const y = 190 - (clampedVal / maxSalesVal) * 160;
                         return { x, y, label: item.label, value: item.value };
                       });
                       const pathStr = pts.reduce((acc, p, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`, '');
@@ -182,8 +259,6 @@ export default function AdminDashboard() {
               <div className="xl:col-span-5 flex flex-col justify-start text-left pt-1">
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 sm:mb-8">Top Selling Products</h3>
                 <div className="flex flex-col sm:flex-row items-center justify-start gap-8 sm:gap-12">
-                  
-                  {/* CSS Conic Gradient Donut Chart */}
                   <div className="relative w-56 h-56 sm:w-64 sm:h-64 shrink-0 flex items-center justify-center">
                     <div 
                       className="w-52 h-52 sm:w-60 sm:h-60 rounded-full flex items-center justify-center relative shadow-md"
@@ -228,8 +303,6 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between text-left">
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
-                  
-                  {/* Create Order Red Button */}
                   <div className="flex justify-center mb-6">
                     <button
                       onClick={() => navigate('/orders')}
@@ -240,36 +313,20 @@ export default function AdminDashboard() {
                     </button>
                   </div>
 
-                  {/* 2x2 Action Buttons Grid */}
                   <div className="grid grid-cols-2 gap-4 sm:gap-5">
-                    <button
-                      onClick={() => navigate('/customers')}
-                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
-                    >
+                    <button onClick={() => navigate('/customers')} className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group">
                       <img src={adRedHouse} alt="Add Shop" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
                       <span className="text-xs sm:text-sm font-semibold text-gray-800">Add Shop</span>
                     </button>
-
-                    <button
-                      onClick={() => navigate('/salesmen')}
-                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
-                    >
+                    <button onClick={() => navigate('/salesmen')} className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group">
                       <img src={adRedPluceUser} alt="Add Salesman" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
                       <span className="text-xs sm:text-sm font-semibold text-gray-800">Add Salesman</span>
                     </button>
-
-                    <button
-                      onClick={() => navigate('/inventory')}
-                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
-                    >
+                    <button onClick={() => navigate('/inventory')} className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group">
                       <img src={adRedShape} alt="Add Product" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
                       <span className="text-xs sm:text-sm font-semibold text-gray-800">Add Product</span>
                     </button>
-
-                    <button
-                      onClick={() => navigate('/routes')}
-                      className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group"
-                    >
+                    <button onClick={() => navigate('/routes')} className="bg-[#E5E5E5] hover:bg-[#dedede] border border-gray-300 rounded-xl p-4 sm:p-5 flex flex-col items-center justify-center text-center transition-all duration-150 cursor-pointer group">
                       <img src={adRedR} alt="Assign Route" className="w-7 h-7 sm:w-8 sm:h-8 object-contain mb-2.5 transition-transform group-hover:scale-105" />
                       <span className="text-xs sm:text-sm font-semibold text-gray-800">Assign Route</span>
                     </button>
@@ -277,38 +334,28 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Financials Card (ಬૅકએન્ડ ડેટા સાથે અપડેટ કરેલ) */}
+              {/* Financials Card (Outstanding Payments હવે ડાયનેમિક બતાવશે) */}
               <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-gray-100 flex flex-col justify-between text-left">
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-6">Financials</h3>
                   
-                  {/* Outstanding Payments Box */}
                   <div className="bg-[#E5E5E5] border border-gray-300 rounded-xl p-4 sm:p-5 text-left mb-4 sm:mb-5">
                     <p className="text-xs sm:text-sm text-gray-600 font-medium">Outstanding Payments</p>
                     <div className="flex items-end justify-between mt-2">
-                      <h4 className="text-2xl sm:text-3xl font-bold text-[#D71920] tracking-tight">{metrics.pending_payment}</h4>
-                      <button 
-                        onClick={() => navigate('/payments')}
-                        className="flex items-center space-x-1.5 text-xs sm:text-sm text-[#2DA12F] font-semibold hover:underline cursor-pointer pb-0.5"
-                      >
+                      <h4 className="text-2xl sm:text-3xl font-bold text-[#D71920] tracking-tight">{financials.outstanding_payments}</h4>
+                      <button onClick={() => navigate('/payments')} className="flex items-center space-x-1.5 text-xs sm:text-sm text-[#2DA12F] font-semibold hover:underline cursor-pointer pb-0.5">
                         <span>View Aging Report</span>
                         <img src={adGreenSide} alt="arrow" className="w-2 h-2.5 object-contain" />
                       </button>
                     </div>
                   </div>
 
-                  {/* Monthly Sales (MTD) Box */}
                   <div className="bg-[#E5E5E5] border border-gray-300 rounded-xl p-4 sm:p-5 text-left">
                     <p className="text-xs sm:text-sm text-gray-600 font-medium">Monthly Sales (MTD)</p>
-                    <h4 className="text-2xl sm:text-3xl font-bold text-[#D71920] tracking-tight mt-2 mb-3">{metrics.total_sales}</h4>
-                    
-                    {/* Progress bar */}
+                    <h4 className="text-2xl sm:text-3xl font-bold text-[#D71920] tracking-tight mt-2 mb-3">{financials.monthly_sales_mtd}</h4>
                     <div>
                       <div className="w-full bg-white rounded-full h-3 overflow-hidden p-0.5 shadow-inner">
-                        <div 
-                          className="bg-[#D71920] h-full rounded-full transition-all duration-500" 
-                          style={{ width: `${financials.target_percentage}%` }}
-                        />
+                        <div className="bg-[#D71920] h-full rounded-full transition-all duration-500" style={{ width: `${financials.target_percentage}%` }} />
                       </div>
                       <p className="text-[11px] sm:text-xs text-gray-600 font-medium text-right mt-1.5">{financials.target_percentage}% of Target</p>
                     </div>
